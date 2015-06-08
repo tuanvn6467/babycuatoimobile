@@ -1,0 +1,18 @@
+06/26/2014 11:04:08
+Error in: http://localhost:2180/Webcms/NhapKhoNB/Update. Error Message:System.FormatException: Unrecognized Guid format.
+   at System.Guid.GuidResult.SetFailure(ParseFailureKind failure, String failureMessageID, Object failureMessageFormatArgument, String failureArgumentName, Exception innerException)
+   at System.Guid.TryParseGuid(String g, GuidStyles flags, GuidResult& result)
+   at System.Guid..ctor(String g)
+   at iGoo.Areas.Webcms.Controllers.NhapKhoNBController.Update() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\NhapKhoNBController.cs:line 115
+06/26/2014 11:11:00
+Error in: http://localhost:2180/Webcms/NhapKhoNB/Update. Error Message:System.FormatException: Unrecognized Guid format.
+   at System.Guid.GuidResult.SetFailure(ParseFailureKind failure, String failureMessageID, Object failureMessageFormatArgument, String failureArgumentName, Exception innerException)
+   at System.Guid.TryParseGuid(String g, GuidStyles flags, GuidResult& result)
+   at System.Guid..ctor(String g)
+   at iGoo.Areas.Webcms.Controllers.NhapKhoNBController.Update() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\NhapKhoNBController.cs:line 115
+06/26/2014 11:14:50
+Error in: http://localhost:2180/Webcms/NhapKhoNB/Update. Error Message:System.FormatException: Unrecognized Guid format.
+   at System.Guid.GuidResult.SetFailure(ParseFailureKind failure, String failureMessageID, Object failureMessageFormatArgument, String failureArgumentName, Exception innerException)
+   at System.Guid.TryParseGuid(String g, GuidStyles flags, GuidResult& result)
+   at System.Guid..ctor(String g)
+   at iGoo.Areas.Webcms.Controllers.NhapKhoNBController.Update() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\NhapKhoNBController.cs:line 115

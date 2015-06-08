@@ -1,0 +1,152 @@
+﻿@using iGoo.Helpers
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>iCMS - &copy; Copyright www.dangcapweb.com</title>
+<link href="@Url.Content("~/Source/webcms/styles/styles.css")" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="@Url.Content("~/Script/jquery.js")"></script> 
+<script type="text/javascript" src="@Url.Content("~/Script/libs_webcms.js")"></script>
+<script type="text/javascript">
+    $().ready(function () {
+        loadDefault();
+        ActionForm('@Url.Action(String.Empty)');
+        SearchForm();
+//        eraseCookie("barcode_search");
+        //$('#hidProduct').val(readCookie("cookieFileValue"));
+
+        $('button[id="btnActionAddAll"]').click(function() {
+            $('input[title="ckID"]').each(function(index) {
+                if (this.checked) {
+                    var sName = $(this).attr("id");
+                    var sSrc = $(this).attr("lang");
+                    var sPrice = $(this).attr("value");
+                    sendParent(sName, sSrc, sPrice);
+                }
+            });
+        });
+    });
+
+    function sendParent(sName, sSrc, sPrice) {
+        parent.$('.full').hide();
+        parent.$('.upload').hide();
+        parent.addProduct(sName, sSrc, Math.round(sPrice));
+    }
+
+    function aFocus() {
+        var FieldID = "txtKey";
+        // End of customization
+        document.getElementById(FieldID).value="";
+        document.getElementById(FieldID).focus();
+    }
+
+</script>
+</head>
+
+<body onload="aFocus();">
+        <div class="box-content1">
+			<div class="content-left f">
+                <div class="title">
+                    <img src="@Url.Content("~/Source/webcms/images/home.png")" />
+                    <span>Tìm kiếm hàng hóa</span>
+                </div>
+                <!-- End title -->
+                <form id="frmSearch">
+                    <div class="search">
+                        <input type="hidden" id="hidProduct" name="hidProduct" />
+                        <label>Từ khóa </label>
+                        <input type="text" name="txtKey" id="txtKey" autofocus value="@Request.Get("txtKey")" />
+                        <select name="slSearchInv" title="@Request.Get("slSearchInv")" >
+                            @foreach (var item in ViewBag.MenuInv)
+                            {
+                                <option value="@item["Value"]">@item["Name"]</option>
+                            }
+                        </select>
+                        <select name="slSearchCus" title="@Request.Get("slSearchCus")">
+                            <option value="1">Khách lẻ</option>
+                            <option value="2">Khách buôn</option>
+                        </select>
+                        <select name="slSearchStatus" title="@Request.Get("slSearchStatus")" >
+                            <option value="">Trạng thái</option>
+                            <option value="1">Hoạt động</option>
+                            <option value="2">Hết hàng</option>
+                            <option value="0">Không hoạt động</option>
+                        </select>
+                        <button type="submit">Tìm kiếm</button>
+                    </div>
+                </form>
+                <!-- End search -->
+                <form id="frmList">
+                <div class="list">
+                    @if (@Request.Get("result").Equals("1"))
+                    {
+                        <p class="result">Cập nhật thành công!</p>
+                    }
+                    @if (@Request.Get("error").Equals("1"))
+                    {
+                    <p class="error">Có lỗi, xin hãy kiểm tra và thử lại!</p>
+                    }
+                    <div class="page">
+                        <div class="action">
+                            <button type="button" id="btnActionAddAll">Thêm các mặt hàng đã chọn</button>
+                        </div>
+                        
+                    </div>
+                    <!-- End page -->
+                    <div class="table-list">
+                        <table>
+                            <thead>
+                                <th>#</th>
+                                <th style="width:30px;"><input type="checkbox" value="ckID" id="ckCheckAll" /></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("Title") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Title&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Tên sản phẩm</a></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("Quantity") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Quantity&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Số lượng</a></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("SalePrice") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=SalePrice&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Giá</a></th>
+                                <th>Danh mục</th>
+                            </thead>
+                            <tbody>
+                                @{int count = 0;}
+                                @foreach (var item in ViewBag.Product)
+                                {
+                                    count += 1;
+                                <tr>
+                                    <td>@count</td>
+                                    <td><input type="checkbox" title="ckID" name="ckID-@count" id="@item["ProductID"]|@item["SKU"]" lang="@item["Title"]" value="@item["SalePrice"]"/></td>
+                                    <td class="subject">
+                                        <a class="t" href="javascript:sendParent('@item["ProductID"]|@item["SKU"]','@item["Title"]','@item["SalePrice"]');" >@item["Title"]</a>
+                                    </td>
+                                    <td>@item["Quantity"]</td>
+                                    <td>@(string.Format("{0:N0}", @item["SalePrice"]))</td>
+                                    <td>@item["Name"]</td>
+                                </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <th>#</th>
+                                <th style="width:30px;"><input type="checkbox" value="ckID" id="ckCheckAll" /></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("Title") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Title&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Tên sản phẩm</a></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("Quantity") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Quantity&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Số lượng</a></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("SalePrice") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=SalePrice&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Giá</a></th>
+                                <th>Danh mục</th>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="page">
+                        <div class="action">
+                            <input type="hidden" name="count" value="@count" />
+                            <input type="hidden" name="returnUrl" id="returnUrl" value="@Request.Query(string.Empty)" />
+                            <button type="button" id="btnActionAddAll">Thêm các mặt hàng đã chọn</button>
+                        </div>
+                        
+                    </div>
+                    <!-- End page -->
+                </div>
+                <!-- End list -->
+                </form>
+            </div>
+            <!-- End box1 -->
+            </form>
+        </div>
+        <!-- End content -->
+                        
+</body>
+</html>

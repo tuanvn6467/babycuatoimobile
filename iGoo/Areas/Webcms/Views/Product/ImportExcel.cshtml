@@ -1,0 +1,126 @@
+﻿@using iGoo.Helpers
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Viện Công nghệ thông tin & Truyền thông - CDiT</title>
+    <link href="@Url.Content("~/Source/webcms/styles/styles.css")" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="@Url.Content("~/Script/jquery-1.11.1.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Script/libs_webcms.js")"></script>
+    <script type="text/javascript">
+        $().ready(function () {
+            loadDefault();
+            $('.table-list tbody tr:odd').css("background-color", "#FFF");
+        });
+    </script>
+    <script src="@Url.Content("~/Script/jquery.validate.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Script/additional-methods.min.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+        $().ready(function () {
+            ActionForm('@Url.Action(String.Empty)');
+            $("#frmUpload").validate();
+        });
+        
+    </script>
+    <link href="@Url.Content("~/Source/bootstrap/css/bootstrap.css")" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="wrapper">
+        <div class="toolbar">
+            <div class="left">
+                <span>Xin chào, </span><a href="@Url.Action(string.Empty, "User")?ID=@Session["UserID"]">@Session["FullNameAdmin"]</a><span> | </span><a href="@Url.Action("Logout", "Login")">Thoát</a>
+            </div>
+            <div class="right">
+
+                <a id="onTop" href="#"><img src="@Url.Content("~/Source/webcms/images/top.png")" /></a>
+            </div>
+            <div class="cl"></div>
+        </div>
+        <!-- End toolbar -->
+        <div class="logo">
+            @*<a class="hone" target="_blank" href="http://cdit.ptit.edu.vn/"><img src="@Url.Content("~/Source/webcms/images/logo.png")" /></a>
+                <a class="partner" target="_blank" href="http://cdit.ptit.edu.vn/"><img height="64" width ="458" src="@Url.Content("~/Source/webcms/images/logo-partner.png")" /></a>*@
+            <div class="datetime">
+                <span id="datetime"></span>
+            </div>
+            <div class="cl"></div>
+        </div>
+        <!-- End logo -->
+        <div class="main">
+            @if (!@Request.Get("success").Equals(""))
+            {
+                <p class="result">Cập nhật thành công @Request.Get("success") sản phẩm!</p>
+            }
+            @if (@Request.Get("sfalse").ToString() != "")
+            {
+                <p class="error">Có lỗi khi import với mã SP :@Request.Get("sfalse").ToString()  . Kiểm tra lại các mã sản phẩm này.</p>
+            }
+            @if (@Request.Get("error").Equals("1"))
+            {
+                <p class="error">Có lỗi, xin hãy kiểm tra file cần import, chọn file và thử lại! </p>
+            }
+            @if (@Request.Get("err").ToString() !=  "")
+            {
+                <p class="error">Các sản phẩm không cập nhật được "@Request.Get("err").ToString()"</p>
+            }
+            <div class="search">
+                <div>Chương trình hỗ trợ file định dạng xls, xlsx
+               
+                    @*<button type="button" onclick=" javascript: window.location.href = '/Webcms/Product/ExportExcelFromDatabase'; ">Tải tệp mẫu</button>*@
+                    <a href="/FileMau/DanhSachSanPham.xls" target="_blank" class="button">Tải file mẫu</a>  
+
+                </div><br />
+            <div>Click chọn những giá trị cần thay đổi! </div><br />
+                <form action="@Url.Action(String.Empty)/ImportExcel" method="post" enctype="multipart/form-data" name="frmUpload" id="frmUpload">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="chkHN" name="chkHN" />
+                                Bán lẻ Hà Nội
+                            </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="chkHCM" name="chkHCM" />
+                                Bán lẻ Hồ Chí Minh
+                            </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="chkCN3" name="chkCN3"/>
+                                Bán lẻ CN3
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="chkHN1" name="chkHN1" />
+                                Bán buôn Hà Nội
+                            </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="chkHCM1" name="chkHCM1" />
+                                Bán buôn Hồ Chí Minh
+                            </label>
+                        </div>
+                        <div class="col-sm-3">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="chkCN31" name="chkCN31" />
+                                Bán buôn CN3
+                            </label>
+                        </div>
+                    </div>
+                    <br />
+                    <input type="file" id="excelFile" name="excelFile" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+                    <br />
+                    <button id="btnImport" type="submit">Cập nhật giá</button>
+                    <input id="txtFilePath" type="hidden" name="txtFilePath" value="@ViewBag.FilePath" />
+                </form>
+            </div>
+        </div>
+        <!-- End main -->
+    </div>
+</body>
+</html>

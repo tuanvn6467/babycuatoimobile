@@ -1,0 +1,75 @@
+07/11/2014 08:55:11
+Error in: http://localhost:2180/Webcms/NhapKhoSX/ImportUpdate. Error Message:System.Exception: CMS_InventoryDetails::Insert::Error occured. ---> System.Data.SqlClient.SqlException: Procedure or function 'sp_CMS_InventoryDetails_InsertFull' expects parameter '@iSoChungTu', which was not supplied.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at iGoo.Classes.clsCMS_InventoryDetails.ImportChange() in k:\BBT\SC v2\iGoo\Classes\clsCMS_InventoryDetails.cs:line 235
+   --- End of inner exception stack trace ---
+   at iGoo.Classes.clsCMS_InventoryDetails.ImportChange() in k:\BBT\SC v2\iGoo\Classes\clsCMS_InventoryDetails.cs:line 241
+   at iGoo.Areas.Webcms.Controllers.NhapKhoSXController.ImportUpdate() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\NhapKhoSXController.cs:line 316
+07/11/2014 09:00:51
+Error in: http://localhost:2180/Webcms/NhapKhoSX/ImportUpdate. Error Message:System.Exception: CMS_InventoryDetails::Insert::Error occured. ---> System.Data.SqlClient.SqlException: Procedure or function 'sp_CMS_InventoryDetails_InsertFull' expects parameter '@iSoChungTu', which was not supplied.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at iGoo.Classes.clsCMS_InventoryDetails.ImportChange() in k:\BBT\SC v2\iGoo\Classes\clsCMS_InventoryDetails.cs:line 235
+   --- End of inner exception stack trace ---
+   at iGoo.Classes.clsCMS_InventoryDetails.ImportChange() in k:\BBT\SC v2\iGoo\Classes\clsCMS_InventoryDetails.cs:line 241
+   at iGoo.Areas.Webcms.Controllers.NhapKhoSXController.ImportUpdate() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\NhapKhoSXController.cs:line 316
+07/11/2014 09:05:42
+Error in: http://localhost:2180/Webcms/NhapKhoSX/ImportUpdate. Error Message:System.Exception: CMS_InventoryDetails::Insert::Error occured. ---> System.Data.SqlClient.SqlException: Procedure or function 'sp_CMS_InventoryDetails_InsertFull' expects parameter '@iSoChungTu', which was not supplied.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at iGoo.Classes.clsCMS_InventoryDetails.ImportChange() in k:\BBT\SC v2\iGoo\Classes\clsCMS_InventoryDetails.cs:line 235
+   --- End of inner exception stack trace ---
+   at iGoo.Classes.clsCMS_InventoryDetails.ImportChange() in k:\BBT\SC v2\iGoo\Classes\clsCMS_InventoryDetails.cs:line 241
+   at iGoo.Areas.Webcms.Controllers.NhapKhoSXController.ImportUpdate() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\NhapKhoSXController.cs:line 317
+07/11/2014 09:08:12
+Error in: http://localhost:2180/Webcms/NhapKhoSX/ImportUpdate. Error Message:System.Exception: CMS_InventoryDetails::Insert::Error occured. ---> System.Data.SqlClient.SqlException: Procedure or function 'sp_CMS_InventoryDetails_InsertFull' expects parameter '@iSoChungTu', which was not supplied.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at iGoo.Classes.clsCMS_InventoryDetails.ImportChange() in k:\BBT\SC v2\iGoo\Classes\clsCMS_InventoryDetails.cs:line 235
+   --- End of inner exception stack trace ---
+   at iGoo.Classes.clsCMS_InventoryDetails.ImportChange() in k:\BBT\SC v2\iGoo\Classes\clsCMS_InventoryDetails.cs:line 241
+   at iGoo.Areas.Webcms.Controllers.NhapKhoSXController.ImportUpdate() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\NhapKhoSXController.cs:line 317
+07/11/2014 09:19:34
+Error in: http://localhost:2180/Webcms/NhapKhoSX/ImportUpdate. Error Message:System.Exception: CMS_InventoryDetails::Insert::Error occured. ---> System.Data.SqlClient.SqlException: Procedure or function sp_CMS_InventoryDetails_ImportChange has too many arguments specified.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at iGoo.Classes.clsCMS_InventoryDetails.ImportChange() in k:\BBT\SC v2\iGoo\Classes\clsCMS_InventoryDetails.cs:line 236
+   --- End of inner exception stack trace ---
+   at iGoo.Classes.clsCMS_InventoryDetails.ImportChange() in k:\BBT\SC v2\iGoo\Classes\clsCMS_InventoryDetails.cs:line 242
+   at iGoo.Areas.Webcms.Controllers.NhapKhoSXController.ImportUpdate() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\NhapKhoSXController.cs:line 318

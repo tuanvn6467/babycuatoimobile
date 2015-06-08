@@ -1,0 +1,20 @@
+07/10/2014 14:48:31
+Error in: http://localhost:2180/Webcms/Product/ImportExcel. Error Message:System.ArgumentException: Column 'ProductId' does not belong to table results.
+   at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at iGoo.Areas.Webcms.Controllers.ProductController.ImportExcel(HttpPostedFileBase excelFile) in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\ProductController.cs:line 706
+07/10/2014 14:50:07
+Error in: http://localhost:2180/Webcms/Product/ImportExcel. Error Message:System.ArgumentException: Column 'ProductId' does not belong to table results.
+   at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at iGoo.Areas.Webcms.Controllers.ProductController.ImportExcel(HttpPostedFileBase excelFile) in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\ProductController.cs:line 706
+07/10/2014 14:54:24
+Error in: http://localhost:2180/Webcms/Product/ImportExcel. Error Message:System.ArgumentException: Column 'ProductId' does not belong to table results.
+   at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at iGoo.Areas.Webcms.Controllers.ProductController.ImportExcel(HttpPostedFileBase excelFile) in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\ProductController.cs:line 706
+07/10/2014 14:54:47
+Error in: http://localhost:2180/Webcms/Product/ImportExcel. Error Message:System.ArgumentException: Column 'ProductId' does not belong to table results.
+   at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at iGoo.Areas.Webcms.Controllers.ProductController.ImportExcel(HttpPostedFileBase excelFile) in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\ProductController.cs:line 706

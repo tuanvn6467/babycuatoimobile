@@ -1,0 +1,153 @@
+﻿@using iGoo.Helpers
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Viện CNTT và TT CDiT </title>
+<link href="@Url.Content("~/Source/webcms/styles/styles.css")" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="@Url.Content("~/Script/jquery.js")"></script> 
+<script type="text/javascript" src="@Url.Content("~/Script/libs_webcms.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Script/jquery.validate.js")"></script>
+<script type="text/javascript">
+    $().ready(function () {
+        loadDefault();
+        ActionForm('@Url.Action(String.Empty)');
+       
+        $("#frmList").validate({
+            errorPlacement: function (error, element) { }
+        });
+        $('.req').each(function () {
+            $(this).rules('add', {
+                required: true
+            });
+        });
+        $('.reqnumber').each(function () {
+            $(this).rules('add', {
+                required: true,
+                number:true
+            });
+        });
+
+
+    });
+        
+</script>
+</head>
+
+<body>
+    <div class="content-left f">
+        <div class="title">
+            <img src="@Url.Content("~/Source/webcms/images/home.png")" />
+            <span>Import sản phẩm</span>
+        </div>
+        <!-- End title -->
+        <div class="search">
+                <div>Chương trình hỗ trợ file định dạng xls, xlsx
+               
+                    @*<button type="button" onclick=" javascript: window.location.href = '/Webcms/Product/ExportExcelFromDatabase'; ">Tải tệp mẫu</button>*@
+                    <a href="/FileMau/NhapKhoSX.xls" target="_blank" class="button">Tải file mẫu</a>  
+
+                </div><br />
+        <div class="search">
+            @*<form id="frmSearch">
+                <label>Từ khóa </label>
+                <input type="text" style="width:300px;" id="txtKey" name="txtKey" value="@Request.Get("txtKey")" />
+                <select name="slSearchGroup" title="@Request.Get("slSearchGroup")" >
+                    <option value="">Nhóm</option>
+                    @foreach (var item in ViewBag.GroupName)
+                    {
+                        <option value="@item["AttributeID"]">@item["Name"]</option>
+                    }
+                </select>
+                <button type="submit">Tìm kiếm</button>
+            </form>*@
+            <form action="@Url.Action(String.Empty)/ImportProduct" method="post" enctype="multipart/form-data">
+                
+               
+                <input type="file" id="excelFile" name="excelFile" />
+
+                <input id="txtFilePath" type="hidden" name="txtFilePath" value="@ViewBag.FilePath" />
+		        <button id="btnImport" type="submit">Upload file import!</button>
+	        </form>
+            
+        </div>
+        
+        <!-- End search -->
+        <form id="frmList">
+        <div class="list file">
+            @if (@Request.Get("result").Equals("1"))
+            {
+                <p class="result">Cập nhật thành công!</p>
+            }
+            @if (@Request.Get("sfalse").ToString()!="")
+            {
+                <p class="error">Có lỗi khi import với mã SP :@Request.Get("sfalse").ToString(). Kiểm tra lại các mã sản phẩm này.</p>
+            }
+            @if (@Request.Get("error").Equals("1"))
+            {
+            <p class="error">Có lỗi, xin hãy kiểm tra file cần import, chọn file và thử lại! </p>
+            }
+            <div class="action">
+                Chọn kho:  <select name="slSearchGroup" >
+                    @foreach (var item in ViewBag.MenuInv)
+                    {
+                        <option value="@item["value"]"> &nbsp;&nbsp;&nbsp; @item["Name"] &nbsp;&nbsp;&nbsp;</option>
+                    }
+                </select>
+                <button type="button" id="btnActionImport">Cập nhật</button>                
+            </div>
+            <!-- End page -->
+            <div class="table-list clearfix">
+                <table>
+                    <thead>
+                        <th>#</th>
+                        <th>Mã sản phẩm </th>
+                        <th>Số lượng</th>
+                        <th>Chứng từ</th>
+                    </thead>
+                    <tbody>
+                        @{int count = 0;}
+                        @foreach (var item in ViewBag.File)
+                        {
+                            count += 1;
+                        <tr>
+                        <td>@count</td>
+                        <td><input class="req" readonly="readonly" name="hdfMaSP-@count" value="@item["MaSP"]" /></td>
+                        <td><input class="reqnumber"  name="hdfSoLuong-@count" readonly="readonly" value="@item["SoLuong"]" /></td>
+                            <td><input   name="hdfSoChungTu-@count" readonly="readonly" value="@item["SoChungTu"]" /></td>
+                        @*<td><input class="reqnumber" name="hdfBrokenQuantity-@count" readonly="readonly" value="@item["BrokenQuantity"]" /></td>*@
+                        @*<td>
+                            <select class="change" name="slSChangeType-@count">
+                                <option value="1">&nbsp Nhập kho &nbsp;&nbsp</option>
+                                <option value="0">&nbsp Xuất kho &nbsp;&nbsp</option>
+                                <option value="2">&nbsp Cập nhật &nbsp;&nbsp</option>
+                            </select>
+                        </td>*@
+                       
+                        </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <th>#</th>
+                        <th>Mã sản phẩm</th>
+                        <th>Số lượng</th>
+                        <th>Chứng từ</th>
+                    </tfoot>
+                </table>
+
+                 <div class="action">
+                        <input type="hidden" name="count" value="@count" />
+                        <button type="button" id="btnActionImport">Cập nhật</button>
+                </div>
+            </div>
+          <!-- End page -->
+        </div>
+        <!-- End list -->
+        </form>
+    </div>
+    <!-- End box1 -->
+    </form>
+
+
+</body>
+</html>

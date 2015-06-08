@@ -1,0 +1,10 @@
+07/30/2014 14:06:37
+Error in: http://localhost:2180/Webcms/DTSanPham/ExportData. Error Message:System.ArgumentException: Column 'SKU' does not belong to table sp_Report_DoanhThu_SKU.
+   at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at iGoo.Areas.Webcms.Controllers.DTSanPhamController.ExportData() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\DTSanPhamController.cs:line 122
+07/30/2014 14:07:10
+Error in: http://localhost:2180/Webcms/DTSanPham/ExportData. Error Message:System.ArgumentException: Column 'SKU' does not belong to table sp_Report_DoanhThu_SKU.
+   at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at iGoo.Areas.Webcms.Controllers.DTSanPhamController.ExportData() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\DTSanPhamController.cs:line 122

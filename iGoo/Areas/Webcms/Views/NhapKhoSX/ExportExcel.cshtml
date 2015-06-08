@@ -1,0 +1,211 @@
+﻿@using iGoo.Helpers
+
+@{
+    Layout = "~/Areas/Webcms/Views/Shared/Layout.cshtml";
+}
+@section head
+{
+    @*<style>
+        table thead {
+            position: fixed;
+            z-index: 1; /* put on top of other rows */
+            display: block;
+            overflow-y: auto; /* use auto so scrollbars only appear if they need to*/
+            overflow-x: hidden;
+            width: max-content;
+        }
+    </style>*@
+<script type="text/javascript">
+    $().ready(function () {
+        loadDefault();
+        ActionForm('@Url.Action(String.Empty)');
+        SearchForm();
+
+        $('#txtKey').val(readCookie("cookieFileValue"));
+
+        $('button[id="btnActionAddAll"]').click(function() {
+            $('input[title="ckID"]').each(function(index) {
+                if (this.checked) {
+                    var sName = $(this).attr("id");
+                    var sSrc = $(this).attr("lang");
+                    var sPrice = $(this).attr("value");
+                    sendParent(sName, sSrc, sPrice);
+                }
+            });
+        });
+    });
+
+    function sendParent(sName, sSrc, sPrice) {
+        parent.$('.full').hide();
+        parent.$('.upload').hide();
+        parent.addProduct(sName, sSrc, Math.round(sPrice));
+    }
+
+</script>
+}
+
+@section content
+{
+        @*<div class="box-content1">
+			<div class="content-left f">*@
+                <div class="title">
+                    <img src="@Url.Content("~/Source/webcms/images/home.png")" />
+                    <span>Xuất kho ra tệp Excel</span>
+                    <button type="button" onclick=" history.back(-1); ">Quay lại</button>
+                </div>
+                <!-- End title -->
+                <form id="frmSearch">
+    			<div class="search">
+                    <label>Từ khóa </label>
+                    <input type="text" name="txtKey" value="@Request.Get("txtKey")" />
+                    <select name="slManuFacture" title="@Request.Get("slManuFacture")" >
+                                    <option value=""> -- Chủng loại -- </option>
+                                        @foreach (var item in ViewBag.ManuFacture)
+                                    {
+                                    <option value="@item["AttributeID"]">@item["Name"]</option>
+                                    }
+                                    </select>
+			       <select name="slSearchType" id="slSearchType" title="@Request.Get("slSearchType")">
+                @foreach (var item in ViewBag.MenuInv)
+                {
+                    <option value="@item["Value"]">@item["Name"]</option>
+                }
+            </select>
+                    <select name="slSearchStatus" title="@Request.Get("slSearchStatus")" >
+                        <option value=""> -- Trạng thái -- </option>
+                        <option value="1"> &nbsp;&nbsp;Còn hàng &nbsp;&nbsp;</option>
+                        <option value="0"> &nbsp;&nbsp; Hết hàng &nbsp;&nbsp;</option>
+                    </select>
+                    <button type="submit">Tìm kiếm</button>
+                </div>
+                </form>
+                <!-- End search -->
+                @using (Html.BeginForm("ExportExcelFromDatabase", "NhapKhoSX", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="list">
+                        @if (@Request.Get("result").Equals("1"))
+                        {
+                            <p class="result">Xuất DL thành công!</p>
+                        }
+                        @if (@Request.Get("error").Equals("1"))
+                        {
+                        <p class="error">Có lỗi, xin hãy kiểm tra và thử lại!</p>
+                        }
+                        <div class="page">
+                            <div class="action">
+                                <button type="submit" value="Xuât Excel danh sách đã chọn" title="Xuât Excel danh sách đã chọn" >Xuât Excel danh sách đã chọn</button>
+                            </div>
+                            @*<div class="page-list">
+                                    <label>Show</label>
+                                    <select id="show" title="@Request.Get("show")">
+                                        <option title="@Request.Query("show=20&page=1")" value="20">20</option>
+                                        <option title="@Request.Query("show=60&page=1")" value="60">60</option>
+                                        <option title="@Request.Query("show=100&page=1")" value="100">100</option>
+                                    </select>
+                                    <label>Trang @(Request.IsNull("page") ? "1" : @Request.Get("page"))/@ViewBag.TotalPages</label>
+                                    <select id="page" title="@Request.Get("page")">
+                                        @for (int i = 1; i <= Convert.ToInt32(ViewBag.TotalPages); i++)
+                                        {
+                                    <option title="@(Request.Query("page=" + i))" value="@i">@i</option>
+                                        }
+                                    </select>
+                            </div>*@
+                        </div>
+                        <!-- End page -->
+                        <div class="table-list1" style="max-height: 500px; overflow-y: auto; overflow-x: hidden;">
+                            <table>
+                            <thead>
+                                <th>#</th>
+                                <th style="width:30px;"><input type="checkbox" value="ckID" id="ckCheckAll" /></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("SKU") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=SKU&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" > Mã sản phẩm </a></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("Title") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Title&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Tên sản phẩm</a></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("Quantity") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Quantity&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Số lượng</a></th>
+                                @*<th><a class="@(Request.Get("OrderBy").Equals("BrokenQuantity") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=BrokenQuantity&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Số lượng hỏng</a></th>                                *@
+                                <th> Hình thức </th>
+                                <th>Số lượng</th>
+                                @*<th>Số lượng hỏng</th>*@
+                                <th>Số chứng từ</th>
+                                <th>Ghi chú</th>
+                            </thead>
+                            <tbody>
+                                @{int count = 0;}
+                                @foreach (var item in ViewBag.InventoryDetail)
+                                {
+                                    count += 1;
+                                <tr>
+                                    <td>@count</td>
+                                    <td><input type="checkbox" title="ckID" name="ckID-@count" value="@item["ProductID"]" />
+                                    </td>
+
+                                    <td class="subject">
+                                        <span>@item["SKU"]<input type="hidden" name="SKU-@count" value="@item["SKU"]" /></span>                                        
+                                    </td>
+
+                                    <td class="subject">
+                                        <span>@item["Title"]</span>
+                                        <input type="hidden" value="@item["InventoryDetailID"]" name="hdfInventoryDetailID-@count" />
+                                        <input type="hidden" name="hdfInventoryID-@count" value="@item["InventoryID"]" />
+                                    </td>
+
+                                    <td>@item["Quantity"]<input type="hidden" name="hdfQuantity-@count" value="@item["Quantity"]" /></td>
+                                    @*<td>@item["BrokenQuantity"]<input type="hidden" name="hdfBrokenQuantity-@count" value="@item["BrokenQuantity"]" /></td>*@
+                                    <td>
+                                        <select class="change" name="slSChangeType-@count" disabled="disabled">
+                                            <option value="1"> &nbsp Nhập từ nhà SX &nbsp;&nbsp</option>
+                                            <option value="0"> &nbsp Xuất kho &nbsp;&nbsp</option>
+                                            <option value="2"> &nbsp Cập nhật &nbsp;&nbsp</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" class="frnumber" value="0" name="txtQuantityChange-@count" size="5"/></td>
+                                    @*<td><input type="text" class="frnumber" value="0" name="txtBrokenQuantityChange-@count" size="5"/></td>*@
+                                    <td><input type="text" value="" name="txtSoChungTu-@count"  id="txtSoChungTu"size="5"/></td>
+                                    <td><input type="text" value="" name="txtGhiChu-@count" size="20"/></td>
+                                </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <th>#</th>
+                                <th style="width:30px;"><input type="checkbox" value="ckID" id="ckCheckAll" /></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("SKU") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=SKU&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" > Mã sản phẩm </a></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("Title") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Title&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Tên sản phẩm</a></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("Quantity") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Quantity&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Số lượng</a></th>
+                                @*<th><a class="@(Request.Get("OrderBy").Equals("BrokenQuantity") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=BrokenQuantity&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Số lượng hỏng</a></th>*@
+                                 <th> Hình thức </th>
+                                <th>Số lượng</th>
+                                @*<th>Số lượng hỏng</th>*@
+                                <th>Số chứng từ</th>
+                                <th>Ghi chú</th>
+                            </tfoot>
+                        </table>
+                        </div>
+                        <div class="page">
+                            <div class="action">
+                                <button type="submit" value="Xuât Excel" title="Xuât Excel danh sách đã chọn" >Xuât Excel danh sách đã chọn</button>
+                                <input type="hidden" name="count" value="@count" />
+                                <input type="hidden" name="returnUrl" id="returnUrl" value="@Request.Query(string.Empty)" />
+                            </div>
+                            @*<div class="page-list">
+                                <label>Show</label>
+                                <select id="show" title="@Request.Get("show")">
+                                    <option title="@Request.Query("show=20&page=1")" value="20">20</option>
+                                    <option title="@Request.Query("show=60&page=1")" value="60">60</option>
+                                    <option title="@Request.Query("show=100&page=1")" value="100">100</option>
+                                </select>
+                                <label>Trang @(Request.IsNull("page") ? "1" : @Request.Get("page"))/@ViewBag.TotalPages</label>
+                                <select id="page" title="@Request.Get("page")">
+                                    @for (int i = 1; i <= Convert.ToInt32(ViewBag.TotalPages); i++)
+                                    {
+                                        <option title="@(Request.Query("page=" + i))" value="@i">@i</option>
+                                    }
+                                </select>
+                            </div>*@
+                        </div>
+                        <!-- End page -->
+                    </div>
+                <!-- End list -->
+                }
+            
+                <!-- End box1 -->
+        
+        <!-- </div>End content -->
+}

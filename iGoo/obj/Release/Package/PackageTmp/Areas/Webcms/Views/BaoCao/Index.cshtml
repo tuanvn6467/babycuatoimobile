@@ -1,0 +1,266 @@
+﻿@using System.Globalization
+@using iGoo.Helpers
+
+@{
+    Layout = "~/Areas/Webcms/Views/Shared/Layout.cshtml";
+}
+
+@section head
+{
+
+<script src="@Url.Content("~/Script/jquery.validate.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Script/jquery-1.9.1.js")"  type="text/javascript"></script>
+<script src="@Url.Content("~/Script/jquery-ui-1.10.3.custom.js")"  type="text/javascript"></script>
+<link rel="stylesheet" href="@Url.Content("~/Source/webcms/styles/jquery-ui-1.10.3.custom.min.css")" type="text/css">
+
+    <script type="text/javascript">
+    $().ready(function () {
+        ActionForm('@Url.Action(String.Empty)');
+        SearchForm();
+        //Xuat();
+
+    });
+    $(function () {
+        $("#txtFromDate").datepicker({
+            dateFormat: 'dd/mm/yy', changeYear: true,
+            changeMonth: true,
+            yearRange: 'c-3:c+1',
+            showButtonPanel: true
+        });
+        $("#txtToDate").datepicker({
+            dateFormat: 'dd/mm/yy', changeYear: true,
+            changeMonth: true,
+            yearRange: 'c-3:c+1',
+            showButtonPanel: true, 
+        });
+         
+        
+    });
+    function addNew(){
+        $.post("@Url.Action("AddNew")",
+        function (data) {
+            alert(data);
+            location.reload(true);
+        });
+    };
+    
+    function getDistrict(provId) {
+        var URL = "/Webcms/Order/GetDistrict/" + provId;
+        $.get(URL, null, function (data) {
+            var dJson = $.parseJSON(data);
+            $("#district").empty();
+            $("#district").append('<option value="0">Chọn quận/huyện</option>');
+            $.each(dJson, function (index, d) {
+                $("#district").append('<option value="' + d.value + '">' + d.Name + '</option>');
+            });
+        });
+    }
+
+    
+
+</script>
+
+}
+
+@section content
+{
+        <div class="box-content">
+			<div class="content-left f">
+                <div class="title">
+                    <img src="@Url.Content("~/Source/webcms/images/home.png")" />
+                    <span>Báo cáo doanh thu</span>
+                    <button type="button" onclick="history.back(-1);">Quay lại</button>
+                </div>
+                @{bool flag = ViewBag.Edit == null;}
+                @{bool flag1 = ViewBag.Totals == null;}
+                <!-- End title -->
+                <form id="frmSearch">
+    			<div class="search">
+                    <label>Từ khóa </label>
+                    <input type="text" name="txtKey" value="@Request.Get("txtKey")" />
+                    <select name="slSearchCate" title="@Request.Get("slSearchCate")" >
+                        <option value="">Danh mục</option>
+                        @foreach (dynamic item in ViewBag.MenuCate)
+                        {
+                            <option value="@item.CategoryID">@item.Name</option>
+                            foreach (dynamic item1 in @item.MenuCate)
+                            {
+                                <option value="@item1.CategoryID">&nbsp;|-- @item1.Name</option>
+                                foreach (dynamic item2 in @item1.MenuCate)
+                                {
+                                    <option value="@item2.CategoryID">&nbsp;&nbsp;&nbsp;|-- @item2.Name</option>
+                                    foreach (dynamic item3 in @item2.MenuCate)
+                                    {
+                                        <option value="@item3.CategoryID">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-- @item3.Name</option>
+                                    }
+                                }
+                            }
+                        }
+                    </select>
+                    <label>Từ ngày </label>
+                    <input type="text" name="txtFromDate" id="txtFromDate" value="@Request.Get("txtFromDate")" />
+                    <label>Đến ngày </label>
+                    <input type="text" name="txtToDate" id="txtToDate" value="@Request.Get("txtToDate")" />		
+                    
+                    <select id="slsUser" name="slsUser" title="@Request.Get("slsUser")" >
+                        <option value="">---- Nhân viên bán hàng -----</option>
+                        @foreach (var item in ViewBag.NVBH)
+                        {
+                        <option value="@item["UserID"]">@item["FullName"]</option>
+                        }
+                    </select>	
+                    <select name="cboCusClass" id="cboCusClass" title="@Request.Get("cboCusClass")">
+                        <option value="">---- Loại khách hàng -----</option>        
+                        @foreach (var item in ViewBag.CusClass)
+                                {
+                                    <option value="@item["Value"]">@item["Name"]</option>
+                                }
+                            </select>
+                           
+                    <button type="button" id="btnChon">Chọn</button>
+                </div>
+                </form>
+                <!-- End search -->
+                <form id="frmList">
+                <div class="list">
+                    @if (@Request.Get("result").Equals("1"))
+                    {
+                        <p class="result">Cập nhật thành công!</p>
+                    }
+                    @if (@Request.Get("error").Equals("1"))
+                    {
+                    <p class="error">Có lỗi, xin hãy kiểm tra và thử lại!</p>
+                    }
+                    <div class="page">                        
+                        <div class="action">
+                                 <button type="button" id="btnExportBC"> Export dữ liệu </button>
+                            </div>
+                        <div class="page-list">                        
+                            <label>Show</label>
+                            <select id="show" title="@Request.Get("show")">
+                                <option title="@Request.Query("show=20&page=1")" value="20">20</option>
+                                <option title="@Request.Query("show=60&page=1")" value="60">60</option>
+                                <option title="@Request.Query("show=100&page=1")" value="100">100</option>
+                            </select>
+                            <label>Trang @(Request.IsNull("page") ? "1" : @Request.Get("page"))/@ViewBag.TotalPages</label>
+                            <select id="page" title="@Request.Get("page")">
+                                @for (int i = 1; i <= Convert.ToInt32(ViewBag.TotalPages); i++)
+                                {
+                                    <option title="@(Request.Query("page=" + i))" value="@i">@i</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <!-- End page -->
+                     
+                    <div class="table-list">    
+                        <table>
+                            <thead>
+                                <th>#</th>                                
+                                @*<th><a class="@(Request.Get("OrderBy").Equals("OrderCode") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=OrderCode&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Mã đơn hàng</a></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("Ordersend") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Ordersend&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Ngày</a></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("TotalPrice") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=TotalPrice&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Tổng tiền</a></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("SumOrder") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=SumOrder&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Số lượng</a></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("FullName") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=FullName&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Khách hàng</a></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("username") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=username&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >NV bán</a></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("Status") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Status&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Trạng thái</a></th>*@
+                                <th>Mã sản phẩm</th>                             
+                                <th>Số lượng</th>                             
+                                <th>Tổng tiền</th>                                      
+                                @*<th><a class="@(Request.Get("OrderBy").Equals("SKU") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=SKU&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Mã sản phẩm</a></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("soluong") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=soluong&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Số lượng</a></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("total") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=total&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Tổng tiền</a></th>
+                                *@
+                            </thead>
+                           
+                             <tbody>
+                                
+                                @{int count = 0;}
+                                @foreach (var item in ViewBag.BaoCao)
+                                {
+                                    count += 1;
+                                    string disable = "disabled=\"disabled\"";
+                                    //string statusID = item["OrderID"].ToString();                                    
+                                    <tr>
+                                        <td>@count</td>                                        
+                                        <td>@item["SKU"]<input type="hidden" name="hdfSKU-@count" value="@item["SKU"]" /></td>  
+                                        <td>@item["soluong"] <input type="hidden" name="hdfsoluong-@count" value="@item["soluong"]" /></td>                                     
+                                        <td>@(string.Format("{0:N0}", item["total"])) <input type="hidden" name="hdftotal-@count" value="@item["total"]" /></td>
+                                        
+                                                                                
+                                    </tr>
+                                }
+                            </tbody>
+                           
+                             <tfoot>
+                                <th>#</th>                                
+                                @*<th><a class="@(Request.Get("OrderBy").Equals("OrderCode") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=OrderCode&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Mã đơn hàng</a></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("Ordersend") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Ordersend&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Ngày</a></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("TotalPrice") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=TotalPrice&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Tổng tiền</a></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("SumOrder") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=SumOrder&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Số lượng</a></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("FullName") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=FullName&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Khách hàng</a></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("username") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=username&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >NV bán</a></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("Status") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Status&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Trạng thái</a></th>*@
+                                <th>Mã sản phẩm</th>                             
+                                <th>Số lượng</th>                             
+                                <th>Tổng tiền</th>    
+                                 @*<th><a class="@(Request.Get("OrderBy").Equals("SKU") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=SKU&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Mã sản phẩm</a></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("soluong") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=soluong&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Số lượng</a></th>
+                                <th><a class="@(Request.Get("OrderBy").Equals("total") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=total&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Tổng tiền</a></th>
+                                *@
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="page">
+                        <div class="action">
+                            <input type="hidden" name="count" value="@count" />
+                            <input type="hidden" name="returnUrl" id="returnUrl" value="@Request.Query(string.Empty)" />
+                           
+                        </div>
+                        <div class="page-list">                        
+                            <label>Show</label>
+                            <select id="show" title="@Request.Get("show")">
+                                <option title="@Request.Query("show=20&page=1")" value="20">20</option>
+                                <option title="@Request.Query("show=60&page=1")" value="60">60</option>
+                                <option title="@Request.Query("show=100&page=1")" value="100">100</option>
+                            </select>
+                            <label>Trang @(Request.IsNull("page") ? "1" : @Request.Get("page"))/@ViewBag.TotalPages</label>
+                            <select id="page" title="@Request.Get("page")">
+                                @for (int i = 1; i <= Convert.ToInt32(ViewBag.TotalPages); i++)
+                                {
+                                <option title="@(Request.Query("page=" + i))" value="@i">@i</option>
+                                }
+                            </select>
+                        </div>
+                    <div>                         
+                        <input type="hidden" name="row" value="@ViewBag.TotalRows"/>
+                        @*<p><label>Tổng đơn hàng: @ViewBag.TotalRows</label></p>                        
+                        <p><label>Tổng tiền: @(flag1 ? "0" : string.Format("{0:N0}", ViewBag.Totals[0]["total"]))</label></p>
+                        <p><label>Tổng số lượng: @(flag1 ? "0" : string.Format("{0:N0}", ViewBag.Totals[0]["soluong"]))</label></p>*@
+                        <p><label>Tổng số lượng: @(flag1 ? "0" : string.Format("{0:N0}", ViewBag.Totals[0]["soluong"]))</label></p>
+                        <p><label>Tổng tiền: @(flag1 ? "0" : string.Format("{0:N0}", ViewBag.Totals[0]["total"]))</label></p>                        
+                        @*@{Double TotalPrice = 0; Int32 TongSL = 0;}
+                                @for (int i = 0; i <= Convert.ToInt32(ViewBag.TotalRows)-1; i++)
+                                {
+                                    //TotalPrice += Convert.ToDouble(ViewBag.BaoCao[i]["TotalPrice"]);
+                                    //TongSL += ViewBag.BaoCao[i]["SumOrder"];
+                                }
+                        <p><label>Tổng tiền: @(flag1 ? "0" : string.Format("{0:N0}",TotalPrice))</label></p> 
+                        <p><label>Tổng số lượng: @(flag1 ? "0" : string.Format("{0:N0}", TongSL))</label></p>*@                       
+                    </div>
+                    </div>
+                    <!-- End page -->
+                </div>
+                <!-- End list -->
+                </form>
+            
+            </div>
+            <!-- End box1 -->
+            </form>
+
+            
+        </div>
+
+  
+        <!-- End content -->
+                                }

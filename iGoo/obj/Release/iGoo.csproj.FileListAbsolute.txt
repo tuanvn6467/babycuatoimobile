@@ -1,0 +1,14 @@
+K:\BBT\SC v2\iGoo\bin\iGoo.dll.config
+K:\BBT\SC v2\iGoo\bin\iGoo.dll
+K:\BBT\SC v2\iGoo\bin\iGoo.pdb
+K:\BBT\SC v2\iGoo\bin\ClosedXML.dll
+K:\BBT\SC v2\iGoo\bin\DocumentFormat.OpenXml.dll
+K:\BBT\SC v2\iGoo\bin\System.Net.Http.dll
+K:\BBT\SC v2\iGoo\bin\System.Net.Http.xml
+K:\BBT\SC v2\iGoo\obj\Release\iGoo.dll
+K:\BBT\SC v2\iGoo\obj\Release\iGoo.pdb
+K:\BBT\SC v2\iGoo\obj\Release\iGoo.csprojResolveAssemblyReference.cache
+K:\BBT\SC v2\iGoo\obj\Release\RdlCompile.cache
+K:\BBT\SC v2\iGoo\obj\Release\RdlCompile.compiled
+K:\BBT\SC v2\iGoo\bin\Neodynamic.SDK.WebClientPrint.dll
+K:\BBT\SC v2\iGoo\bin\Neodynamic.SDK.WebClientPrint.xml

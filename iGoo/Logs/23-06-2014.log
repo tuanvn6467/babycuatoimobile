@@ -1,0 +1,19 @@
+06/23/2014 09:20:03
+Error in: http://localhost:2180/Webcms/NhapKhoSX/Update. Error Message:System.Exception: CMS_InventoryDetails::Insert::Error occured. ---> System.InvalidCastException: Failed to convert parameter value from a SqlString to a Int32. ---> System.InvalidCastException: Object must implement IConvertible.
+   at System.Convert.ChangeType(Object value, Type conversionType, IFormatProvider provider)
+   at System.Data.SqlClient.SqlParameter.CoerceValue(Object value, MetaType destinationType, Boolean& coercedToDataFeed, Boolean& typeChanged, Boolean allowStreaming)
+   --- End of inner exception stack trace ---
+   at System.Data.SqlClient.SqlParameter.CoerceValue(Object value, MetaType destinationType, Boolean& coercedToDataFeed, Boolean& typeChanged, Boolean allowStreaming)
+   at System.Data.SqlClient.SqlParameter.GetCoercedValue()
+   at System.Data.SqlClient.SqlParameter.Validate(Int32 index, Boolean isCommandProc)
+   at System.Data.SqlClient.SqlCommand.SetUpRPCParameters(_SqlRPC rpc, Int32 startCount, Boolean inSchema, SqlParameterCollection parameters)
+   at System.Data.SqlClient.SqlCommand.BuildRPC(Boolean inSchema, SqlParameterCollection parameters, _SqlRPC& rpc)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at iGoo.Classes.clsCMS_InventoryDetails.Change() in k:\BBT\SC v2\iGoo\Classes\clsCMS_InventoryDetails.cs:line 180
+   --- End of inner exception stack trace ---
+   at iGoo.Classes.clsCMS_InventoryDetails.Change() in k:\BBT\SC v2\iGoo\Classes\clsCMS_InventoryDetails.cs:line 186
+   at iGoo.Areas.Webcms.Controllers.NhapKhoSXController.Update() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\NhapKhoSXController.cs:line 137
+06/23/2014 16:58:05

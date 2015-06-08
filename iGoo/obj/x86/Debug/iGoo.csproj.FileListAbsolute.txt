@@ -1,0 +1,33 @@
+K:\BBT\SC v2\iGoo\bin\iGoo.dll.config
+K:\BBT\SC v2\iGoo\bin\iGoo.dll
+K:\BBT\SC v2\iGoo\bin\iGoo.pdb
+K:\BBT\SC v2\iGoo\bin\ClosedXML.dll
+K:\BBT\SC v2\iGoo\bin\DocumentFormat.OpenXml.dll
+K:\BBT\SC v2\iGoo\bin\System.Net.Http.dll
+K:\BBT\SC v2\iGoo\bin\System.Net.Http.xml
+K:\BBT\SC v2\iGoo\obj\x86\Debug\RdlCompile.cache
+K:\BBT\SC v2\iGoo\obj\x86\Debug\RdlCompile.compiled
+K:\BBT\SC v2\iGoo\obj\x86\Debug\iGoo.dll
+K:\BBT\SC v2\iGoo\obj\x86\Debug\iGoo.pdb
+K:\BBT\SC v2\iGoo\obj\x86\Debug\iGoo.csprojResolveAssemblyReference.cache
+K:\BBT\SC v2\iGoo\bin\Neodynamic.SDK.WebClientPrint.dll
+K:\BBT\SC v2\iGoo\bin\Neodynamic.SDK.WebClientPrint.xml
+D:\PROJECT\Baby cua toi\SourceCode BBT\SC v2\iGoo\obj\x86\Debug\iGoo.csprojResolveAssemblyReference.cache
+D:\PROJECT\Baby cua toi\SourceCode BBT\SC v2\iGoo\obj\x86\Debug\RdlCompile.cache
+D:\PROJECT\Baby cua toi\SourceCode BBT\SC v2\iGoo\obj\x86\Debug\RdlCompile.compiled
+D:\PROJECT\Baby cua toi\SourceCode BBT\SC v2\iGoo\obj\x86\Debug\iGoo.dll
+D:\PROJECT\Baby cua toi\SourceCode BBT\SC v2\iGoo\obj\x86\Debug\iGoo.pdb
+D:\PROJECT\Baby cua toi\SourceCode BBT\SC v2\iGoo\bin\iGoo.dll.config
+D:\PROJECT\Baby cua toi\SourceCode BBT\SC v2\iGoo\bin\iGoo.dll
+D:\PROJECT\Baby cua toi\SourceCode BBT\SC v2\iGoo\bin\iGoo.pdb
+D:\PROJECT\Baby cua toi\SourceCode BBT\SC v2\iGoo\bin\AntiXSSLibrary.dll
+D:\PROJECT\Baby cua toi\SourceCode BBT\SC v2\iGoo\bin\ChilkatDotNet4.dll
+D:\PROJECT\Baby cua toi\SourceCode BBT\SC v2\iGoo\bin\ClosedXML.dll
+D:\PROJECT\Baby cua toi\SourceCode BBT\SC v2\iGoo\bin\DocumentFormat.OpenXml.dll
+D:\PROJECT\Baby cua toi\SourceCode BBT\SC v2\iGoo\bin\DotNetOpenAuth.dll
+D:\PROJECT\Baby cua toi\SourceCode BBT\SC v2\iGoo\bin\System.Net.Http.dll
+D:\PROJECT\Baby cua toi\SourceCode BBT\SC v2\iGoo\bin\AntiXSSLibrary.xml
+D:\PROJECT\Baby cua toi\SourceCode BBT\SC v2\iGoo\bin\DotNetOpenAuth.pdb
+D:\PROJECT\Baby cua toi\SourceCode BBT\SC v2\iGoo\bin\DotNetOpenAuth.xml
+D:\PROJECT\Baby cua toi\SourceCode BBT\SC v2\iGoo\bin\Neodynamic.SDK.WebClientPrint.xml
+D:\PROJECT\Baby cua toi\SourceCode BBT\SC v2\iGoo\bin\System.Net.Http.xml

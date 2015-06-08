@@ -1,0 +1,201 @@
+07/22/2014 09:08:03
+Error in: http://localhost:2180/Webcms/Order/UpdateInventory. Error Message:System.Exception: OrdersViewModel::UpdateOrderByOrderDetail::Error occured. ---> System.Data.SqlClient.SqlException: Could not find stored procedure 'dbo.sp_CMS_Orders_Update_Inventory'.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at iGoo.Areas.Webcms.Models.OrderViewModel.UpdateInventory() in k:\BBT\SC v2\iGoo\Areas\Webcms\Models\OrderViewModel.cs:line 609
+   --- End of inner exception stack trace ---
+   at iGoo.Areas.Webcms.Models.OrderViewModel.UpdateInventory() in k:\BBT\SC v2\iGoo\Areas\Webcms\Models\OrderViewModel.cs:line 615
+   at iGoo.Areas.Webcms.Controllers.OrderController.UpdateInventory() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\OrderController.cs:line 331
+07/22/2014 15:17:56
+Error in: http://localhost:2180/Webcms/InventoryLog/ExportData. Error Message:System.Exception: InventoryDetailViewModel::SelectAll::Error occured. ---> System.Data.SqlClient.SqlException: Must declare the scalar variable "@PageIndex".
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at iGoo.Areas.Webcms.Models.InventoryLogViewModel.SelectAll_Export() in k:\BBT\SC v2\iGoo\Areas\Webcms\Models\InventoryLogViewModel.cs:line 166
+   --- End of inner exception stack trace ---
+   at iGoo.Areas.Webcms.Models.InventoryLogViewModel.SelectAll_Export() in k:\BBT\SC v2\iGoo\Areas\Webcms\Models\InventoryLogViewModel.cs:line 172
+   at iGoo.Areas.Webcms.Controllers.InventoryLogController.ExportData() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\InventoryLogController.cs:line 141
+07/22/2014 15:37:40
+Error in: http://localhost:2180/Webcms/InventoryLog/ExportData. Error Message:System.Exception: InventoryDetailViewModel::SelectAll::Error occured. ---> System.Data.SqlClient.SqlException: Must declare the scalar variable "@PageIndex".
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at iGoo.Areas.Webcms.Models.InventoryLogViewModel.SelectAll_Export() in k:\BBT\SC v2\iGoo\Areas\Webcms\Models\InventoryLogViewModel.cs:line 166
+   --- End of inner exception stack trace ---
+   at iGoo.Areas.Webcms.Models.InventoryLogViewModel.SelectAll_Export() in k:\BBT\SC v2\iGoo\Areas\Webcms\Models\InventoryLogViewModel.cs:line 172
+   at iGoo.Areas.Webcms.Controllers.InventoryLogController.ExportData() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\InventoryLogController.cs:line 141
+07/22/2014 15:38:33
+Error in: http://localhost:2180/Webcms/InventoryLog/ExportData. Error Message:System.Exception: InventoryDetailViewModel::SelectAll::Error occured. ---> System.Data.SqlClient.SqlException: Must declare the scalar variable "@PageIndex".
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at iGoo.Areas.Webcms.Models.InventoryLogViewModel.SelectAll_Export() in k:\BBT\SC v2\iGoo\Areas\Webcms\Models\InventoryLogViewModel.cs:line 166
+   --- End of inner exception stack trace ---
+   at iGoo.Areas.Webcms.Models.InventoryLogViewModel.SelectAll_Export() in k:\BBT\SC v2\iGoo\Areas\Webcms\Models\InventoryLogViewModel.cs:line 172
+   at iGoo.Areas.Webcms.Controllers.InventoryLogController.ExportData() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\InventoryLogController.cs:line 141
+07/22/2014 15:47:57
+Error in: http://localhost:2180/Webcms/InventoryLog/ExportData. Error Message:System.Exception: InventoryDetailViewModel::SelectAll::Error occured. ---> System.Data.SqlClient.SqlException: Incorrect syntax near 'UserID'.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at System.Data.SqlClient.SqlDataReader.get_MetaData()
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   at System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at iGoo.Areas.Webcms.Models.InventoryLogViewModel.SelectAll_Export() in k:\BBT\SC v2\iGoo\Areas\Webcms\Models\InventoryLogViewModel.cs:line 166
+   --- End of inner exception stack trace ---
+   at iGoo.Areas.Webcms.Models.InventoryLogViewModel.SelectAll_Export() in k:\BBT\SC v2\iGoo\Areas\Webcms\Models\InventoryLogViewModel.cs:line 172
+   at iGoo.Areas.Webcms.Controllers.InventoryLogController.ExportData() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\InventoryLogController.cs:line 141
+07/22/2014 17:02:14
+Error in: http://localhost:2180/Webcms/NhapKhoSX/ImportUpdate. Error Message:System.Exception: CMS_InventoryDetails::Insert::Error occured. ---> System.Data.SqlClient.SqlException: Cannot insert the value NULL into column 'InventoryID', table 'babycuatoi_db.dbo.CMS_InventoryDetails'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at iGoo.Classes.clsCMS_InventoryDetails.ImportChange() in k:\BBT\SC v2\iGoo\Classes\clsCMS_InventoryDetails.cs:line 239
+   --- End of inner exception stack trace ---
+   at iGoo.Classes.clsCMS_InventoryDetails.ImportChange() in k:\BBT\SC v2\iGoo\Classes\clsCMS_InventoryDetails.cs:line 245
+   at iGoo.Areas.Webcms.Controllers.NhapKhoSXController.ImportUpdate() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\NhapKhoSXController.cs:line 322
+07/22/2014 17:06:39
+Error in: http://localhost:2180/Webcms/NhapKhoSX/ImportUpdate. Error Message:System.Exception: CMS_InventoryDetails::Insert::Error occured. ---> System.Data.SqlClient.SqlException: Cannot insert the value NULL into column 'InventoryID', table 'babycuatoi_db.dbo.CMS_InventoryDetails'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at iGoo.Classes.clsCMS_InventoryDetails.ImportChange() in k:\BBT\SC v2\iGoo\Classes\clsCMS_InventoryDetails.cs:line 239
+   --- End of inner exception stack trace ---
+   at iGoo.Classes.clsCMS_InventoryDetails.ImportChange() in k:\BBT\SC v2\iGoo\Classes\clsCMS_InventoryDetails.cs:line 245
+   at iGoo.Areas.Webcms.Controllers.NhapKhoSXController.ImportUpdate() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\NhapKhoSXController.cs:line 322
+07/22/2014 17:11:19
+Error in: http://localhost:2180/Webcms/NhapKhoSX/ImportUpdate. Error Message:System.Exception: CMS_InventoryDetails::Insert::Error occured. ---> System.Data.SqlClient.SqlException: Cannot insert the value NULL into column 'InventoryID', table 'babycuatoi_db.dbo.CMS_InventoryDetails'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at iGoo.Classes.clsCMS_InventoryDetails.ImportChange() in k:\BBT\SC v2\iGoo\Classes\clsCMS_InventoryDetails.cs:line 239
+   --- End of inner exception stack trace ---
+   at iGoo.Classes.clsCMS_InventoryDetails.ImportChange() in k:\BBT\SC v2\iGoo\Classes\clsCMS_InventoryDetails.cs:line 245
+   at iGoo.Areas.Webcms.Controllers.NhapKhoSXController.ImportUpdate() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\NhapKhoSXController.cs:line 322
+07/22/2014 17:17:28
+Error in: http://localhost:2180/Webcms/NhapKhoSX/ImportUpdate. Error Message:System.Exception: CMS_InventoryDetails::Insert::Error occured. ---> System.Data.SqlClient.SqlException: Cannot insert the value NULL into column 'InventoryID', table 'babycuatoi_db.dbo.CMS_InventoryDetails'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at iGoo.Classes.clsCMS_InventoryDetails.ImportChange() in k:\BBT\SC v2\iGoo\Classes\clsCMS_InventoryDetails.cs:line 239
+   --- End of inner exception stack trace ---
+   at iGoo.Classes.clsCMS_InventoryDetails.ImportChange() in k:\BBT\SC v2\iGoo\Classes\clsCMS_InventoryDetails.cs:line 245
+   at iGoo.Areas.Webcms.Controllers.NhapKhoSXController.ImportUpdate() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\NhapKhoSXController.cs:line 322
+07/22/2014 17:23:55
+Error in: http://localhost:2180/Webcms/NhapKhoSX/ImportUpdate. Error Message:System.Exception: CMS_InventoryDetails::Insert::Error occured. ---> System.Data.SqlClient.SqlException: Cannot insert the value NULL into column 'InventoryID', table 'babycuatoi_db.dbo.CMS_InventoryDetails'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at iGoo.Classes.clsCMS_InventoryDetails.ImportChange() in k:\BBT\SC v2\iGoo\Classes\clsCMS_InventoryDetails.cs:line 239
+   --- End of inner exception stack trace ---
+   at iGoo.Classes.clsCMS_InventoryDetails.ImportChange() in k:\BBT\SC v2\iGoo\Classes\clsCMS_InventoryDetails.cs:line 245
+   at iGoo.Areas.Webcms.Controllers.NhapKhoSXController.ImportUpdate() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\NhapKhoSXController.cs:line 323
+07/22/2014 17:24:47
+Error in: http://localhost:2180/Webcms/NhapKhoSX/ImportUpdate. Error Message:System.Exception: CMS_InventoryDetails::Insert::Error occured. ---> System.Data.SqlClient.SqlException: Cannot insert the value NULL into column 'ProductID', table 'babycuatoi_db.dbo.CMS_InventoryDetails'; column does not allow nulls. INSERT fails.
+Cannot insert the value NULL into column 'ProductID', table 'babycuatoi_db.dbo.CMS_InventoryLogs'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+The statement has been terminated.
+   at System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean asyncWrite)
+   at System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at iGoo.Classes.clsCMS_InventoryDetails.ImportChange() in k:\BBT\SC v2\iGoo\Classes\clsCMS_InventoryDetails.cs:line 239
+   --- End of inner exception stack trace ---
+   at iGoo.Classes.clsCMS_InventoryDetails.ImportChange() in k:\BBT\SC v2\iGoo\Classes\clsCMS_InventoryDetails.cs:line 245
+   at iGoo.Areas.Webcms.Controllers.NhapKhoSXController.ImportUpdate() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\NhapKhoSXController.cs:line 323

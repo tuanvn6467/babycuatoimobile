@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="babycuatoi_dbConnectionString-Web.config Connection String" description="babycuatoi_dbConnectionString Connection String used in web.config by the application to access the database." defaultValue="Data Source=112.213.94.94;Initial Catalog=babycuatoi_db;User ID=babycuatoi_u;Password=babycuatoi123123!" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="K:\\BBT\\SC\ v2\\iGoo\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='babycuatoi_dbConnectionString']/@connectionString" />
+  </parameter>
+</parameters>

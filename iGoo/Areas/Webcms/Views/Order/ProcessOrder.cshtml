@@ -1,0 +1,776 @@
+﻿@using DocumentFormat.OpenXml.Drawing.ChartDrawing
+@using DocumentFormat.OpenXml.Packaging
+@using iGoo.Helpers
+
+@{
+    Layout = "~/Areas/Webcms/Views/Shared/Layout.cshtml";
+}
+
+@section head
+{
+    <script src="@Url.Content("~/Script/jquery-ui-1.10.4.custom.min.js")" type="text/javascript"></script>
+    @*    <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.min.js" type="text/javascript"></script>*@
+    <script src="@Url.Content("~/Script/jquery.validate.js")" type="text/javascript"></script>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    @*    <link href="http://code.jquery.com/ui/1.9.0/themes/le-frog/jquery-ui.css" rel="stylesheet" />*@
+    <link href="@Url.Content("~/Script/jqueryui/le-frog/jquery.ui.all.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Script/jqueryui/ui/jquery.ui.core.js")"></script>
+    <script src="@Url.Content("~/Script/jqueryui/ui/jquery.ui.widget.js")"></script>
+    <script src="@Url.Content("~/Script/jqueryui/ui/jquery.ui.position.js")"></script>
+    <script src="@Url.Content("~/Script/jqueryui/ui/jquery.ui.menu.js")"></script>
+    <script src="@Url.Content("~/Script/jqueryui/ui/jquery.ui.autocomplete.js")"></script>
+    <style>
+        label, input { display: block; }
+        input.text {margin-bottom: 12px;width: 95%;padding: .4em; }
+        fieldset {padding: 0;border: 0;margin-top: 25px; }
+        h1 {font-size: 1.2em;margin: .6em 0; }
+        div#users-contain {width: 350px;margin: 20px 0; }
+        div#users-contain table {margin: 1em 0;border-collapse: collapse;width: 100%; }
+        div#users-contain table td, div#users-contain table th {border: 1px solid #eee;padding: .6em 10px;text-align: left; }
+        .ui-dialog .ui-state-error { padding: .3em; }
+        .validateTips {border: 1px solid transparent;padding: 0.3em; }
+
+        .content {
+            width: 900px;
+            margin: 0 auto;
+        }
+        #searchid {
+            width: 500px;
+            border: solid 1px #000;
+            padding: 10px;
+            font-size: 14px;
+        }
+        #result {
+            position: absolute;
+            width: 500px;
+            padding: 10px;
+            display: none;
+            margin-top: -1px;
+            border-top: 0px;
+            overflow: hidden;
+            border: 1px #CCC solid;
+            background-color: white;
+        }
+        .show {
+            padding: 10px;
+            border-bottom: 1px #999 dashed;
+            font-size: 15px;
+            height: 50px;
+        }
+        .show:hover {
+            background: #4c66a4;
+            color: #FFF;
+            cursor: pointer;
+        }
+        #project-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 1em;
+        }
+
+        #project-icon {
+            float: left;
+            height: 32px;
+            width: 32px;
+        }
+
+        #project-description {
+            margin: 0;
+            padding: 0;
+        }
+
+        #city {
+            width: 25em;
+        }
+
+        #vas {
+            width: 25em;
+        }
+        li.underline {
+            border-bottom-style: solid;
+            border-bottom-width: 1px;
+            border-bottom-style: dotted;
+        }
+        button[disabled=disabled], button:disabled {
+            border-color: #dddddd;
+            color: #dddddd;
+        }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#frmList").validate({
+                rules: {
+                    txtFullNameDec: "required",
+                    txtAddressDec: "required",
+                    txtPhoneDec: "required",
+                    txtDiscount: {
+                        required: true,
+                        number: true
+                    }
+                },
+                messages: {
+                    txtFullNameDec: "",
+                    txtAddressDec: "",
+                    txtPhoneDec: "",
+                    txtDiscount: ""
+                }
+            });
+            if (readCookie('quick_shopping_cart') != null) {
+                eraseCookie("quick_shopping_cart");
+            }
+            if (readCookie('quick_vas_cart') != null) {
+                eraseCookie("quick_vas_cart");
+            }
+//            //current_vas_cart
+//            if (readCookie('current_vas_cart') != null) {
+//                eraseCookie("current_vas_cart");
+//            }
+            ActionForm('@Url.Action(String.Empty)');
+            ShowUpload1();
+            SearchForm();
+        }
+        );
+
+        function DeleteOrderDetail(id) {
+            if (confirm("Bạn thực sự muốn xóa?")) {
+                $.post("@Url.Action("DeleteOrderDetail")", { id: id },
+                    function(data) {
+                        location.reload(true);
+                    });
+            }
+        }
+
+        //added by sonln 20130ct18
+
+        function DeleteDetail(id) {
+            deleteFromCart(id);
+            $('#' + id).remove();
+            updateOrder();
+        }
+
+        function DeleteVas(id) {
+            deleteFromVas(id);
+            $('#' + id).remove();
+            updateOrder();
+        }
+
+        function addProduct1(pID, pName, pPrice, pQuant) {
+            var count = $("#details > tbody > tr").length + 1;
+            var id = pID.split("|");
+            var newQuant = addToShoppingCart1(id[0], pQuant, 0);
+            if (newQuant == 0) {
+                var sumPrice = parseInt(pQuant) * parseInt(pPrice);
+                $("#details tbody").append("<tr id=\"" + id[0] + "\">" +
+                    "<td>" + count + "</td>" +
+                    "<td>" + "<input type=\"checkbox\" title=\"ckID\" name=\"ckID-" + count + "\" id=\"ckID-" + count + "\" value=\"" + id[0] + "\" /><input type=\"hidden\" title=\"hID\" name=\"hID-" + count + "\" id=\"hID-" + count + "\" value=\"" + id[0] + "\" />" + "</td>" +
+                    "<td>" + "<span>(<i>" + id[1] + "</i>)&nbsp;&nbsp;&nbsp;&nbsp;<a class=\"edit\" href=\"javascript:DeleteDetail('" + id[0] + "');\">Xóa</a></span> </td>" +
+                    "<td>" + pName + "</td>" +
+                    "<td><input type=\"number\" min=\"0\" value=\"" + pQuant + "\" name=\"txtQuantity-" + id[0] + "\" id=\"txtQuantity-" + id[0] + "\" onchange=\"javascript:updateCart('" + id[0] + "',this.value,-1);\" /></td>" +
+                    "<td><input type=\"text\" readonly value=\"" + addCommas(pPrice) + "\" name=\"txtPrice-" + id[0] + "\" id=\"txtPrice-" + id[0] + "\" onchange=\"javascript:checkPId('" + id[0] + "');\" class=\"price\"/></td>" +
+                    "<td><input type=\"number\" min=\"0\" value=\"0\" name=\"txtDiscount-" + id[0] + "\" id=\"txtDiscount-" + id[0] + "\" onchange=\"javascript:updateCart('" + id[0] + "',-1,this.value);\" /></td>" +
+                    "<td><input type=\"text\" value=\"" + addCommas(sumPrice) + "\" name=\"txtCash-" + id[0] + "\" id=\"txtCash-" + id[0] + "\" readonly class=\"price\" disabled='disabled'/></td>" +
+                    "</tr>");
+            } else {
+                $("#txtQuantity-" + id[0]).val(parseInt(newQuant));
+                $("#txtCash-" + id[0]).val(addCommas(parseInt(newQuant) * parseInt(pPrice)));
+            }
+            updateOrder();
+        }
+
+        function addVas(pId, pName, pPrice) {
+            var count = $("#vasDetails > tbody > tr").length + 1;
+            var id = pId.split("|");
+            var newQuant = addToVasCart1(id[0]);
+            if (newQuant == 1) {
+                $("#vasDetails tbody").append("<tr id=\"" + id[0] + "\">" +
+                    "<td>" + count + "</td>" +
+                    "<td>" + "<input type=\"checkbox\" title=\"ckID1\" name=\"ckID1-" + count + "\" id=\"ckID1-" + count + "\" value=\"" + id[0] + "\" /><input type=\"hidden\" title=\"hID\" name=\"hID-" + count + "\" id=\"hID-" + count + "\" value=\"" + id[0] + "\" />" + "</td>" +
+                    "<td>" + "<span>(<i>" + id[1] + "</i>)&nbsp;&nbsp;&nbsp;&nbsp;<a class=\"edit\" href=\"javascript:DeleteVas('" + id[0] + "');\">Xóa</a></span> </td>" +
+                    "<td>" + pName + "</td>" +
+                    "<td><input type=\"text\" value=\"" + addCommas(pPrice) + "\" name=\"txtVasCash-" + id[0] + "\" id=\"txtVasCash-" + id[0] + "\" class=\"price\" onkeyup=\"updateOrder();\"/></td>" +
+                    "</tr>");
+            }
+            updateOrder();
+        }
+
+        function getDistrict(provId, distId) {
+            var URL = "/Webcms/Order/GetDistrict/" + provId;
+            $.get(URL, null, function(data) {
+                var dJson = $.parseJSON(data);
+                $("#district").empty();
+                $.each(dJson, function(index, d) {
+                    if (d.value != distId)
+                        $("#district").append('<option value="' + d.value + '">' + d.Name + '</option>');
+                    else
+                        $("#district").append('<option value="' + d.value + '" selected>' + d.Name + '</option>');
+                });
+            });
+        }
+
+        $(function() {
+            $("#vas").autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: "/Webcms/VAS/GetProductByCode",
+                        dataType: "json",
+                        data: {
+                            pCode: request.term
+                        },
+                        success: function(data) {
+                            response($.map(data, function(item) {
+                                return {
+                                    label: item.Code + " - " + item.Name + " | Giá: " + item.Price + " VNĐ",
+                                    value: item.Name,
+                                    id: item.Id,
+                                    code: item.Code,
+                                    name: item.Name,
+                                    price: item.Price
+                                }
+                            }));
+                        }
+                    });
+                },
+                minLength: 2,
+                focus: function(event, ui) {
+                    $("#vas").val(ui.item.name);
+                    return false;
+                },
+                select: function(event, ui) {
+                    addVas(ui.item.id + "|" + ui.item.code, ui.item.name, ui.item.price);
+                    $("#vas").val("");
+                    return false;
+                }
+            })
+                .data("ui-autocomplete")._renderItem = function(ul, item) {
+                    return $("<li class=\"underline\">")
+                        .append("<a>" + item.code + "-" + item.name + "<br>Giá: " + item.price + " VNĐ</a>")
+                        .appendTo(ul);
+                };
+            $("#city").autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: "/Webcms/Product/GetProductByCode",
+                        dataType: "json",
+                        data: {
+                            pCode: request.term,
+                            invId: $("#slOrderInv").val()
+                },
+                        success: function(data) {
+                            response($.map(data, function(item) {
+                                return {
+                                    label: item.title + " - " + item.sku + " | Giá: " + item.saleprice + " VNĐ",
+                                    value: item.title,
+                                    title: item.title,
+                                    sku: item.sku,
+                                    productid: item.productid,
+                                    saleprice: item.saleprice,
+                                    salepricedealer: item.salepricedealer,
+                                    salepricehcm: item.salepricehcm,
+                                    salepricedealerhcm: item.salepricedealerhcm,
+                                    salepricecn3: item.salepricecn3,
+                                    salepricedealercn3: item.salepricedealercn3,
+                                    quantity: item.quantity,
+                                    image: item.image
+                                }
+                            }));
+                        }
+                    });
+                },
+                minLength: 2,
+                focus: function(event, ui) {
+                    $("#city").val(ui.item.title);
+                    return false;
+                },
+                select: function(event, ui) {
+                    var pQuant = prompt("Bạn hãy nhập số lượng", "1");
+                    if (pQuant != '') {
+                        if (pQuant > ui.item.quantity) {
+                            alert("Số lượng hàng trong kho là: " + ui.item.quantity + ", không đủ để đáp ứng");
+                        } else {
+                            var invId = $("#slOrderInv").val().toUpperCase();
+                            var cusType = $("#cboCusClass").val().toUpperCase();
+                            var productPrice = 0;
+                            if (invId == "0C80DCD0-5D8E-4041-ACAF-2CF7C2916162") {
+                                if (cusType == "29ED76BB-B3A9-420F-AA49-AD96538465FC") {
+                                    productPrice = ui.item.saleprice;
+                                } else if (cusType == "D4CC298E-2E7A-4D6A-BD41-E4291CF6D929") {
+                                    productPrice = ui.item.salepricedealer;
+                                }
+                            } else if (invId == "6197D743-0B16-4BCF-8048-3803AE3FDCD8") {
+                                if (cusType == "29ED76BB-B3A9-420F-AA49-AD96538465FC")
+                                    productPrice = ui.item.salepricehcm;
+                                else if (cusType == "D4CC298E-2E7A-4D6A-BD41-E4291CF6D929")
+                                    productPrice = ui.item.salepricedealerhcm;
+                            } else if (invId == "665F2362-FE8A-4169-9513-0109340F3C0B") {
+                                if (cusType == "29ED76BB-B3A9-420F-AA49-AD96538465FC")
+                                    productPrice = ui.item.salepricecn3;
+                                else if (cusType == "D4CC298E-2E7A-4D6A-BD41-E4291CF6D929")
+                                    productPrice = ui.item.salepricedealercn3;
+                            }
+                            addProduct1(ui.item.productid + "|" + ui.item.sku, ui.item.title, productPrice, pQuant);
+                            $("#city").val("");
+                        }
+                    }
+                    return false;
+                }
+            })
+                .data("ui-autocomplete")._renderItem = function(ul, item) {
+                    var imgLength = item.image.length;
+                    var imgPath = item.image.substring(0, imgLength - 4) + "-50x50" + item.image.substring(imgLength - 4, imgLength);
+                    var invId = $("#slOrderInv").val().toUpperCase();
+                    var cusType = $("#cboCusClass").val().toUpperCase();
+                    var productPrice = 0;
+                    if (invId == "0C80DCD0-5D8E-4041-ACAF-2CF7C2916162") {
+                        if (cusType == "29ED76BB-B3A9-420F-AA49-AD96538465FC") {
+                            productPrice = item.saleprice;
+                        } else if (cusType == "D4CC298E-2E7A-4D6A-BD41-E4291CF6D929") {
+                            productPrice = item.salepricedealer;
+                        }
+                    } else if (invId == "6197D743-0B16-4BCF-8048-3803AE3FDCD8") {
+                        if (cusType == "29ED76BB-B3A9-420F-AA49-AD96538465FC")
+                            productPrice = item.salepricehcm;
+                        else if (cusType == "D4CC298E-2E7A-4D6A-BD41-E4291CF6D929")
+                            productPrice = item.salepricedealerhcm;
+                    } else if (invId == "665F2362-FE8A-4169-9513-0109340F3C0B") {
+                        if (cusType == "29ED76BB-B3A9-420F-AA49-AD96538465FC")
+                            productPrice = item.salepricecn3;
+                        else if (cusType == "D4CC298E-2E7A-4D6A-BD41-E4291CF6D929")
+                            productPrice = item.salepricedealercn3;
+                    }
+                    return $("<li class=\"underline\">")
+                        .append("<a style='vertical-align:text-top;'>" + "<img src='/thumb/" + imgPath + "' style='width:70px; height:70px; float:left; margin-right:6px;' /><br>" + item.title + "-" + item.sku + "<br>Số lượng: <strong>" + item.quantity + "</strong><br>Giá: <strong>" + productPrice + "</strong> VNĐ</a>")
+                        .appendTo(ul);
+                };
+
+        });
+
+        function DeleteOrderVas(id) {
+            if (confirm("Bạn thực sự muốn xóa?")) {
+                $.post("@Url.Action("DeleteOrderVas")", { id: id },
+                    function(data) {
+                        location.reload(true);
+                    });
+            }
+        }
+
+        function updateOrder1(prePaid) {
+            var orderSum = $("input[name='orderCash1']").val();
+            //$("input[name='debtCash']").val();
+            if (orderSum == "") {
+                orderSum = "0";
+                $("input[name='orderCash1']").val(orderSum);
+            }
+            if (prePaid == "") prePaid = "0";
+            if (parseInt(prePaid) > parseInt(orderSum.replace(/[^0-9\.]+/g, ""))) {
+                alert("Số tiền trả trước phải nhỏ hơn tổng tiền hóa đơn!");
+                $("input[name='prePayment']").val(orderSum);
+                $("input[name='debtCash']").val("0");
+            } else
+                $("input[name='debtCash']").val(addCommas(parseInt(orderSum.replace(/[^0-9\.]+/g, "")) - parseInt(prePaid)));
+        }
+
+        function InvChange(invVal) {
+            var curInv = $("#curInv").val();
+            var curCusClass = $("#cboCusClass").val();
+            if (invVal == curInv) {
+                $("#btnReload").prop('disabled', true);
+            } else {
+                $("#btnReload").prop('disabled', false);
+            }
+        }
+        
+        function CusClassChange(cusClassId) {
+            var curCusClass = $("#curCusClass").val();
+            if (cusClassId == curCusClass) {
+                $("#btnReload").prop('disabled', true);
+            } else {
+                $("#btnReload").prop('disabled', false);
+            }
+        }
+        
+        
+    </script>
+}
+
+@section content
+{
+        <div class="full"></div>
+        <div class="panel upload">
+            <iframe class="iframe" name="fUpload" id="fUpload"></iframe>
+        </div>
+        <div class="box-content">
+			<div class="content-left f">
+                <div class="title">
+                    <img src="@Url.Content("~/Source/webcms/images/home.png")" />
+                    <span>Chi tiết đơn hàng</span>
+                    <button type="button" onclick="history.back(-1);">Quay lại</button>
+                </div>
+                <!-- End title -->
+			    <!-- End search OrderVas -->
+			    @{bool flag1 = ViewBag.OrderDetails == null;}
+			    @{bool flag = ViewBag.Edit == null;}
+			    @{bool ov = ViewBag.OrderVas == null;}
+			    @{ string strDisable = "";}
+                @{ string strReadOnly = "";}
+                @{ string strDisabled = "";}
+                @{ string strHidden = "";}
+                @{ bool delAble = true;}
+                @if (!flag)
+                {
+                    if (ViewBag.Edit[0]["Status"].ToString().Equals("2") || ViewBag.Edit[0]["Status"].ToString().Equals("4") || ViewBag.Edit[0]["Status"].ToString().Equals("6"))
+                    {
+                        strDisable = " style=visibility:hidden;";
+                        delAble = false;
+                    }
+                    if (ViewBag.Edit[0]["Status"].ToString().Equals("5") || ViewBag.Edit[0]["Status"].ToString().Equals("3"))
+                    {
+                        strReadOnly = "readonly";
+                        strDisabled = "disabled";
+                        strHidden = "hidden";
+                        if (ViewBag.Edit[0]["Status"].ToString().Equals("5")) 
+                        {                            
+                            foreach (var item in ViewBag.Roll)
+                            {
+                                string str = @item["Checked"].ToString().ToUpper();
+                                if (str.IndexOf("19A26055-3A20-4005-A33A-C191F7A6D1B5") == 0) 
+                                 {
+                                     strReadOnly = "";
+                                     strDisabled = "";
+                                     strHidden = "";
+                                 }                          
+                            }      
+                        }                                       
+                    }
+                }
+                <form id="frmList">
+                    <div class="list order" >
+                        @if (@Request.Get("result").Equals("1"))
+                        {
+                            <p class="result">Cập nhật thành công!</p>
+                        }
+                        @if (@Request.Get("result").Equals("3"))
+                        {
+                            <p class="result">Cập nhật giá theo kho hàng thành công!</p>
+                        }
+                        @if (@Request.Get("error").Equals("1"))
+                        {
+                            <p class="error">Có lỗi, xin hãy kiểm tra và thử lại!</p>
+                        }
+                        <input type="hidden" value="@ViewBag.UserId" name="txtUserID" id="txtUserID"/>
+                        @if (!flag)
+                        {
+                            <input type="hidden" value="@ViewBag.Edit[0]["Status"]" name="orderStattus" id="orderStattus" />
+                        }
+                    
+                        <input type="hidden" value="@(flag ? ViewBag.oType : ViewBag.Edit[0]["TypeBuy"])" name="t" id="t" />
+                        <table>
+                            <tr style="vertical-align: top;">
+                                <td>
+                                @*<div class="the-order">*@                                        
+                                    <table>                                                                    
+                                        <tr><td><label>Tên khách hàng <font color="red">(*):</font></label><input type="text" name="txtFullNameDec" id="txtFullNameDec" @strReadOnly value="@(flag ? String.Empty : ViewBag.Edit[0]["FullName"])"/></td></tr>                                          
+                                        <tr><td><label>Địa chỉ <font color="red">(*):</font></label><input type="text" name="txtAddressDec" id="txtAddressDec" @strReadOnly lang="ImageFile" value="@(flag ? String.Empty : ViewBag.Edit[0]["Address"])" /></td></tr>
+                                        <tr><td><label>Email</label><input type="text" name="txtEmailDec" id="txtEmailDec" @strReadOnly value="@(flag ? String.Empty : ViewBag.Edit[0]["Email"])" /></td></tr>
+                                        <tr><td><label>Số điện thoại <font color="red">(*):</font></label><input type="text" name="txtPhoneDec" id="txtPhoneDec" @strReadOnly value="@(flag ? String.Empty : ViewBag.Edit[0]["Phone"])" /></td></tr>
+                                        
+                                        <tr>
+                                            <td>
+                                                <label>Tỉnh / Thành phố</label>
+                                                <select name="province" id="province" title="@(flag ? 0 : ViewBag.Edit[0]["ProvinceId"])" onchange="getDistrict(this.value,0);" style="width: 142px;" onfocus="$(thid).blur()">
+                                                    <option  value="">Chọn tỉnh</option>
+                                                    @foreach (var item in ViewBag.Province)
+                                                    {                                                        
+                                                        <option value="@item["Value"]" >@item["Name"]</option>
+                                                    }
+                                                </select>
+                                            </td>
+                                        </tr>
+                                         <tr>
+                                <td>
+                                    <label>Quận / Huyện</label>
+                                    <script>
+                                        getDistrict(@(flag ? 0 : ViewBag.Edit[0]["ProvinceId"]), @(flag ? 0 : ViewBag.Edit[0]["DistrictId"]));
+                                    </script>
+                                    <select name="district" id="district" title="@(flag ? 0 : ViewBag.Edit[0]["DistrictId"]) " style="width: 142px;">
+                                        @foreach (var item in ViewBag.District)
+                                        {
+                                            <option value="@item["Value"]">@item["Name"]</option>
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+                                        <tr>
+                                            <td>
+                                                <label>Loại khách hàng</label>
+                                                <select name="cboCusClass" id="cboCusClass"  onchange="javascript: CusClassChange(this.value);" title="@(flag ? 0 : ViewBag.Edit[0]["CusClassId"])" style=" width: 142px;">
+                                                    @foreach (var item in ViewBag.CusClass)
+                                                    {
+                                                        <option value="@item["Value"]">@item["Name"]</option>
+                                                    }
+                                                </select>
+                                                @if (!Request.Get("ID").Equals(""))
+                                                {
+                                                    if (ViewBag.Edit[0]["Status"] != 2 || ViewBag.Edit[0]["Status"] != 4 || ViewBag.Edit[0]["Status"] != 6)
+                                                    {
+                                                        <input type="hidden" name="curCusClass" id="curCusClass" value="@ViewBag.Edit[0]["CusClassId"]" />
+                                                    }
+                                                }
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                       
+                                    <br />
+                                @*</div>*@
+                                </td>
+                                <td>
+                                    @*<div class="consignee">*@
+                                    @*<p @ViewBag.Disable><label>Người mua hàng: </label><input type="text" name="txtFullName" id="txtFullName" @ViewBag.Disable value="@(flag ? String.Empty : ViewBag.Edit[0]["FullNameTo"])" /></p>
+                                    <p @ViewBag.Disable><label>Địa chỉ: </label><input type="text" name="txtAddress" id="txtAddress" lang="ImageFile" @ViewBag.Disable value="@(flag ? String.Empty : ViewBag.Edit[0]["AddressTo"])" /></p>
+                                    <p @ViewBag.Disable><label>Email: </label><input type="text" name="txtEmail" id="txtEmail" @ViewBag.Disable value="@(flag ? String.Empty : ViewBag.Edit[0]["EmailTo"])" /></p>
+                                    <p @ViewBag.Disable><label>Số điện thoại: </label><input type="text" name="txtPhone" id="txtPhone" @ViewBag.Disable value="@(flag ? String.Empty : ViewBag.Edit[0]["PhoneTo"])" /></p>*@
+                                    <label>Ghi chú khách hàng: </label><br />
+                                    <textarea id="txtRequest" name="txtRequest" style="height: 70px;">@(flag ? String.Empty : ViewBag.Edit[0]["Request"])</textarea>
+                                    
+                                    @*</div>*@
+                                </td>
+                            </tr>
+                        </table>
+                        <p>
+                            <div class="action" style="width: 100%; float: left;">
+                                <button type="button" id="@ViewBag.btnAction" @strDisable>@ViewBag.strAction</button>
+                                <a href ="../Reports/ReportViewer?CodeOrder=@(flag ? String.Empty : ViewBag.Edit[0]["OrderCode"])" target="_blank" class="button" >In Phiếu</a>
+                                @if (!flag)
+                                {
+                                    <a href="ProcessOrder?t=@(flag ? ViewBag.oType : ViewBag.Edit[0]["TypeBuy"])" class="button">Thêm mới</a>
+                                }
+                            </div>
+                        </p>
+                        <div class="table-list" style="width: 100%; float: left;">
+                            @*        <span style="text-align: left !important;">*@
+                            @*            <button type="button" id="btnImage" title="Thêm sản phẩm" lang="ImageDescription">Thêm sản phẩm</button>*@
+                            @*            <button type="button" id="btnBarcode" title="Nhập bằng máy quét mã vạch" lang="ImageDescription">Nhập bằng máy quét mã vạch</button>*@
+                            @*        </span>        *@
+                            <div style="width: 100%; float: left;">
+                                Chọn kho hàng:&nbsp;
+                                <select name="slOrderInv" id="slOrderInv" title="@(flag ? 0 : ViewBag.Edit[0]["InventoryId"])" onchange="javascipt:InvChange(this.value);">
+                                    @foreach (var item in ViewBag.MenuInv)
+                                    {
+                                        <option value="@item["Value"]">@item["Name"]</option>
+                                    }
+                                </select>&nbsp;&nbsp;
+                                <input type="hidden" name="curInv1" id="curInv1" value="@(flag ? 0 : ViewBag.Edit[0]["Status"])" />
+                                @if (!Request.Get("ID").Equals(""))
+                                {
+                                    //                if (!ViewBag.Edit[0]["Status"].ToString().Equals("2") || !ViewBag.Edit[0]["Status"].ToString().Equals("4") || !ViewBag.Edit[0]["Status"].ToString().Equals("6"))
+                                    if (ViewBag.Edit[0]["Status"] != 2 && ViewBag.Edit[0]["Status"] != 4 && ViewBag.Edit[0]["Status"] != 6)
+                                    {
+                                        <button type="button" name="btnReload" id="btnReload" disabled>Cập nhật giá</button>
+                                        <input type="hidden" name="curInv" id="curInv" value="@ViewBag.Edit[0]["InventoryId"]" />
+                                    }
+                                }
+                            </div>
+                            <div class="ui-widget" style="width: 100%; float: left;">
+                                <label for="city">Nhập mã sản phẩm: </label>
+                                <input id="city" @strReadOnly>
+                            </div>
+                            <table id="details">
+                                <thead>
+                                    <th>#</th>
+                                    <th style="width:30px;"><input type="checkbox" value="ckID" id="ckCheckAll" /></th>
+                                    <th><a class="@(Request.Get("OrderBy").Equals("SKU") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=SKU&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))">Mã sản phẩm</a></th>
+                                    <th><a class="@(Request.Get("OrderBy").Equals("Title") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Title&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))">Tên sản phẩm</a></th>
+                                    <th><a class="@(Request.Get("OrderBy").Equals("Quantity") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Quantity&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))">Số lượng</a></th>
+                                    <th><a class="@(Request.Get("OrderBy").Equals("Price") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Price&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))">Giá sản phẩm (VND)</a></th>
+                                    <th>Giảm giá</th>
+                                    <th>Thành giá (VND)</th>
+                                </thead>
+                                <tbody>
+                                    @{int count = 0;}
+                                    @{int count1 = 0;}
+                                    @{double itemDiscountSum = 0;}
+                                    @{string itemDiscountSum1 = "";}
+                                    @{double sumitem = 0;}
+                                    @if (!flag1)
+                                    {
+                                        foreach (var item in ViewBag.OrderDetails)
+                                        {
+                                            int iDiscount = int.Parse(item["Discount"].ToString());
+                                            if (iDiscount > 0)
+                                            {
+                                                double dPrice = double.Parse(item["Price"].ToString());
+                                                int iQuantity = int.Parse(item["Quantity"].ToString());
+                                                
+                                                if (iDiscount > 100)
+                                                {
+                                                    itemDiscountSum += iQuantity * iDiscount;
+                                                    
+                                                }
+                                                else
+                                                {
+                                                    itemDiscountSum += iQuantity * ((dPrice / 100) * iDiscount);
+                                                }
+                                                
+                                            }
+                                            sumitem += double.Parse(item["Cash"].ToString()); 
+                                            count += 1;
+                                            <tr>
+                                                <td>@count</td>
+                                                <td>
+                                                    <input type="checkbox" title="ckID" name="ckID-@count" value="@item["OrderDetailID"]" />
+                                                    <input type="hidden" title="hID" name="hID-@count" value="@item["OrderDetailID"]" />
+                                                    <input type="hidden" title="hID" name="pID-@count" value="@item["ProductID"]" />
+                                                </td>
+                                                <td class="subject">
+                                                    <span>@item["SKU"] (<i>@item["ProductType"]</i>)</span>
+                                                    @if (delAble)
+                                                    {
+                                                        <div class="edit" @strHidden>
+                                                            <a class="actionDelete" href="javascript:DeleteOrderDetail('@item["OrderDetailID"]');">Xóa</a>
+                                                        </div>
+                                                    }
+                                                </td>
+                                                <td>@item["Title"]</td>
+                                                <td><input type="number" min="0" value="@item["Quantity"]" name="txtQuantity-@count" @strReadOnly onchange="checkPId(@count)" /></td>
+                                                <td><input type="text" value="@(string.Format("{0:N0}", item["Price"]))" name="txtPrice-@count" readonly class="price" /></td>
+                                                <td><input type="number" min="0" step="5" value="@item["Discount"]" name="txtDiscount-@count" @strReadOnly onchange="checkPId(@count)" /></td>
+                                                <td><input type="text" value="@(string.Format("{0:N0}", item["Cash"]))" name="txtCash-@count" disabled="disabled" class="price" /></td>
+                                            </tr>
+                                        }
+                                        itemDiscountSum1 = string.Format("{0:N0}", itemDiscountSum);
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <th>#</th>
+                                    <th style="width:30px;"><input type="checkbox" value="ckID" id="ckCheckAll" /></th>
+                                    <th><a class="@(Request.Get("OrderBy").Equals("SKU") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=SKU&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))">Mã sản phẩm</a></th>
+                                    <th><a class="@(Request.Get("OrderBy").Equals("Title") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Title&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))">Tên sản phẩm</a></th>
+                                    <th><a class="@(Request.Get("OrderBy").Equals("Quantity") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Quantity&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))">Số lượng</a></th>
+                                    <th><a class="@(Request.Get("OrderBy").Equals("Price") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Price&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))">Giá sản phẩm (VND)</a></th>
+                                    <th>Giảm giá</th>
+                                    <th>Thành giá (VND)</th>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div>
+                            @*        <p><label>Thuế GTGT: </label><input type="text" name="txtTax" id="txtTax" value="@(flag ? 0 : ViewBag.Edit[0]["Tax"])" /></p>*@
+                            <br /><br />
+
+                            <p style="width: 100%; float: left;"><label>Tổng giảm giá: </label><input type="text" name="itemDiscountSum" id="itemDiscountSum" readonly value="@(flag ? "0" : string.Format("{0:N0}", itemDiscountSum1))" /></p>
+                            <p style="width: 100%; float: left;"><label>Tổng giá trị hàng hóa: </label><input type="text" value="@(flag ? "0" : string.Format("{0:N0}", sumitem))" name="orderCash" readonly /></p>
+                            <br /><br />
+                            <div class="table-list" style="width: 100%; float: left;">
+                                <div class="ui-widget" style="width: 100%; float: left;">
+                                    <label for="vas"><strong>Dịch vụ gia tăng: </strong></label>
+                                    <input id="vas" @strReadOnly>
+                                </div>
+                                <table id="vasDetails" style="width: 100%; float: left;">
+                                    <thead>
+                                        <th>#</th>
+                                        <th style="width:30px;"><input type="checkbox" value="ckID" id="ckCheckAll" /></th>
+                                        <th>Mã dịch vụ</th>
+                                        <th>Tên dịch vụ</th>
+                                        <th>Giá dịch vụ</th>
+                                    </thead>
+                                    <tbody>
+                                        @if (!ov)
+                                        {
+                                            count1 = 0;
+                                            string cur_cart = "";
+                                            foreach (var item in ViewBag.OrderVas)
+                                            {
+                                                count1 += 1;
+                                                cur_cart += "$$" + item["VasId"];
+                                                <tr>
+                                                    <td>@count1</td>
+                                                    <td>
+                                                        <input type="checkbox" title="ckID1" name="ckID1-@count1" value="@item["Id"]" />
+                                                        <input type="hidden" title="hID1" name="hID1-@count1" value="@item["Id"]" />
+                                                    </td>
+                                                    <td class="subject">
+                                                        <span>(<i>@item["Code"]</i>)</span>
+                                                        <div class="edit" @strHidden>
+                                                            <a class="actionDelete" href="javascript:DeleteOrderVas('@item["Id"]');">Xóa</a>
+                                                        </div>
+                                                    </td>
+                                                    <td>@item["Name"]</td>
+                                                    <td><input type="text" value="@(string.Format("{0:N0}", item["Price"]))" name="txtVasCash-@count1" id="txtVasCash-@count1" class="price" onkeyup="updateOrder();" /></td>
+                                                </tr>
+                                            }
+                                            //Libs.RemoveCookie("quick_vas_cart");
+                                            Libs.RemoveCookie("current_vas_cart");
+                                            //Libs.WriteCookie("quick_vas_cart", cur_cart);
+                                            Libs.WriteCookie("current_vas_cart", cur_cart);
+                                        }
+                                    </tbody>
+                                    <tfoot>
+                                        <th>#</th>
+                                        <th style="width:30px;"><input type="checkbox" value="ckID" id="ckCheckAll" /></th>
+                                        <th>Mã dịch vụ</th>
+                                        <th>Tên dịch vụ</th>
+                                        <th>Giá dịch vụ</th>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        <div style="width: 100%; float: left;">
+                            <table>
+                                <tr style ="vertical-align: top;">
+                                    <td >
+                                        <p><label>Chiết khấu: </label><input type="text" name="txtDiscount" id="txtDiscount" @strReadOnly value="@(flag ? "0" : string.Format("{0:N0}", ViewBag.Edit[0]["Discount"]))" onkeyup="updateOrder();" /></p>
+                                        <p><label>Tổng tiền hóa đơn: </label><input type="text" value="@(flag ? "0" : string.Format("{0:N0}", ViewBag.Edit[0]["Cash"]))" name="orderCash1" id="orderCash1" @strReadOnly/></p>
+                                        <p><label>Số tiền đã thanh toán: </label><input type="text" value="@(flag ? "0" : string.Format("{0:N0}", ViewBag.Edit[0]["PrePayment"]))" name="prePayment" id="prePayment" @strReadOnly onkeyup="updateOrder1(this.value);" /></p>
+                                        <p><label>Chưa thanh toán: </label><input type="text" value="@(flag ? "0" : string.Format("{0:N0}", ViewBag.Edit[0]["Cash"] - ViewBag.Edit[0]["PrePayment"]))" name="debtCash" id="debtCash" readonly /></p>
+                                        <p><label>Mã đơn hàng: </label><input type="text" name="txtOrderCode" id="txtOrderCode" value="@(flag ? String.Empty : ViewBag.Edit[0]["OrderCode"])" readonly /></p>
+                                        <p><label>Ghi chú nhân viên: </label><textarea id="txtComment" name="txtComment" rows="5">@(flag ? String.Empty : ViewBag.Edit[0]["Comment"])</textarea></p>
+                                        <p>
+                                            <label>Trạng thái: </label>
+                                            <select name="slStatus" id="slStatus" title="@(flag ? 1 : ViewBag.Edit[0]["Status"])" onchange="orderStatusChange();">
+                                                @Html.Raw(ViewBag.oStatus)
+                                            </select>
+                                        </p>
+                                        <p>
+                                            <label>Hình thước thanh toán: </label>
+                                            <select name="slPayment" title="@(flag ? String.Empty : ViewBag.Edit[0]["PaymentID"])">
+                                                <option value="">Hình thức thanh toán</option>
+                                                @foreach (var item in ViewBag.Payment)
+                                                {
+                                                    <option value="@item["AttributeID"]">@item["Name"]</option>
+                                                }
+                                            </select>
+                                        </p>
+                                        @*</div>*@
+                                    </td>
+                                    @*<div class="the-order">*@
+                                    <td>
+                                        
+                                        <table @ViewBag.Disable1>
+                                            <tr><td><b>Thông tin kế toán</b></td></tr>
+                                            <tr><td>Số trang: </td></tr>
+                                            <tr><td><input type="text" value="@(flag ? String.Empty : ViewBag.Edit[0]["PageNumber"])" name="txtPageNumber" id="txtPageNumber" /></td></tr>
+                                            <tr><td>Quyển số: </td></tr>
+                                            <tr><td><input type="text" name="txtBookNumber" id="txtBookNumber" value="@(flag ? String.Empty : ViewBag.Edit[0]["BookNumber"])" /></td></tr>
+                                        </table>
+                                        
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="page">
+                                <div class="action">
+                                    <input type="hidden" name="count" value="@count" />
+                                    <input type="hidden" name="count1" value="@count1" />
+                                    <input type="hidden" name="OrderID" value="@(flag ? String.Empty : ViewBag.Edit[0]["OrderID"])" />
+                                    <input type="hidden" name="OrderCode" value="@(flag ? String.Empty : ViewBag.Edit[0]["OrderCode"])" />
+                                </div>
+                            </div>
+                            <!-- End page -->
+                        </div>
+                        <div style="width: 100%; float: left;"><button type="button" id="@ViewBag.btnAction" @strDisable>@ViewBag.strAction</button></div>
+                    </div>
+    <!-- End list -->
+    </form>
+</div>
+<!-- End box1 -->
+</div>
+        <!-- End content -->
+})>

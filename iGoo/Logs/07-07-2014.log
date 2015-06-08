@@ -1,0 +1,18 @@
+07/07/2014 16:53:52
+Error in: http://localhost:2180/Webcms/Shipper/Update. Error Message:System.FormatException: Unrecognized Guid format.
+   at System.Guid.GuidResult.SetFailure(ParseFailureKind failure, String failureMessageID, Object failureMessageFormatArgument, String failureArgumentName, Exception innerException)
+   at System.Guid.TryParseGuid(String g, GuidStyles flags, GuidResult& result)
+   at System.Guid..ctor(String g)
+   at iGoo.Areas.Webcms.Controllers.ShipperController.Update() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\ShipperController.cs:line 130
+07/07/2014 17:02:44
+Error in: http://localhost:2180/Webcms/Shipper/Update. Error Message:System.FormatException: Unrecognized Guid format.
+   at System.Guid.GuidResult.SetFailure(ParseFailureKind failure, String failureMessageID, Object failureMessageFormatArgument, String failureArgumentName, Exception innerException)
+   at System.Guid.TryParseGuid(String g, GuidStyles flags, GuidResult& result)
+   at System.Guid..ctor(String g)
+   at iGoo.Areas.Webcms.Controllers.ShipperController.Update() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\ShipperController.cs:line 130
+07/07/2014 17:04:14
+Error in: http://localhost:2180/Webcms/Shipper/Update. Error Message:System.FormatException: Unrecognized Guid format.
+   at System.Guid.GuidResult.SetFailure(ParseFailureKind failure, String failureMessageID, Object failureMessageFormatArgument, String failureArgumentName, Exception innerException)
+   at System.Guid.TryParseGuid(String g, GuidStyles flags, GuidResult& result)
+   at System.Guid..ctor(String g)
+   at iGoo.Areas.Webcms.Controllers.ShipperController.Update() in k:\BBT\SC v2\iGoo\Areas\Webcms\Controllers\ShipperController.cs:line 130

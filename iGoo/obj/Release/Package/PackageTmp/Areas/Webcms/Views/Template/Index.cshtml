@@ -1,0 +1,209 @@
+﻿@using iGoo.Helpers
+@{
+    Layout = "~/Areas/Webcms/Views/Shared/Layout.cshtml";
+}
+
+@section head
+{
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="@Url.Content("~/Script/ckeditor/ckeditor.js")" type="text/javascript"> </script>
+    <script src="@Url.Content("~/Script/jquery.validate.js")" type="text/javascript"> </script>
+    <link href="@Url.Content("~/Source/bootstrap/css/bootstrap.css")" rel="stylesheet">
+    <style type="text/css">
+        .highlight {
+            padding: 9px 14px;
+            margin-bottom: 14px;
+            background-color: #ffffff;
+            border: 1px solid #ff8c00;
+            border-radius: 4px;
+        }
+    </style>
+    <script type="text/javascript">
+        $().ready(function() {
+            ActionForm('@Url.Action(String.Empty)');
+            $("#frmTemplate").validate({
+                rules: {
+                    templateName: "required"
+                },
+                messages: {
+                    templateName: "Phải nhập tên template"
+                }
+            });
+            $("#frmStyle").validate({
+                rules: {
+                    styleName: "required"
+                },
+                messages: {
+                    styleName: "Phải nhập tên file css"
+                }
+            });
+        });
+
+        function ActiveTemplate(id) {
+            var URL = "/Webcms/Template/ActiveTemplate/" + id;
+            $.get(URL, null, function(data) {
+                location.reload();
+            });
+        }
+
+        function ActiveStylesheet(id) {
+            var URL = "/Webcms/Template/ActiveStylesheet/" + id;
+            $.get(URL, null, function(data) {
+                location.reload();
+            });
+        }
+
+        function DeleteTemplate(id, name) {
+            var URL = "/Webcms/Template/DeleteTemplate/" + id;
+            if (confirm("Bạn có chắc chắn xóa Template " + name)) {
+                $.get(URL, null, function(data) {
+                    location.reload();
+                });
+            }
+        }
+
+        function DeleteStylesheet(id, name) {
+            var URL = "/Webcms/Template/DeleteStylesheet/" + id;
+            if (confirm("Bạn có chắc chắn xóa file css " + name + ".css")) {
+                $.get(URL, null, function (data) {
+                    location.reload();
+                });
+            }
+        }
+    </script>
+
+}
+
+@section content
+{
+    <div class="box-content">
+        <div class="content-left f">
+            <div class="title">
+                <img src="@Url.Content("~/Source/webcms/images/home.png")" />
+                <span>Quản lý giao diện</span>
+                <button type="button" onclick=" history.back(-1); ">Quay lại</button>
+            </div>
+            <!-- End title -->
+            <div class="highlight">
+                <form id="frmTemplate" class="form" role="form">
+                    @if (@Request.Get("result").Equals("1"))
+                    {
+                        <p class="result">Cập nhật thành công!</p>
+                    }
+                    @if (@Request.Get("error").Equals("1"))
+                    {
+                        <h4 class="error">Có lỗi, xin hãy kiểm tra và thử lại!</h4>
+                    }
+                    @if (@Request.Get("error").Equals("2"))
+                    {
+                        <h4 class="error">File template không tồn tại!</h4>
+                    }
+                    <div class="form-group">
+                        <h3 name="1" id="1">Quản lý Template</h3>
+                        <label for="templateName">Tên template</label>
+                        <div class=""><input type="text" class="form-control" id="templateName" name="templateName" placeholder="Nhập tên template"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="templateDes">Mô tả</label>
+                        @*<input type="text" class="form-control" id="templateDes" name="templateDes" placeholder="Mô tả">*@
+                        <textarea class="form-control" rows="3" id="templateDes" name="templateDes" placeholder="Mô tả"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-default" name="btnTemplate" id="btnTemplate">Thêm mới</button>
+                    <div class="list">
+                        <!-- End page -->
+                        <table class="table table-bordered table-hover">
+                            <tr style="text-align: center;">
+                                <th>STT</th>
+                                <th>Tên template</th>
+                                <th>Trạng thái</th>
+                                <th>Mô tả</th>
+                                <th>#</th>
+                            </tr>
+                            @{int count = 0;}
+                            @foreach (var item in ViewBag.Template1)
+                            {
+                                string sts = "active";
+                                string sts1 = "glyphicon glyphicon-remove";
+                                count += 1;
+                                if(int.Parse(item["status"].ToString()) == 1)
+                                 {
+                                     sts = "success";
+                                     sts1 = "glyphicon glyphicon-ok";
+                                 }
+                                <tr class="@sts">
+                                    <td>@count</td>
+                                    <td>@item["Name"]</td>
+                                    <td><a href="javascript:ActiveTemplate('@item["ID"]');"><span class="@sts1"></span></a></td>
+                                    <td>@item["description"]</td>
+                                    <td><a href="javascript:DeleteTemplate('@item["ID"]','@item["Name"]');"><span class="glyphicon glyphicon-remove-sign" style="color: #d9534f;"></span></a></td>
+                                </tr>
+                            }
+                        </table>
+                        <!-- End page -->
+                    </div>
+                    <!-- End list -->
+                </form>
+            </div>
+            <div class="highlight">
+                <form id="frmStyle" class="form" role="form">
+                    @if (@Request.Get("result1").Equals("1"))
+                    {
+                        <p class="result">Cập nhật thành công!</p>
+                    }
+                    @if (@Request.Get("error1").Equals("1"))
+                    {
+                        <h4 class="error">Có lỗi, xin hãy kiểm tra và thử lại!</h4>
+                    }
+                    @if (@Request.Get("error1").Equals("2"))
+                    {
+                        <h4 class="error">File CSS không tồn tại!</h4>
+                    }
+                    <div class="form-group">
+                        <h3 name="2" id="2">Quản lý file CSS</h3>
+                        <label for="styleName">Tên file CSS</label>
+                        <div class=""><input type="text" class="form-control" id="styleName" name="styleName" placeholder="Nhập tên file CSS"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="styleDes">Mô tả</label>
+                        <textarea class="form-control" rows="3" id="styleDes" name="styleDes" placeholder="Mô tả"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-default" name="btnStyle" id="btnStyle">Thêm mới</button>
+                    <div class="list">
+                        <!-- End page -->
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên file css</th>
+                                <th>Trạng thái</th>
+                                <th>Mô tả</th>
+                                <th>#</th>
+                            </tr>
+                            @{int count1 = 0;}
+                            @foreach (var item in ViewBag.Stylesheet1)
+                            {
+                                string sts2 = "active";
+                                string sts3 = "glyphicon glyphicon-remove";
+                                count1 += 1;
+                                if (int.Parse(item["status"].ToString()) == 1)
+                                {
+                                    sts2 = "success";
+                                    sts3 = "glyphicon glyphicon-ok";
+                                }
+                                <tr class="@sts2">
+                                    <td>@count1</td>
+                                    <td>@item["Name"]</td>
+                                    <td><a href="javascript:ActiveStylesheet('@item["ID"]');"><span class="@sts3"></span></a></td>
+                                    <td>@item["description"]</td>
+                                    <td><a href="javascript:DeleteStylesheet('@item["ID"]','@item["Name"]');"><span class="glyphicon glyphicon-remove-sign" style="color: #d9534f;"></span></a></td>
+                                </tr>
+                            }
+                        </table>
+                        <!-- End page -->
+                    </div>
+                    <!-- End list -->
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End content -->
+}
