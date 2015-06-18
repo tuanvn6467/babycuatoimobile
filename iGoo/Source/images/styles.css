@@ -1425,6 +1425,7 @@ pre, xmp, plaintext, listing
     .search .text {
         width: 165px;
     }
+
     .content-h .ch2-home .b1{
 	    float: left;
 	    width: 270px;
@@ -1572,6 +1573,11 @@ pre, xmp, plaintext, listing
             padding: 0;
             margin-bottom: 0;
     }
+        .content-h .ch2-home {
+  margin: 0;
+  padding: 10px 0;
+  width: 835px;
+}
     .action .text
     {
 	    margin: 0 3px;
