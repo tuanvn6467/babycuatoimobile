@@ -21,7 +21,8 @@
     $(function () {
         $('#slider').bxSlider({
             mode: 'fade',
-            auto: true
+            auto: true,
+            pager: false
         });
 
         $(".tooltip").tooltip({
@@ -42,7 +43,12 @@
 <div class="intro cl">
     <div class="slide">
         <ul id="slider">
-        @foreach (var item in ViewBag.AdvSlide)
+            <li><img alt="Cuocthianh" src="http://babycuatoi.vn/Uploads/18032015/banner-intex.jpg" width="610" height="220"></a></p></li>
+            <li><img alt="Cuocthianh" src="http://babycuatoi.vn/Uploads/18032015/banner-intex.jpg" width="610" height="220"></a></p></li>
+            <li><img alt="Cuocthianh" src="http://babycuatoi.vn/Uploads/18032015/banner-intex.jpg" width="610" height="220"></a></p></li>
+            <li><img alt="Cuocthianh" src="http://babycuatoi.vn/Uploads/18032015/banner-intex.jpg" width="610" height="220"></a></p></li>
+            <li><img alt="Cuocthianh" src="http://babycuatoi.vn/Uploads/18032015/banner-intex.jpg" width="610" height="220"></a></p></li>
+            @*@foreach (var item in ViewBag.AdvSlide)
         {
             if (Path.GetExtension(item["File"]).ToLower().Equals(".swf"))
             {
@@ -52,7 +58,7 @@
             {
             <li><p><a title="@item["Title"]" @Html.Raw(item["Target"].ToString().Equals("1") ? "target=\"_blank\"" : String.Empty) href="@item["UrlLink"]"><img alt="@item["Title"]" src="/Uploads/@item["File"]" width="610" height="220" /></a></p></li>
             }
-        }
+        }*@
         </ul>
     </div>
     <div class="news-h">
