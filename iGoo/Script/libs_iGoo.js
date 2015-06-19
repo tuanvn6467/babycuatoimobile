@@ -337,5 +337,28 @@ $(document).ready(function () {
         });
 
         // Kick off one resize to fix all videos on page load
+
+        
     }).resize();
+    // Menu
+    if ($(window).width() < 992) {
+        $(".left .cate ul").hide();
+        $(".left .cate h3").click(function () {
+            //slide up all the link lists
+            $(".left .cate ul").slideUp();
+            //slide down the link list below the h3 clicked - only if its closed
+            if (!$(this).next().is(":visible")) {
+                $(this).next().slideDown();
+            }
+        });
+
+        $(".nav2 .menu>ul>li span.arrow").click(function (e) {
+            //slide up all the link lists
+            $(".nav2>.menu>ul>li ul").slideUp();
+            //slide down the link list below the h3 clicked - only if its closed
+            if (!$(this).next().is(":visible")) {
+                $(this).next().slideDown();
+            }
+        });
+    }
 });

@@ -226,8 +226,8 @@ a:hover
 }
 .left .cate ul
 {
-    display: none;
 	border: #ebebeb 1px solid;
+    display: none;
 }
 .left .cate a
 {
@@ -349,7 +349,7 @@ a:hover
 .nav2 .menu a
 {
 	color: #FFF;
-	display: block;
+	display: inline-block;
 	font-size: 13px;
 	font-weight: bold;
 	padding: 6px 10px;
@@ -357,15 +357,11 @@ a:hover
 .nav2 .menu li ul
 {
 	background: #106DB0;
-	display: none;
-	left: 0;
-	position: absolute;
-	top: 30px;
-	width: 180px;
+    display: none;
 }
-.nav2 .menu a:hover
+.nav2 .menu a:focus
 {
-	background: #F60;
+	background: none;
 	color: #FFF;
 	text-decoration: none;
 }
@@ -374,10 +370,20 @@ a:hover
 	background: none;
 	border-top: 1px solid #FFF;
 	float: none;
+    padding-left: 15px;
+}
+
+.menu .arrow {
+    width: 10px;height: 6px;
+    float: right;
+    background: url(arrow.png) no-repeat;
+    display: block;
+    
+    margin-right: 15px;
 }
 .nav2 .menu li:hover ul
 {
-	display: block;
+    
 }
 .icon-cart
 {
@@ -1574,10 +1580,11 @@ pre, xmp, plaintext, listing
             margin-bottom: 0;
     }
         .content-h .ch2-home {
-  margin: 0;
-  padding: 10px 0;
-  width: 835px;
-}
+      margin: 0;
+      padding: 10px 0;
+      width: 835px;
+    }
+       
     .action .text
     {
 	    margin: 0 3px;
@@ -1614,6 +1621,31 @@ pre, xmp, plaintext, listing
 	    font-size: 12px;
 	    height: 45px;
 	    overflow: hidden;
+    }
+    .nav2 .menu li ul
+    {
+	    background: #106DB0;
+	    display: none;
+	    left: 0;
+	    position: absolute;
+	    top: 30px;
+	    width: 180px;
+    }
+    .nav2 .menu li:hover ul
+    {
+        display: block;
+    }
+    .menu .arrow {
+        display: none;
+    }
+    .nav2 .menu a:hover
+    {
+	    background: #F60;
+	    color: #FFF;
+	    text-decoration: none;
+    }
+    .nav2 .menu li ul li {
+        padding-left: 0;
     }
 }
 /*=== EXTEND ======*/

@@ -134,7 +134,7 @@
                         <li><a href="/p/sanpham" title="Sản phẩm">Sản phẩm</a></li>
                         @foreach (var item in ViewBag.MenuNews)
                         {
-                	    <li><a title="@item.MetaTitle" href="/@item.SEOName">@item.Name</a>
+                            <li><a title="@item.MetaTitle" href="/@item.SEOName">@item.Name</a><span class="arrow"></span>
                             <ul>
                                 @foreach (var item1 in @item.Menu)
                                 {
@@ -207,8 +207,6 @@
 <link rel="stylesheet" type="text/css" href="/Script/bxslider/jquery.bxslider.css" />
 @RenderSection("head", false)
 <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
-    @*{ lang: 'vi' };*@
-    @*<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>*@
     <script type="text/javascript">
         $(document).ready(function () {
             actionBanner();
