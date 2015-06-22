@@ -374,12 +374,12 @@ a:hover
 }
 
 .menu .arrow {
-    width: 10px;height: 6px;
+    width: 30px;
+    height: 30px;
     float: right;
-    background: url(arrow.png) no-repeat;
+    background: url(arrow.png) no-repeat center;
     display: block;
-    
-    margin-right: 15px;
+    cursor: pointer;
 }
 .nav2 .menu li:hover ul
 {
@@ -1163,7 +1163,6 @@ pre, xmp, plaintext, listing
 	text-shadow: 0 1px 0 #fff;
 	transition: border-color .218s;
 	webkit-transition: border-color .218s;
-	width: 120px;
 }
 .product-v .p-action a:hover
 {
@@ -1646,6 +1645,17 @@ pre, xmp, plaintext, listing
     }
     .nav2 .menu li ul li {
         padding-left: 0;
+    }
+    .product-v .p-action a {
+        width: 120px;
+    }
+}
+@media(max-width: 480px) {
+    .product-v .p-action a {
+        width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+        margin-bottom: 5px;
     }
 }
 /*=== EXTEND ======*/
