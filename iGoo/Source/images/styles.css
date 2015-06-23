@@ -172,15 +172,20 @@ a:hover
 }
 .toolbar .r .s:hover .r-s
 {
-	background: #f6f6f6;
+	background: #fff;
 	border: #ebebeb 1px solid;
 	display: block;
 	padding: 5px;
 	position: absolute;
 	right: 0;
-	text-align: right;
-	top: 28px;
-	width: 300px;
+	text-align: left;
+    left: 0; top: 28px;
+	width: 275px;
+     -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    z-index: 1;
+
 }
 .nav
 {
@@ -1648,6 +1653,18 @@ pre, xmp, plaintext, listing
     }
     .product-v .p-action a {
         width: 120px;
+    }
+    .toolbar .r .s:hover .r-s
+    {
+	    background: #f6f6f6;
+	    border: #ebebeb 1px solid;
+	    display: block;
+	    padding: 5px;
+	    position: absolute;
+	    right: 0;
+	    text-align: right;
+	    top: 28px;
+	    width: 300px;
     }
 }
 @media(max-width: 480px) {
