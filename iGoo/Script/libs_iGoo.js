@@ -303,43 +303,65 @@ function addToViewHistory(productId) {
 }
 
 $(document).ready(function () {
-    // Find all YouTube videos
-    var $allVideos = $("iframe[src^='//www.youtube.com']"),
+    /*
+   * Grab all iframes on the page or return
+   */
+    var iframes = document.getElementsByTagName('iframe');
 
-        // The element that is fluid width
-        $fluidEl = $(".content");
+    /*
+     * Loop through the iframes array
+     */
+    for (var i = 0; i < iframes.length; i++) {
 
-    // Figure out and save aspect ratio for each video
-    $allVideos.each(function () {
+        var iframe = iframes[i],
 
-        $(this)
-          .data('aspectRatio', this.height / this.width)
+        /*
+           * RegExp, extend this if you need more players
+           */
+        players = /www.youtube.com|player.vimeo.com/;
 
-          // and remove the hard coded width/height
-          .removeAttr('height')
-          .removeAttr('width');
+        /*
+         * If the RegExp pattern exists within the current iframe
+         */
+        if (iframe.src.search(players) > 0) {
 
-    });
+            /*
+             * Calculate the video ratio based on the iframe's w/h dimensions
+             */
+            var videoRatio = (iframe.height / iframe.width) * 100;
 
-    // When the window is resized
-    $(window).resize(function () {
+            /*
+             * Replace the iframe's dimensions and position
+             * the iframe absolute, this is the trick to emulate
+             * the video ratio
+             */
+            iframe.style.position = 'absolute';
+            iframe.style.top = '0';
+            iframe.style.left = '0';
+            iframe.width = '100%';
+            iframe.height = '100%';
 
-        var newWidth = $fluidEl.width() - 40;
+            /*
+             * Wrap the iframe in a new <div> which uses a
+             * dynamically fetched padding-top property based
+             * on the video's w/h dimensions
+             */
+            var wrap = document.createElement('div');
+            wrap.className = 'fluid-vids';
+            wrap.style.width = '100%';
+            wrap.style.position = 'relative';
+            wrap.style.paddingTop = videoRatio + '%';
 
-        // Resize all videos according to their own aspect ratio
-        $allVideos.each(function () {
+            /*
+             * Add the iframe inside our newly created <div>
+             */
+            var iframeParent = iframe.parentNode;
+            iframeParent.insertBefore(wrap, iframe);
+            wrap.appendChild(iframe);
 
-            var $el = $(this);
-            $el
-              .width(newWidth)
-              .height(newWidth * $el.data('aspectRatio'));
+        }
 
-        });
-
-        // Kick off one resize to fix all videos on page load
-
-        
-    }).resize();
+    }
     // Menu
     if ($(window).width() < 992) {
         $(".left .cate ul").hide();
