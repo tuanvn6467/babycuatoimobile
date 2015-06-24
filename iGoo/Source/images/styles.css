@@ -646,12 +646,6 @@ a:hover
 	list-style-type: circle;
 	margin: 30px;
 }
-/*.news-t input[type="text"] {
-    width: 100%;
-    -webkit-box-sizing: border-box;
-          -moz-box-sizing: border-box;
-          box-sizing: border-box;
-}*/
 blockquote
 {
 	border-left: 5px solid #E5E5E5;
@@ -1308,6 +1302,8 @@ pre, xmp, plaintext, listing
 }
 
 @media (min-width: 768px) {
+    
+       
     .c, .nav, .main{
         width: 750px;
         padding: 0;
@@ -1674,6 +1670,16 @@ pre, xmp, plaintext, listing
         padding-right: 0;
         margin-bottom: 5px;
     }
+     .news-t input[type="text"] {
+            width: 100%!important;
+         margin: 5px 0;
+            -webkit-box-sizing: border-box;
+                  -moz-box-sizing: border-box;
+                  box-sizing: border-box;
+        }
+     .payment {
+         display: none;
+     }
 }
 /*=== EXTEND ======*/
 .intro {
