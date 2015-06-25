@@ -189,7 +189,7 @@ a:hover
 }
 .nav
 {
-	background: #ececec url(bg-nav.png) -50px no-repeat;
+	background: #ececec;
 	border-bottom: #ebebeb 1px solid;
 	margin: 0px auto 0 auto;
     text-align: center;
@@ -207,11 +207,15 @@ a:hover
     float: none;
 }
 .nav .fr {
-    float: none;
+    float: none!important;
+    width: 100%!important;
 }
 .nav img {
     max-width: 100%;
     margin: auto;
+}
+.ch1-home>h1 {
+    display: none;
 }
 .left
 {
@@ -318,17 +322,29 @@ a:hover
 {
 	margin-bottom: 5px;
 }
+
+.search-mobile {
+    display: block;
+    background: #fff;
+    padding: 10px 15px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.search-desktop {
+    display: none;
+}
 .search {
     float: none;
     width: 100%;
 }
 .search .text
 {
-    width: 80%;
+    width: 100%;
 }
 .btn_search
 {
-	background: url(icon3.png) top left no-repeat;
+	background: url(icon3.png) center center no-repeat;
 	border: 0;
 	height: 25px;
 	width: 25px;
@@ -390,6 +406,29 @@ a:hover
 {
     
 }
+.menu-mobile {
+    display: block;
+}
+.menu-desktop {
+    display: none;
+}
+.input-group {
+  position: relative;
+  display: table;
+  border-collapse: separate;
+}
+.input-group input[type="text"] {
+    display: table-cell;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.input-group .input-group-btn {
+    width: 1%;
+    display: table-cell;
+      white-space: nowrap;
+    vertical-align: middle;
+}
 .icon-cart
 {
 	background: url(icon2.png) no-repeat 5px 6px;
@@ -430,6 +469,7 @@ a:hover
 .adv
 {
 	margin-bottom: 10px;
+    display: none;
 }
 .adv p
 {
@@ -1312,7 +1352,7 @@ pre, xmp, plaintext, listing
       box-sizing: content-box;
     }
     .nav2 .menu {
-        width: auto;
+        width: 100%;
     }
     
     .list-p .item {
@@ -1330,13 +1370,6 @@ pre, xmp, plaintext, listing
           box-sizing: border-box;
     }
     
-    .search {
-        float: right;
-        width: auto;
-    }
-    .search .text {
-        width: 135px;
-    }
     .content-h .ch2-home .b1,
     .content-h .ch2-home .b2,
     .content-h .ch2-home .b3
@@ -1455,10 +1488,14 @@ pre, xmp, plaintext, listing
 	    width: 150px;
     }
       .toolbar .l {
-  float: left;
-  color: #FFF;
-  font-weight: bold;
-}
+        float: left;
+        color: #FFF;
+        font-weight: bold;
+    }
+      .nav
+        {
+	        background: #ececec url(bg-nav.png) -50px no-repeat;
+        }
     .nav .c .logo{
 	    float: left;
 	    padding: 0 40px;
@@ -1471,7 +1508,8 @@ pre, xmp, plaintext, listing
         float: left;    
     }
     .nav .fr {
-        float: right;
+        width: 513px!important;
+        float: right!important;
     }
     .nav {
         text-align: left;
@@ -1662,6 +1700,33 @@ pre, xmp, plaintext, listing
 	    top: 28px;
 	    width: 300px;
     }
+    .adv {
+        display: block;
+    }
+    
+    .ch1-home>h1 {
+        display: block;
+    }
+    .search-mobile {
+        display: none;
+    }
+    .search-desktop {
+        display: block;
+    }
+    .menu-mobile {
+        display: none;
+    }
+    .menu-desktop {
+        display: block;
+    }
+    .input-group input[type="text"] {
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+    }
+    .input-group .input-group-btn {
+        width: auto;
+    }
 }
 @media(max-width: 480px) {
     .product-v .p-action a {
@@ -1670,16 +1735,16 @@ pre, xmp, plaintext, listing
         padding-right: 0;
         margin-bottom: 5px;
     }
-     .news-t input[type="text"] {
-            width: 100%!important;
-         margin: 5px 0;
-            -webkit-box-sizing: border-box;
-                  -moz-box-sizing: border-box;
-                  box-sizing: border-box;
-        }
-     .payment {
-         display: none;
-     }
+    .news-t input[type="text"] {
+        width: 100%!important;
+        margin: 5px 0;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+    .payment {
+        display: none;
+    }
 }
 /*=== EXTEND ======*/
 .intro {

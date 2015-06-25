@@ -63,119 +63,211 @@
         <img src="/Source/images/babycuatoi_leftbanner.jpg" class="image-left-banner" width="100px" style="display:none"/>
     </div>
     <div class="nav cl">
-    	<div class="c">
+        <div class="c">
             <div class="logo">
-                <a rel="nofollow" href="/" title="Về trang chủ"><img src="/Source/images/logo.png" alt="Logo Baby của tôi" /></a>
+                <a rel="nofollow" href="/" title="Về trang chủ"><img src="/Source/images/logo.png" alt="Logo Baby của tôi"/></a>
             </div>
             <div class="fl">
                 @foreach (var item in ViewBag.AdvTop)
                 {
                     if (Path.GetExtension(item["File"]).ToLower().Equals(".swf"))
                     {
-                    <embed src="/Uploads/@item["File"]" width="@item["Width"]" height="@item["Height"]" type="application/x-shockwave-flash" wmode="transparent"></embed>
+                        <embed src="/Uploads/@item["File"]" width="@item["Width"]" height="@item["Height"]" type="application/x-shockwave-flash" wmode="transparent"></embed>
                     }
                     else
                     {
-                    <a title="@item["Title"]" @Html.Raw(item["Target"].ToString().Equals("1") ? "target=\"_blank\"" : String.Empty) href="@item["UrlLink"]"><img alt="@item["Title"]" src="/Uploads/@item["File"]" height="70" /></a>
+                        <a title="@item["Title"]" @Html.Raw(item["Target"].ToString().Equals("1") ? "target=\"_blank\"" : String.Empty) href="@item["UrlLink"]"><img alt="@item["Title"]" src="/Uploads/@item["File"]" height="70"/></a>
                     }
                 }
             </div>
             <div class="fr">
-                <img src="/Source/images/hotline.png" alt="Baby của tôi!" />
+                <img src="/Source/images/hotline.png" alt="Baby của tôi!"/>
             </div>
         </div>
-  </div>
+    </div>
+    <div class="search fr search-mobile">
+        <form action="/p/sanpham">
+            <div class="input-group">
+                <input name="key" type="text" class="text" onclick="javascript:this.value = '';" value="Từ khoá..." />
+                <span class="input-group-btn">
+                    <button type="submit" class="btn_search"></button>
+                </span>
+            </div>
+
+        </form>
+    </div>
     <!-- end nav -->
-    <div class="main cl">
-    	<div class="left" id="slide-menu">
-            @foreach (var item in ViewBag.Menu)
-            {
-        	<div class="cate">
-            	<h3>@item.Name</h3>
+<div class="main cl">
+    <!-- MENU FOR MOBILE -->
+    <div class="menu-mobile">
+        <div class="nav2 cl">
+            <div class="menu">
                 <ul>
-                    @foreach (var item1 in @item.Menu)
+                    <li><a rel="nofollow" href="/" title="Về trang chủ">Trang chủ</a></li>
+                    <li><a href="/p/sanpham" title="Sản phẩm">Sản phẩm</a></li>
+                    @foreach (var item in ViewBag.MenuNews)
                     {
-                	<li><a title="@item1.MetaTitle" href="/p/@item1.SEOName">@item1.Name</a>
-                       @if (@item1.Menu.Count > 0)
-                       {
-                        <ul>
-                            @foreach (var item2 in @item1.Menu)
-                            {
-                	        <li><a title="@item2.MetaTitle" href="/p/@item2.SEOName">@item2.Name</a></li>
-                            }
-                        </ul>                    
-                       }
-                    </li>
+                        <li>
+                            <a title="@item.MetaTitle" href="/@item.SEOName">@item.Name</a><span class="arrow"></span>
+                            <ul>
+                                @foreach (var item1 in @item.Menu)
+                                {
+                                    <li><a title="@item1.MetaTitle" href="/@item1.SEOName">@item1.Name</a></li>
+                                }
+                            </ul>
+                        </li>
                     }
+                    <li><a href="/hoidap" title="">Hỏi đáp</a></li>
+                    <li><a href="/contact" title="Liên hệ">Liên hệ</a></li>
                 </ul>
             </div>
+        </div>
+        <div class="left" id="slide-menu">
+            @foreach (var item in ViewBag.Menu)
+            {
+                <div class="cate">
+                    <h3>@item.Name</h3>
+                    <ul>
+                        @foreach (var item1 in @item.Menu)
+                        {
+                            <li>
+                                <a title="@item1.MetaTitle" href="/p/@item1.SEOName">@item1.Name</a>
+                                @if (@item1.Menu.Count > 0)
+                                {
+                                    <ul>
+                                        @foreach (var item2 in @item1.Menu)
+                                        {
+                                            <li><a title="@item2.MetaTitle" href="/p/@item2.SEOName">@item2.Name</a></li>
+                                        }
+                                    </ul>
+                                }
+                            </li>
+                        }
+                    </ul>
+                </div>
             }
 
             <div class="adv">
+                @foreach (var item in ViewBag.AdvLeft)
+                {
+                    if (Path.GetExtension(item["File"]).ToLower().Equals(".swf"))
+                    {
+                        <embed src="/Uploads/@item["File"]" width="@item["Width"]" height="@item["Height"]" type="application/x-shockwave-flash" wmode="transparent"></embed>
+                    }
+                    else
+                    {
+                        <p>
+                            <a title="@item["Title"]" @Html.Raw(item["Target"].ToString().Equals("1") ? "target=\"_blank\"" : String.Empty) href="@item["UrlLink"]"><img alt="@item["Title"]" src="/Uploads/@item["File"]" width="150" /></a>
+                        </p>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    
+
+
+    <!-- MENU FOR DESKTOP -------->
+    <div class="left menu-desktop" id="slide-menu">
+        @foreach (var item in ViewBag.Menu)
+        {
+            <div class="cate">
+                <h3>@item.Name</h3>
+                <ul>
+                    @foreach (var item1 in @item.Menu)
+                    {
+                        <li>
+                            <a title="@item1.MetaTitle" href="/p/@item1.SEOName">@item1.Name</a>
+                            @if (@item1.Menu.Count > 0)
+                            {
+                                <ul>
+                                    @foreach (var item2 in @item1.Menu)
+                                    {
+                                        <li><a title="@item2.MetaTitle" href="/p/@item2.SEOName">@item2.Name</a></li>
+                                    }
+                                </ul>
+                            }
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+
+        <div class="adv">
             @foreach (var item in ViewBag.AdvLeft)
             {
                 if (Path.GetExtension(item["File"]).ToLower().Equals(".swf"))
                 {
-                <embed src="/Uploads/@item["File"]" width="@item["Width"]" height="@item["Height"]" type="application/x-shockwave-flash" wmode="transparent"></embed>
+                    <embed src="/Uploads/@item["File"]" width="@item["Width"]" height="@item["Height"]" type="application/x-shockwave-flash" wmode="transparent"></embed>
                 }
                 else
                 {
-                <p><a title="@item["Title"]" @Html.Raw(item["Target"].ToString().Equals("1") ? "target=\"_blank\"" : String.Empty) href="@item["UrlLink"]"><img alt="@item["Title"]" src="/Uploads/@item["File"]" width="150" /></a></p>
+                    <p>
+                        <a title="@item["Title"]" @Html.Raw(item["Target"].ToString().Equals("1") ? "target=\"_blank\"" : String.Empty) href="@item["UrlLink"]"><img alt="@item["Title"]" src="/Uploads/@item["File"]" width="150" /></a>
+                    </p>
                 }
             }
-            </div>
         </div>
-        <!-- end left-->
-        <div class="content cl">
-        	<div class="nav2 cl">
-            	<div class="menu">
-                	<ul>
-                        <li><a rel="nofollow" href="/" title="Về trang chủ">Trang chủ</a></li>
-                        <li><a href="/p/sanpham" title="Sản phẩm">Sản phẩm</a></li>
-                        @foreach (var item in ViewBag.MenuNews)
-                        {
-                            <li><a title="@item.MetaTitle" href="/@item.SEOName">@item.Name</a><span class="arrow"></span>
+    </div>
+    <!-- end left-->
+    <div class="content cl">
+        <div class="nav2 cl  menu-desktop">
+            <div class="menu">
+                <ul>
+                    <li><a rel="nofollow" href="/" title="Về trang chủ">Trang chủ</a></li>
+                    <li><a href="/p/sanpham" title="Sản phẩm">Sản phẩm</a></li>
+                    @foreach (var item in ViewBag.MenuNews)
+                    {
+                        <li>
+                            <a title="@item.MetaTitle" href="/@item.SEOName">@item.Name</a><span class="arrow"></span>
                             <ul>
                                 @foreach (var item1 in @item.Menu)
                                 {
-                	            <li><a title="@item1.MetaTitle" href="/@item1.SEOName">@item1.Name</a></li>
+                                    <li><a title="@item1.MetaTitle" href="/@item1.SEOName">@item1.Name</a></li>
                                 }
-                            </ul>                    
+                            </ul>
                         </li>
-                        }
-                        <li><a href="/hoidap" title="">Hỏi đáp</a></li>
-                        <li><a href="/contact" title="Liên hệ">Liên hệ</a></li>
-                    </ul>
-                </div>
-                <div class="search fr">
-                	<form action="/p/sanpham">
-                	    <input name="key" type="text" class="text" onclick="javascript:this.value='';" value="Từ khoá..." />
-                        <button type="submit" class="btn_search"></button>
-                    </form>
-                </div>
+                    }
+                    <li><a href="/hoidap" title="">Hỏi đáp</a></li>
+                    <li><a href="/contact" title="Liên hệ">Liên hệ</a></li>
+                </ul>
             </div>
-            <!-- end nav2 -->
-            @RenderSection("main", false)
+            <div class="search fr search-desktop">
+                <form action="/p/sanpham">
+                    <div class="input-group">
+                        <input name="key" type="text" class="text" onclick="javascript:this.value = '';" value="Từ khoá..."/>
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn_search"></button>
+                        </span>
+                    </div>
+                    
+                </form>
+            </div>
         </div>
-        @if (ViewBag.ProductHistory != null && ViewBag.ProductHistory.Count > 0)
-        {
+        <!-- end nav2 -->
+        @RenderSection("main", false)
+    </div>
+    @if (ViewBag.ProductHistory != null && ViewBag.ProductHistory.Count > 0)
+    {
         <div class="product_h clearboth">
             <h3 class="title-c">Sản phẩm đã lưu</h3>
             <ul id="product_history">
                 @foreach (var item in ViewBag.ProductHistory)
                 {
-                <li>
-                    <div class="item_h">
-                        <p><a href="/p/@(item["SEOName"]).html" title="@item["MetaTitle"]"><img src="@(Url.Content("~/thumb/" + Libs.ThumbName(item["Image"].ToString(), "120x120")))" alt="@item["MetaTitle"]" /></a></p>
-                        <p class="price">Giá bán: @Libs.sCurrency(Convert.ToDecimal(item["SalePrice"])) VNĐ</p>
-                        <p><a class="title" href="/p/@(item["SEOName"]).html" title="@item["MetaTitle"]">@item["Title"]</a></p>
-                    </div>
-                </li>
+                    <li>
+                        <div class="item_h">
+                            <p><a href="/p/@(item["SEOName"]).html" title="@item["MetaTitle"]"><img src="@(Url.Content("~/thumb/" + Libs.ThumbName(item["Image"].ToString(), "120x120")))" alt="@item["MetaTitle"]"/></a>
+                            </p>
+                            <p class="price">Giá bán: @Libs.sCurrency(Convert.ToDecimal(item["SalePrice"])) VNĐ</p>
+                            <p><a class="title" href="/p/@(item["SEOName"]).html" title="@item["MetaTitle"]">@item["Title"]</a>
+                            </p>
+                        </div>
+                    </li>
                 }
             </ul>
         </div>
-        }
-    </div>
+    }
+</div>
     <!-- end main-->
   <div class="footer cl">
     	<div class="c">

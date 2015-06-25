@@ -56,30 +56,36 @@
   	</div>
     <!-- end toolbar -->
     <div class="nav cl">
-    	<div class="c">
+        <div class="c">
             <div class="logo">
-                <a rel="nofollow" href="/" title="Về trang chủ"><img src="/Source/images/logo.png" alt="Logo Baby của tôi" /></a>
+                <a rel="nofollow" href="/" title="Về trang chủ"><img src="/Source/images/logo.png" alt="Logo Baby của tôi"/></a>
             </div>
             <div class="fl">
                 <div class="fl">
-                @foreach (var item in ViewBag.AdvTop)
-                {
-                    if (Path.GetExtension(item["File"]).ToLower().Equals(".swf"))
+                    @foreach (var item in ViewBag.AdvTop)
                     {
-                    <embed src="/Uploads/@item["File"]" width="@item["Width"]" height="@item["Height"]" type="application/x-shockwave-flash" wmode="transparent"></embed>
+                        if (Path.GetExtension(item["File"]).ToLower().Equals(".swf"))
+                        {
+                            <embed src="/Uploads/@item["File"]" width="@item["Width"]" height="@item["Height"]" type="application/x-shockwave-flash" wmode="transparent"></embed>
+                        }
+                        else
+                        {
+                            <a title="@item["Title"]" @Html.Raw(item["Target"].ToString().Equals("1") ? "target=\"_blank\"" : String.Empty) href="@item["UrlLink"]"><img alt="@item["Title"]" src="/Uploads/@item["File"]" height="70"/></a>
+                        }
                     }
-                    else
-                    {
-                    <a title="@item["Title"]" @Html.Raw(item["Target"].ToString().Equals("1") ? "target=\"_blank\"" : String.Empty) href="@item["UrlLink"]"><img alt="@item["Title"]" src="/Uploads/@item["File"]" height="70" /></a>
-                    }
-                }
                 </div>
             </div>
             <div class="fr">
-                <img src="/Source/images/hotline.png" alt="Baby của tôi!" />
+                <img src="/Source/images/hotline.png" alt="Baby của tôi!"/>
             </div>
         </div>
-  </div>
+    </div>
+    <div class="search fr search-mobile">
+        <form action="/p/sanpham">
+            <input name="key" type="text" class="text" onclick="javascript:this.value='';" value="Từ khoá..." />
+            <button type="submit" class="btn_search"></button>
+        </form>
+    </div>
     <!-- end nav -->
     <div class="main cl">
     	<div class="left" id="slide-menu">
@@ -132,9 +138,9 @@
                         <li><a href="/contact" title="Liên hệ">Liên hệ</a></li>
                     </ul>
                 </div>
-                <div class="search fr">
+                <div class="search fr search-desktop">
                     <form action="/p/sanpham">
-                	    <input name="key" type="text" class="text" onclick="javascript:this.value='';" value="Từ khoá..." />
+                        <input name="key" type="text" class="text" onclick="javascript:this.value='';" value="Từ khoá..." />
                         <button type="submit" class="btn_search"></button>
                     </form>
                 </div>
