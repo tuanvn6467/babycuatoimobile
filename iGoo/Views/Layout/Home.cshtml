@@ -100,28 +100,7 @@
 <div class="main cl">
     <!-- MENU FOR MOBILE -->
     <div class="menu-mobile">
-        <div class="nav2 cl">
-            <div class="menu">
-                <ul>
-                    <li><a rel="nofollow" href="/" title="Về trang chủ">Trang chủ</a></li>
-                    <li><a href="/p/sanpham" title="Sản phẩm">Sản phẩm</a></li>
-                    @foreach (var item in ViewBag.MenuNews)
-                    {
-                        <li>
-                            <a title="@item.MetaTitle" href="/@item.SEOName">@item.Name</a><span class="arrow"></span>
-                            <ul>
-                                @foreach (var item1 in @item.Menu)
-                                {
-                                    <li><a title="@item1.MetaTitle" href="/@item1.SEOName">@item1.Name</a></li>
-                                }
-                            </ul>
-                        </li>
-                    }
-                    <li><a href="/hoidap" title="">Hỏi đáp</a></li>
-                    <li><a href="/contact" title="Liên hệ">Liên hệ</a></li>
-                </ul>
-            </div>
-        </div>
+        
         <div class="left" id="slide-menu">
             @foreach (var item in ViewBag.Menu)
             {
@@ -269,6 +248,30 @@
     }
 </div>
     <!-- end main-->
+    <div class="menu-mobile">
+        <div class="nav2 cl">
+            <div class="menu">
+                <ul>
+                    <li><a rel="nofollow" href="/" title="Về trang chủ">Trang chủ</a></li>
+                    <li><a href="/p/sanpham" title="Sản phẩm">Sản phẩm</a></li>
+                    @foreach (var item in ViewBag.MenuNews)
+                    {
+                        <li>
+                            <a title="@item.MetaTitle" href="/@item.SEOName">@item.Name</a><span class="arrow"></span>
+                            <ul>
+                                @foreach (var item1 in @item.Menu)
+                                {
+                                    <li><a title="@item1.MetaTitle" href="/@item1.SEOName">@item1.Name</a></li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                    <li><a href="/hoidap" title="">Hỏi đáp</a></li>
+                    <li><a href="/contact" title="Liên hệ">Liên hệ</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
   <div class="footer cl">
     	<div class="c">
             <div class="fl">

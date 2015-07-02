@@ -119,18 +119,21 @@ else
                     <p><strong class="promotion">Khuyến mại:</strong> @item["Promotion"]</p>
                     }
                 </div>
-                <div class="p-action">
-                    <p>
-                        <a rel="nofollow" href="javascript:addToCartRedirect('@item["ProductID"]',1,'')" title="Đặt mua hàng">Đặt hàng ngay</a>
-                        <a rel="nofollow" href="javascript:addToShoppingCart('@item["ProductID"]',1,'')" title="Thêm vào giỏ hàng">Thêm vào giỏ hàng</a>
-                        <a rel="nofollow" href="javascript:addToViewHistory('@item["ProductID"]')" title="Lưu sản phẩm">Lưu sản phẩm</a>
-                    </p>
-                    <p>
-                        <a target="_blank" rel="nofollow" href="/answer/question" title="Hỏi về sản phẩm">Hỏi về sản phẩm</a>
-                        <a target="_blank" href="/hướng-dẫn-mua-hàng" title="Hướng dẫn mua hàng">Hướng dẫn</a>
-                        <a target="_blank" rel="nofollow" href="/contact" title="Góp ý">Góp ý</a>
-                    </p>
+                <div class="desktop">
+                    <div class="p-action">
+                        <p>
+                            <a rel="nofollow" href="javascript:addToCartRedirect('@item["ProductID"]',1,'')" title="Đặt mua hàng">Đặt hàng ngay</a>
+                            <a rel="nofollow" href="javascript:addToShoppingCart('@item["ProductID"]',1,'')" title="Thêm vào giỏ hàng">Thêm vào giỏ hàng</a>
+                            <a rel="nofollow" href="javascript:addToViewHistory('@item["ProductID"]')" title="Lưu sản phẩm">Lưu sản phẩm</a>
+                        </p>
+                        <p>
+                            <a target="_blank" rel="nofollow" href="/answer/question" title="Hỏi về sản phẩm">Hỏi về sản phẩm</a>
+                            <a target="_blank" href="/hướng-dẫn-mua-hàng" title="Hướng dẫn mua hàng">Hướng dẫn</a>
+                            <a target="_blank" rel="nofollow" href="/contact" title="Góp ý">Góp ý</a>
+                        </p>
+                    </div>
                 </div>
+                
                 <div class="p-support">
                     <h3 class="h3-title">Hỗ trợ mua hàng</h3>
                     @Html.Raw(ViewBag.StaticProductSupport[0]["Description"])
@@ -146,7 +149,23 @@ else
                }
         }
     </div>
-
+    <div class="mobile">
+            @foreach (var items in ViewBag.Product)
+            {
+                    <div class="p-action">
+                        <p>
+                            <a rel="nofollow" href="javascript:addToCartRedirect('@items["ProductID"]',1,'')" title="Đặt mua hàng">Đặt hàng ngay</a>
+                            <a rel="nofollow" href="javascript:addToShoppingCart('@items["ProductID"]',1,'')" title="Thêm vào giỏ hàng">Thêm vào giỏ hàng</a>
+                            <a rel="nofollow" href="javascript:addToViewHistory('@items["ProductID"]')" title="Lưu sản phẩm">Lưu sản phẩm</a>
+                        </p>
+                        <p>
+                            <a target="_blank" rel="nofollow" href="/answer/question" title="Hỏi về sản phẩm">Hỏi về sản phẩm</a>
+                            <a target="_blank" href="/hướng-dẫn-mua-hàng" title="Hướng dẫn mua hàng">Hướng dẫn</a>
+                            <a target="_blank" rel="nofollow" href="/contact" title="Góp ý">Góp ý</a>
+                        </p>
+                    </div>
+            }
+    </div>
     @if (ViewBag.ProductOther.Count > 0)
     {
     <div class="list-p cl">
