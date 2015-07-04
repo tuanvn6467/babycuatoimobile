@@ -194,6 +194,17 @@
     </div>
     <!-- end ch1 -->
     <div class="ch2 cl ch2-home">
+        <div class="mobile">
+            <div class="news-h">
+                <h3>Thông tin từ Baby của tôi!</h3>
+                <ul>
+                    @foreach (var item in ViewBag.NewsNew)
+                    {
+                        <li><a title="@item["MetaTitle"]" href="@(item["SEOName"]).html">@item["Title"]</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
         <div class="news-h b1">
             <h3>Bình luận mới nhất</h3>
             <ul>

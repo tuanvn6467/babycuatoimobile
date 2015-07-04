@@ -119,6 +119,18 @@ else
                     <p><strong class="promotion">Khuyến mại:</strong> @item["Promotion"]</p>
                     }
                 </div>
+                <div class="mobile">
+                    @foreach (var items in ViewBag.Product)
+                    {
+                        <div class="p-action">
+                            <p>
+                                <a rel="nofollow" href="javascript:addToCartRedirect('@items["ProductID"]',1,'')" title="Đặt mua hàng">Đặt hàng ngay</a>
+                                <a rel="nofollow" href="javascript:addToShoppingCart('@items["ProductID"]',1,'')" title="Thêm vào giỏ hàng">Thêm vào giỏ hàng</a>
+                                <a rel="nofollow" href="javascript:addToViewHistory('@items["ProductID"]')" title="Lưu sản phẩm">Lưu sản phẩm</a>
+                            </p>
+                        </div>
+                    }
+                </div>
                 <div class="desktop">
                     <div class="p-action">
                         <p>
@@ -153,11 +165,6 @@ else
             @foreach (var items in ViewBag.Product)
             {
                     <div class="p-action">
-                        <p>
-                            <a rel="nofollow" href="javascript:addToCartRedirect('@items["ProductID"]',1,'')" title="Đặt mua hàng">Đặt hàng ngay</a>
-                            <a rel="nofollow" href="javascript:addToShoppingCart('@items["ProductID"]',1,'')" title="Thêm vào giỏ hàng">Thêm vào giỏ hàng</a>
-                            <a rel="nofollow" href="javascript:addToViewHistory('@items["ProductID"]')" title="Lưu sản phẩm">Lưu sản phẩm</a>
-                        </p>
                         <p>
                             <a target="_blank" rel="nofollow" href="/answer/question" title="Hỏi về sản phẩm">Hỏi về sản phẩm</a>
                             <a target="_blank" href="/hướng-dẫn-mua-hàng" title="Hướng dẫn mua hàng">Hướng dẫn</a>
