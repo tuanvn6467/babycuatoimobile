@@ -373,7 +373,10 @@ $(document).ready(function () {
                 $(this).next().slideDown();
             }
         });
-
+        $('.menu').hide();
+        $("#menu-responsive").click(function () {
+            $('.menu').toggle();
+        });
         $(".nav2 .menu>ul>li span.arrow").click(function (e) {
             //slide up all the link lists
             $(".nav2>.menu>ul>li ul").slideUp();

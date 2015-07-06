@@ -515,7 +515,7 @@ a:hover
 {
 	background: #106db0;
 	color: #FFF;
-	padding: 10px 15px;
+	padding: 10px 0px;
 }
 .footer .fl {
     margin-bottom: 10px;
@@ -1361,6 +1361,44 @@ pre, xmp, plaintext, listing
 }
 .desktop{
     display: none;
+}
+.brand{
+    color: #fff;
+      float: left;
+  height: 50px;
+  padding: 15px 15px;
+  font-size: 18px;
+  line-height: 20px;
+
+  -webkit-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+#menu-responsive{
+  background-color: #f9f9f9;
+  border-color: #f9f9f9;
+  position: relative;
+  float: right;
+  padding: 9px 10px;
+  margin-top: 8px;
+  margin-right: 15px;
+  margin-bottom: 8px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+
+  -webkit-box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+#menu-responsive span{
+      background-color: #563d7c;
+        display: block;
+      width: 22px;
+      height: 2px;
+      border-radius: 1px;
+}
+.icon-bar+.icon-bar {
+  margin-top: 4px;
 }
 @media (min-width: 768px) {
     
