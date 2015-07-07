@@ -380,20 +380,15 @@ $(document).ready(function () {
             });
 
             $("#menu-responsive").click(function () {
-                if ($(window).width() < 992) {
-                    $('.menu').toggle();
-                }
-                
+               $('.menu').toggle();
             });
 
             $(".nav2 .menu>ul>li span.arrow").click(function (e) {
-                if ($(window).width() < 992) {
-                    //slide up all the link lists
-                    $(".nav2>.menu>ul>li ul").slideUp();
-                    //slide down the link list below the h3 clicked - only if its closed
-                    if (!$(this).next().is(":visible")) {
-                        $(this).next().slideDown();
-                    }
+                //slide up all the link lists
+                $(".nav2>.menu>ul>li ul").slideUp();
+                //slide down the link list below the h3 clicked - only if its closed
+                if (!$(this).next().is(":visible")) {
+                    $(this).next().slideDown();
                 }
             });
         } else {
