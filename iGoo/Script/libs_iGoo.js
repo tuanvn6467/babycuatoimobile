@@ -363,27 +363,43 @@ $(document).ready(function () {
 
     }
     // Menu
-    if ($(window).width() < 992) {
-        $(".left .cate ul").hide();
-        $(".left .cate h3").click(function () {
-            //slide up all the link lists
-            $(".left .cate ul").slideUp();
-            //slide down the link list below the h3 clicked - only if its closed
-            if (!$(this).next().is(":visible")) {
-                $(this).next().slideDown();
-            }
-        });
-        $('.menu').hide();
-        $("#menu-responsive").click(function () {
-            $('.menu').toggle();
-        });
-        $(".nav2 .menu>ul>li span.arrow").click(function (e) {
-            //slide up all the link lists
-            $(".nav2>.menu>ul>li ul").slideUp();
-            //slide down the link list below the h3 clicked - only if its closed
-            if (!$(this).next().is(":visible")) {
-                $(this).next().slideDown();
-            }
-        });
-    }
+    
+    
+    $(window).resize(function () {
+        if ($(this).width() < 992) {
+            $(".left .cate ul, .menu").hide();
+            $(".left .cate h3").click(function () {
+                if ($(window).width() < 992) {
+                    //slide up all the link lists
+                    $(".left .cate ul").slideUp();
+                    //slide down the link list below the h3 clicked - only if its closed
+                    if (!$(this).next().is(":visible")) {
+                        $(this).next().slideDown();
+                    }
+                }
+            });
+
+            $("#menu-responsive").click(function () {
+                if ($(window).width() < 992) {
+                    $('.menu').toggle();
+                }
+                
+            });
+
+            $(".nav2 .menu>ul>li span.arrow").click(function (e) {
+                if ($(window).width() < 992) {
+                    //slide up all the link lists
+                    $(".nav2>.menu>ul>li ul").slideUp();
+                    //slide down the link list below the h3 clicked - only if its closed
+                    if (!$(this).next().is(":visible")) {
+                        $(this).next().slideDown();
+                    }
+                }
+            });
+        } else {
+            $(".left .cate ul, .menu").show();
+        }
+
+    });
+       
 });

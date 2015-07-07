@@ -1168,7 +1168,8 @@ pre, xmp, plaintext, listing
     text-align: center;
 }
 .product-v .p-image img {
-    margin: auto
+    margin: auto;
+    max-width: 100%;
 }
 .product-v .p-info
 {
@@ -1440,26 +1441,6 @@ pre, xmp, plaintext, listing
           -moz-box-sizing: border-box;
           box-sizing: border-box;
     }
-    .toolbar{
-	    
-	    position: fixed;
-	    top: 0;
-	    width: 100%;
-	    z-index: 101;
-    }
-    .toolbar .l {
-        width: auto;
-        text-align: left;
-    }
-    .toolbar .r {
-        float: right;
-        text-align: left;
-    }
-    
-    .toolbar .r li {
-        float: left;
-        display: block;
-    }
     
     .nav {
 	    margin: 28px auto 0 auto;
@@ -1549,6 +1530,27 @@ pre, xmp, plaintext, listing
 	    margin-left: 5px;
 	    width: 150px;
     }
+    .toolbar{
+	    
+	    position: fixed;
+	    top: 0;
+	    width: 100%;
+	    z-index: 101;
+    }
+    .toolbar .l {
+        width: auto;
+        text-align: left;
+    }
+    .toolbar .r {
+        float: right;
+        text-align: left;
+    }
+    
+    .toolbar .r li {
+        float: left;
+        display: block;
+    }
+    
       .toolbar .l {
         float: left;
         color: #FFF;
