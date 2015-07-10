@@ -1468,6 +1468,12 @@ pre, xmp, plaintext, listing
         -moz-box-sizing: content-box;
         box-sizing: content-box
     }
+    .mobile{
+        display: none;
+    }
+    .desktop{
+        display: block;
+    }
 }
 
 @media (min-width: 992px) {
