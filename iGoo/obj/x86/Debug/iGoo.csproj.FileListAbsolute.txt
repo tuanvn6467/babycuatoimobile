@@ -31,3 +31,13 @@ D:\PROJECT\Baby cua toi\SourceCode BBT\SC v2\iGoo\bin\DotNetOpenAuth.pdb
 D:\PROJECT\Baby cua toi\SourceCode BBT\SC v2\iGoo\bin\DotNetOpenAuth.xml
 D:\PROJECT\Baby cua toi\SourceCode BBT\SC v2\iGoo\bin\Neodynamic.SDK.WebClientPrint.xml
 D:\PROJECT\Baby cua toi\SourceCode BBT\SC v2\iGoo\bin\System.Net.Http.xml
+D:\Project\Babycuatoiver3\iGoo\obj\x86\Debug\RdlCompile.cache
+D:\Project\Babycuatoiver3\iGoo\obj\x86\Debug\RdlCompile.compiled
+D:\Project\Babycuatoiver3\iGoo\bin\iGoo.dll.config
+D:\Project\Babycuatoiver3\iGoo\bin\iGoo.dll
+D:\Project\Babycuatoiver3\iGoo\bin\iGoo.pdb
+D:\Project\Babycuatoiver3\iGoo\bin\ClosedXML.dll
+D:\Project\Babycuatoiver3\iGoo\bin\DocumentFormat.OpenXml.dll
+D:\Project\Babycuatoiver3\iGoo\obj\x86\Debug\iGoo.csprojResolveAssemblyReference.cache
+D:\Project\Babycuatoiver3\iGoo\obj\x86\Debug\iGoo.dll
+D:\Project\Babycuatoiver3\iGoo\obj\x86\Debug\iGoo.pdb
