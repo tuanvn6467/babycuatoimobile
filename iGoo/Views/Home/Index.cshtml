@@ -1,7 +1,7 @@
 ﻿@using iGoo.Helpers
 @{
-    //    Layout = "~/Views/Layout/Home2.cshtml";
     Layout = "~/Views/Layout/Home.cshtml";
+	ViewBag.IsHomePage = true;
 }
 @section meta
 {
@@ -43,12 +43,7 @@
 <div class="intro cl">
     <div class="slide">
         <ul id="slider">
-            <li><img alt="Cuocthianh" src="http://babycuatoi.vn/Uploads/18032015/banner-intex.jpg" width="610" height="220"></a></p></li>
-            <li><img alt="Cuocthianh" src="http://babycuatoi.vn/Uploads/18032015/banner-intex.jpg" width="610" height="220"></a></p></li>
-            <li><img alt="Cuocthianh" src="http://babycuatoi.vn/Uploads/18032015/banner-intex.jpg" width="610" height="220"></a></p></li>
-            <li><img alt="Cuocthianh" src="http://babycuatoi.vn/Uploads/18032015/banner-intex.jpg" width="610" height="220"></a></p></li>
-            <li><img alt="Cuocthianh" src="http://babycuatoi.vn/Uploads/18032015/banner-intex.jpg" width="610" height="220"></a></p></li>
-            @*@foreach (var item in ViewBag.AdvSlide)
+        @foreach (var item in ViewBag.AdvSlide)
         {
             if (Path.GetExtension(item["File"]).ToLower().Equals(".swf"))
             {
@@ -58,7 +53,7 @@
             {
             <li><p><a title="@item["Title"]" @Html.Raw(item["Target"].ToString().Equals("1") ? "target=\"_blank\"" : String.Empty) href="@item["UrlLink"]"><img alt="@item["Title"]" src="/Uploads/@item["File"]" width="610" height="220" /></a></p></li>
             }
-        }*@
+        }
         </ul>
     </div>
     <div class="news-h">
@@ -74,13 +69,14 @@
 <!-- end intro -->
 <div class="content-h cl">
     <div class="ch1-home">
+    <h1 style="color: #106DB0; font-size: 22px; margin: 8px 0 10px 15px;">Babycuatoi.vn thế giới đồ chơi trẻ em - Thỏa Sức Lựa Chọn Đồ Chơi Cho Bé</h1>
         <div class="list-p cl">
-            <h3 class="title-c">Sản phẩm khuyến mại</h3>
+            <h2 class="title-c">Đồ chơi khuyến mại</h2>
             <div class="list">
                 @foreach (var item in ViewBag.ProductSale)
                 {
                 <div class="item tooltip">
-                    <h2><a class="title" href="/p/@(item["SEOName"]).html" title="@item["MetaTitle"]">@item["Title"]</a></h2>
+                    <h3><a class="title" href="/p/@(item["SEOName"]).html" title="@item["MetaTitle"]">@item["Title"]</a></h3>
                     <div class="p-img">
                         <div class="event">
                         @if(!item["DiscountPercent"].ToString().Equals("0"))
@@ -114,12 +110,12 @@
             </div>
         </div>
         <div class="list-p cl">
-            <h3 class="title-c">Sản phẩm bán chạy</h3>
+            <h2 class="title-c">Đồ chơi bán chạy</h2>
             <div class="list">
                 @foreach (var item in ViewBag.ProductTop)
                 {
                 <div class="item tooltip">
-                    <h2><a class="title" href="/p/@(item["SEOName"]).html" title="@item["MetaTitle"]">@item["Title"]</a></h2>
+                    <h3><a class="title" href="/p/@(item["SEOName"]).html" title="@item["MetaTitle"]">@item["Title"]</a></h3>
                     <div class="p-img">
                         <div class="event">
                         @if (!item["DiscountPercent"].ToString().Equals("0"))
@@ -153,12 +149,12 @@
             </div>
         </div>
         <div class="list-p cl">
-            <h3 class="title-c">Sản phẩm mới</h3>
+            <h2 class="title-c">Đồ chơi mới</h2>
             <div class="list">
                 @foreach (var item in ViewBag.ProductNew)
                 {
                 <div class="item tooltip">
-                    <h2><a class="title" href="/p/@(item["SEOName"]).html" title="@item["MetaTitle"]">@item["Title"]</a></h2>
+                    <h3><a class="title" href="/p/@(item["SEOName"]).html" title="@item["MetaTitle"]">@item["Title"]</a></h3>
                     <div class="p-img">
                         <div class="event">
                         @if (!item["DiscountPercent"].ToString().Equals("0"))

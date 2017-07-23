@@ -58,8 +58,24 @@
                                 }
                             </div>
                         }
+                    }
+                    else
+                    {
+                        <p class="not-found">Nội dung đang được cập nhật!</p>
+                    }
 
-                        int space = 5, a, b;
+                    @if (!String.IsNullOrEmpty(ViewBag.Category[0]["Description"].ToString()))
+                    {
+                        <div>
+                            <h3 class="title-c">Giới thiệu</h3>
+                            @Html.Raw(ViewBag.Category[0]["Description"])
+                        </div>
+                    }
+        
+                </div>
+		@if (ViewBag.News.Count > 0)
+	            {
+		    	int space = 5, a, b;
                         int p = Convert.ToInt32(ViewBag.TotalPages);
                         int c = Convert.ToInt32(ViewBag.CategoryPage);
                         if (c > space)
@@ -78,7 +94,6 @@
                         {
                             b = c + space;
                         }
-
                         <div class="page cl">
                             <span>Trang @ViewBag.CategoryPage / @ViewBag.TotalPages</span>
                             @for (int i = a; i <= b; i++)
@@ -101,21 +116,7 @@
                                 <link rel="next" href="http://@Libs.sApp("Domain")/n/@(ViewBag.Category[0]["SEOName"] + "/" + (c + 1).ToString())" />
                             }
                         </div>
-                    }
-                    else
-                    {
-                        <p class="not-found">Nội dung đang được cập nhật!</p>
-                    }
-
-                    @if (!String.IsNullOrEmpty(ViewBag.Category[0]["Description"].ToString()))
-                    {
-                        <div>
-                            <h3 class="title-c">Giới thiệu</h3>
-                            @Html.Raw(ViewBag.Category[0]["Description"])
-                        </div>
-                    }
-        
-                </div>
+		    }
             </div>
             <!-- end ch1 -->
             <div class="ch2">

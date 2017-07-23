@@ -2,7 +2,7 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" itemscope itemtype="http://schema.org/Article">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 <meta http-equiv="content-language" content="vi" />
@@ -11,7 +11,7 @@
 <script type="text/javascript">
 
     var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-2347404-24']);
+    _gaq.push(['_setAccount', 'UA-43822935-1']);
     _gaq.push(['_trackPageview']);
 
     (function () {
@@ -56,27 +56,27 @@
   	</div>
     <!-- end toolbar -->
     <div class="nav cl">
-        <div class="c">
+    	<div class="c">
             <div class="logo">
-                <a rel="nofollow" href="/" title="Về trang chủ"><img src="/Source/images/logo.png" alt="Logo Baby của tôi"/></a>
+                <a rel="nofollow" href="/" title="Về trang chủ"><img src="/Source/images/logo.png" alt="Logo Baby của tôi" /></a>
             </div>
             <div class="fl">
                 <div class="fl">
-                    @foreach (var item in ViewBag.AdvTop)
+                @foreach (var item in ViewBag.AdvTop)
+                {
+                    if (Path.GetExtension(item["File"]).ToLower().Equals(".swf"))
                     {
-                        if (Path.GetExtension(item["File"]).ToLower().Equals(".swf"))
-                        {
-                            <embed src="/Uploads/@item["File"]" width="@item["Width"]" height="@item["Height"]" type="application/x-shockwave-flash" wmode="transparent"></embed>
-                        }
-                        else
-                        {
-                            <a title="@item["Title"]" @Html.Raw(item["Target"].ToString().Equals("1") ? "target=\"_blank\"" : String.Empty) href="@item["UrlLink"]"><img alt="@item["Title"]" src="/Uploads/@item["File"]" height="70"/></a>
-                        }
+                    <embed src="/Uploads/@item["File"]" width="@item["Width"]" height="@item["Height"]" type="application/x-shockwave-flash" wmode="transparent"></embed>
                     }
+                    else
+                    {
+                    <a title="@item["Title"]" @Html.Raw(item["Target"].ToString().Equals("1") ? "target=\"_blank\"" : String.Empty) href="@item["UrlLink"]"><img alt="@item["Title"]" src="/Uploads/@item["File"]" height="70" /></a>
+                    }
+                }
                 </div>
             </div>
             <div class="fr">
-                <img src="/Source/images/hotline.png" alt="Baby của tôi!"/>
+                <img src="/Source/images/hotline.png" alt="Baby của tôi!" />
             </div>
         </div>
     </div>
@@ -91,12 +91,12 @@
     	<div class="left" id="slide-menu">
         	<div class="cate">
             	<h3>Hỏi & Đáp</h3>
-@*                <ul>*@
-@*                    @foreach (var item in ViewBag.MenuAnswer)*@
-@*                    {*@
-@*                    <li><a title="@item["MetaTitle"]" href="@(Url.Content("~/hoidap/" + item["SEOName"] + ""))">@item["Name"]</a></li>*@
-@*                    }*@
-@*                </ul>*@
+                <ul>
+                    @foreach (var item in ViewBag.MenuAnswer)
+                    {
+                    <li><a title="@item["MetaTitle"]" href="@(Url.Content("~/hoidap/" + item["SEOName"] + ""))">@item["Name"]</a></li>
+                    }
+                </ul>
             </div>
 
             <div class="adv">
@@ -140,7 +140,7 @@
                 </div>
                 <div class="search fr search-desktop">
                     <form action="/p/sanpham">
-                        <input name="key" type="text" class="text" onclick="javascript:this.value='';" value="Từ khoá..." />
+                	    <input name="key" type="text" class="text" onclick="javascript:this.value='';" value="Từ khoá..." />
                         <button type="submit" class="btn_search"></button>
                     </form>
                 </div>

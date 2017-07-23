@@ -41,3 +41,30 @@ D:\Project\Babycuatoiver3\iGoo\bin\DocumentFormat.OpenXml.dll
 D:\Project\Babycuatoiver3\iGoo\obj\x86\Debug\iGoo.csprojResolveAssemblyReference.cache
 D:\Project\Babycuatoiver3\iGoo\obj\x86\Debug\iGoo.dll
 D:\Project\Babycuatoiver3\iGoo\obj\x86\Debug\iGoo.pdb
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\bin\iGoo.dll.config
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\bin\iGoo.dll
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\bin\iGoo.pdb
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\bin\ClosedXML.dll
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\bin\DocumentFormat.OpenXml.dll
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\bin\Microsoft.ReportViewer.Common.dll
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\bin\Microsoft.ReportViewer.WebForms.dll
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\bin\Microsoft.Web.Infrastructure.dll
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\bin\System.Web.Helpers.dll
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\bin\System.Web.Mvc.dll
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\bin\System.Web.Mvc.Extensions.dll
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\bin\System.Web.Razor.dll
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\bin\System.Web.WebPages.Deployment.dll
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\bin\System.Web.WebPages.dll
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\bin\System.Web.WebPages.Razor.dll
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\bin\System.Net.Http.dll
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\bin\System.Web.Helpers.xml
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\bin\System.Web.Mvc.xml
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\bin\System.Web.Mvc.Extensions.xml
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\bin\System.Web.Razor.xml
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\bin\System.Web.WebPages.xml
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\bin\System.Web.WebPages.Deployment.xml
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\bin\System.Web.WebPages.Razor.xml
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\bin\System.Net.Http.xml
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\obj\x86\Debug\iGoo.csprojResolveAssemblyReference.cache
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\obj\x86\Debug\iGoo.dll
+C:\Tai Lieu\BBTVietNam\babycuatoi-ver3-applynewdesign\iGoo\obj\x86\Debug\iGoo.pdb

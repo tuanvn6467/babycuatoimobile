@@ -107,8 +107,10 @@ else
             </div>
             <div class="p-info">
                 <h1 class="h1-t">@item["Title"]</h1>
-                <p class="price">Giá Hà Nội: @Libs.sCurrency(Convert.ToDecimal(item["SalePrice"])) VNĐ</p> 
-                <p style="font-weight:bold;">Giá HCM: @Libs.sCurrency(Convert.ToDecimal(item["SalePriceHCM"])) VNĐ</p>                   
+                <p class="price">Giá Hà Nội: @Libs.sCurrency(Convert.ToDecimal(item["0C80DCD0-5D8E-4041-ACAF-2CF7C2916162"])) VNĐ</p> 
+                <p style="font-weight:bold;">Giá HCM: @Libs.sCurrency(Convert.ToDecimal(item["6197D743-0B16-4BCF-8048-3803AE3FDCD8"])) VNĐ</p>                   
+                <p style="font-weight:bold;">Giá Đà Nẵng: @Libs.sCurrency(Convert.ToDecimal(item["E5675BF4-6F52-45A5-BD32-0E89675C4E18"])) VNĐ</p>  
+                <p style="font-weight:bold;">Giá Hải Phòng: @Libs.sCurrency(Convert.ToDecimal(item["665F2362-FE8A-4169-9513-0109340F3C0B"])) VNĐ</p>                   
                 <p>Mã sản phẩm: <strong>@item["SKU"]</strong></p>
                 <div class="p-brief">
                     <p>@Html.Raw(item["Brief"].ToString().Replace("\n", "<br />"))</p>
@@ -131,21 +133,20 @@ else
                         </div>
                     }
                 </div>
-                <div class="desktop">
-                    <div class="p-action">
-                        <p>
-                            <a rel="nofollow" href="javascript:addToCartRedirect('@item["ProductID"]',1,'')" title="Đặt mua hàng">Đặt hàng ngay</a>
-                            <a rel="nofollow" href="javascript:addToShoppingCart('@item["ProductID"]',1,'')" title="Thêm vào giỏ hàng">Thêm vào giỏ hàng</a>
-                            <a rel="nofollow" href="javascript:addToViewHistory('@item["ProductID"]')" title="Lưu sản phẩm">Lưu sản phẩm</a>
-                        </p>
-                        <p>
-                            <a target="_blank" rel="nofollow" href="/answer/question" title="Hỏi về sản phẩm">Hỏi về sản phẩm</a>
-                            <a target="_blank" href="/hướng-dẫn-mua-hàng" title="Hướng dẫn mua hàng">Hướng dẫn</a>
-                            <a target="_blank" rel="nofollow" href="/contact" title="Góp ý">Góp ý</a>
-                        </p>
-                    </div>
-                </div>
-                
+		<div class="desktop">
+	                <div class="p-action">
+	                    <p>
+	                        <a rel="nofollow" href="javascript:addToCartRedirect('@item["ProductID"]',1,'')" title="Đặt mua hàng">Đặt hàng ngay</a>
+	                        <a rel="nofollow" href="javascript:addToShoppingCart('@item["ProductID"]',1,'')" title="Thêm vào giỏ hàng">Thêm vào giỏ hàng</a>
+	                        <a rel="nofollow" href="javascript:addToViewHistory('@item["ProductID"]')" title="Lưu sản phẩm">Lưu sản phẩm</a>
+	                    </p>
+	                    <p>
+	                        <a target="_blank" rel="nofollow" href="/answer/question" title="Hỏi về sản phẩm">Hỏi về sản phẩm</a>
+	                        <a target="_blank" href="/hướng-dẫn-mua-hàng" title="Hướng dẫn mua hàng">Hướng dẫn</a>
+	                        <a target="_blank" rel="nofollow" href="/contact" title="Góp ý">Góp ý</a>
+	                    </p>
+	                </div>
+		</div>	
                 <div class="p-support">
                     <h3 class="h3-title">Hỗ trợ mua hàng</h3>
                     @Html.Raw(ViewBag.StaticProductSupport[0]["Description"])
@@ -267,7 +268,7 @@ else
            }
         </div>
         }
-
+		<div class="fb-comments" @Libs.sApp("Domain") data-href="http://@Libs.sApp("Domain")/p/@(ViewBag.Product[0]["SEOName"]).html"  data-numposts="5"></div>
         <div class="send-c">
             <h3 class="h3-title">Gửi bình luận của bạn</h3>
             @Html.AntiForgeryToken()

@@ -73,6 +73,7 @@ else
 {
 <div class="content-h cl">
     <div class="title-c cl nv">
+
         <a rel="nofollow" title="Trang chủ" href="/"><span>Trang chủ</span></a><span class="fl">&raquo;</span>
         <h2><a itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="url" title="@ViewBag.News[0]["CateMetaTitle"]" href="@(ViewBag.News[0]["CateSEOName"])"><span itemprop="title">@ViewBag.News[0]["CateName"]</span></a></h2>
     </div>
@@ -131,7 +132,15 @@ else
         }
     </div>
     }
-
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/vi_VN/all.js#xfbml=1&appId=472512112825407";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+	<div class="fb-comments" data-href="http://@Libs.sApp("Domain")/@(Html.Raw(ViewBag.News[0]["SEOName"])).html" data-width="600"></div>
+	<b:if cond='data:blog.pageType == &quot;item&quot;'> <script type='text/javascript'> document.write(fbcm); </script> </b:if> 
     <div class="comment-c" itemscope itemtype="http://data-vocabulary.org/Review-aggregate">
         <h3 class="h3-title">Bình luận (<span itemprop="count">@ViewBag.News[0]["TotalComment"]</span>)</h3>
         @foreach (var item in ViewBag.Comment)

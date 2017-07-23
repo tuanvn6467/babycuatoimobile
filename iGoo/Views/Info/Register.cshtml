@@ -1,0 +1,48 @@
+﻿@using iGoo.Helpers
+
+@{
+    Layout = "~/Views/Layout/Home.cshtml";
+}
+
+@section meta
+{
+<title>@ViewBag.Website[0]["MetaTitle"]</title>
+<meta name="description" content="@ViewBag.Website[0]["MetaDescription"]" />
+<meta name="keywords" content="@ViewBag.Website[0]["MetaKeyword"]" />
+}
+
+@section main
+{
+<div class="left">
+    <div class="menu-l">
+    <h3 class="h3-title">Tuts & Tip Google</h3>
+        @if (ViewBag.MenuLeft.Count != 0)
+        {
+        <ul>
+            @foreach (var item in ViewBag.MenuLeft)
+            {
+                if (String.IsNullOrEmpty(item["UrlLink"].ToString()))
+                {
+                    <li><a title="@item["MetaTitle"]" href="@(Url.Content("~/" + item["SEOName"] + ""))">@item["Name"]</a></li>
+                }
+                else
+                {
+                    <li><a title="@item["MetaTitle"]" href="@(item["UrlLink"])">@item["Name"]</a></li>
+                }
+            }
+        </ul>
+        }
+    </div>
+</div>
+<!-- end left -->
+
+<div class="main f">
+    <h1 class="title-c">Đăng ký tài khoản iGoo.vn</h1>
+    <form action="Authenticate" method="post">
+        <p>iGoo.vn kết nối chứng thực OAuth - OpenId với Google theo chuẩn quốc tế</p>
+        <p>Lưu ý rằng chúng tôi không lưu giữ mật khẩu của bạn tại Google</p>
+        <p>Nếu chưa có tài khỏan tại iGoo.vn, bạn sẽ được tạo tài khỏan không cần chờ thư kích hoạt</p>
+        <p style="text-align:center;"><input type="hidden" id="OpenidUrl" name="OpenidUrl" value="https://www.google.com/accounts/o8/id" /><button class="button" type="submit">Đăng ký</button></p>
+    </form>
+</div>
+}

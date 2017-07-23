@@ -81,7 +81,7 @@
         </div>
 
         <div class="u">
-            <a rel="nofollow" title="Trang cá nhân G+ của @ViewBag.Question[0]["FullName"]" target="_blank" href="/u/@ViewBag.Question[0]["UserName"]"><img class="a" alt="Ảnh cá nhân của @item["FullName"]" src="@("".Equals(ViewBag.Question[0]["Image"].ToString()) ? Url.Content("~/Source/images/avatar.jpg") : ViewBag.Question[0]["Image"].ToString())" /></a>
+            <a rel="nofollow" title="Trang cá nhân G+ của @ViewBag.Question[0]["FullName"]" target="_blank" href="/u/@ViewBag.Question[0]["UserName"]"><img class="a" alt="Ảnh cá nhân của @ViewBag.Question[0]["FullName"]" src="@("".Equals(ViewBag.Question[0]["Image"].ToString()) ? Url.Content("~/Source/images/avatar.jpg") : ViewBag.Question[0]["Image"].ToString())" /></a>
             <p><a rel="nofollow" class="n" target="_blank" href="/u/@ViewBag.Question[0]["UserName"]">@(ViewBag.Question[0]["FullName"])</a></p>
             <p>@(Libs.ToPrettyDate(Convert.ToDateTime(ViewBag.Question[0]["Created"])))</p>
         </div>

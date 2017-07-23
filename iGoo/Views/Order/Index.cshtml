@@ -1,6 +1,7 @@
 ﻿@using iGoo.Helpers
 @{
     Layout = "~/Views/Layout/Home.cshtml";
+	var huongdanmuahang = ViewBag.StaticGuide[0]["Description"]!= null ? ViewBag.StaticGuide[0]["Description"].Replace("<p>","").Replace("</p>","").Replace("<br>","").Replace("</br>","").Replace("&nbsp;","").Trim() : "";
 }
 @section meta
 {
@@ -32,6 +33,9 @@
             track: true,
             showURL: false
         });
+		$('#huongdanmuahang').click(function(){
+			window.location.href='@huongdanmuahang';
+		})
     });
 </script>
 }
@@ -41,10 +45,10 @@
     <div class="order_main action">
         <form id="frmOrder" action="@Url.Action("SendOrder")" method="post">
             <div class="register">
-                @if (@Request.Get("result").Equals("1"))
-                {
-                    <p class="result">Bạn đã đặt hàng thành công! Chúng tôi sẽ liên lạc sớm nhất với bạn. Xin cám ơn!</p>
-                }
+				@if (@Request.Get("result").Equals("1"))
+				{
+					System.Web.HttpContext.Current.Response.Write("<SCRIPT LANGUAGE='JavaScript'>alert('Bạn đã đặt hàng thành công! Chúng tôi sẽ liên lạc sớm nhất với bạn. Xin cám ơn!');window.location.href = 'http://babycuatoi.vn/';</SCRIPT>");
+				}
                 else
                 {
                     <p class="error">Có lỗi, xin nhập đúng thông tin và thử lại!</p>
@@ -77,8 +81,7 @@
                 </div>
             </div>
             <div class="login">
-                <h3 class="h3-title">Hướng dẫn mua hàng</h3>
-                @Html.Raw(ViewBag.StaticGuide[0]["Description"])
+                <h3 class="h3-title" style="cursor:pointer" id="huongdanmuahang">Hướng dẫn mua hàng</h3>
             </div>
             <div class="table-list">
                 <table>
@@ -130,6 +133,8 @@
                     </tfoot>
                 </table>
                 <div class="cart-a">
+					<p class="i"><label>Phí vận chuyển: </label><span>(Liên hệ)</span></p>
+                    <p class="i"><label>Giảm giá: </label><span>(Nếu có)</span></p>
                     <p class="i"><label>Tổng tiền</label><span class="price">@Libs.sCurrency(Convert.ToDecimal(total)) VNĐ</span></p>
                     <p class="a cl"><button class="button" type="button">Quay lại mua hàng</button> <button class="button" type="submit" id="btnSendOrder">Đặt hàng</button></p>
                 </div>
