@@ -46,6 +46,8 @@ namespace iGoo.Classes
 				cmdToExecute.Parameters.Add(new SqlParameter("@sEmail", SqlDbType.VarChar, 200, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _email));
 				cmdToExecute.Parameters.Add(new SqlParameter("@sAddress", SqlDbType.NVarChar, 200, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _address));
 				cmdToExecute.Parameters.Add(new SqlParameter("@sPhone", SqlDbType.NVarChar, 200, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _phone));
+				cmdToExecute.Parameters.Add(new SqlParameter("@sPhone1", SqlDbType.NVarChar, 200, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _phone1));
+				cmdToExecute.Parameters.Add(new SqlParameter("@sPhone2", SqlDbType.NVarChar, 200, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _phone2));
 				cmdToExecute.Parameters.Add(new SqlParameter("@daBrithday", SqlDbType.DateTime, 8, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _brithday));
 				cmdToExecute.Parameters.Add(new SqlParameter("@sImage", SqlDbType.NVarChar, 500, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _image));
 				cmdToExecute.Parameters.Add(new SqlParameter("@sGoogleID", SqlDbType.VarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _googleID));
@@ -56,7 +58,9 @@ namespace iGoo.Classes
 				cmdToExecute.Parameters.Add(new SqlParameter("@iViews", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, _views));
 				cmdToExecute.Parameters.Add(new SqlParameter("@iTotalAnswer", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, _totalAnswer));
 				cmdToExecute.Parameters.Add(new SqlParameter("@daDateLogin", SqlDbType.DateTime, 8, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _dateLogin));
-				cmdToExecute.Parameters.Add(new SqlParameter("@sFollow", SqlDbType.VarChar, -1, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _follow));
+                cmdToExecute.Parameters.Add(new SqlParameter("@sFollow", SqlDbType.VarChar, -1, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _follow));
+                cmdToExecute.Parameters.Add(new SqlParameter("@iSendMail", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, _sendEmail));
+                cmdToExecute.Parameters.Add(new SqlParameter("@sTaxNumber", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _taxNumber));
 
 				if(_mainConnectionIsCreatedLocal)
 				{
@@ -118,6 +122,8 @@ namespace iGoo.Classes
 				cmdToExecute.Parameters.Add(new SqlParameter("@sEmail", SqlDbType.VarChar, 200, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _email));
 				cmdToExecute.Parameters.Add(new SqlParameter("@sAddress", SqlDbType.NVarChar, 200, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _address));
 				cmdToExecute.Parameters.Add(new SqlParameter("@sPhone", SqlDbType.NVarChar, 200, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _phone));
+				cmdToExecute.Parameters.Add(new SqlParameter("@sPhone1", SqlDbType.NVarChar, 200, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _phone1));
+				cmdToExecute.Parameters.Add(new SqlParameter("@sPhone2", SqlDbType.NVarChar, 200, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _phone2));
 				cmdToExecute.Parameters.Add(new SqlParameter("@daBrithday", SqlDbType.DateTime, 8, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _brithday));
 				cmdToExecute.Parameters.Add(new SqlParameter("@sImage", SqlDbType.NVarChar, 500, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _image));
 				cmdToExecute.Parameters.Add(new SqlParameter("@sGoogleID", SqlDbType.VarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _googleID));
@@ -129,6 +135,8 @@ namespace iGoo.Classes
 				cmdToExecute.Parameters.Add(new SqlParameter("@iTotalAnswer", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, _totalAnswer));
 				cmdToExecute.Parameters.Add(new SqlParameter("@daDateLogin", SqlDbType.DateTime, 8, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _dateLogin));
 				cmdToExecute.Parameters.Add(new SqlParameter("@sFollow", SqlDbType.VarChar, -1, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _follow));
+                cmdToExecute.Parameters.Add(new SqlParameter("@iSendMail", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, _sendEmail));
+                cmdToExecute.Parameters.Add(new SqlParameter("@sTaxNumber", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _taxNumber));
 
 				if(_mainConnectionIsCreatedLocal)
 				{
@@ -620,6 +628,34 @@ namespace iGoo.Classes
 		}
 
 
+		private SqlString _phone1 = SqlString.Null;
+		public SqlString Phone1
+		{
+			get
+			{
+				return _phone1;
+			}
+			set
+			{
+				_phone1 = value;
+			}
+		}
+
+
+		private SqlString _phone2 = SqlString.Null;
+		public SqlString Phone2
+		{
+			get
+			{
+				return _phone2;
+			}
+			set
+			{
+				_phone2 = value;
+			}
+		}
+
+
 		private SqlDateTime _brithday = SqlDateTime.Null;
 		public SqlDateTime Brithday
 		{
@@ -758,8 +794,7 @@ namespace iGoo.Classes
 				_dateLogin = value;
 			}
 		}
-
-
+        
 		private SqlString _follow = SqlString.Null;
 		public SqlString Follow
 		{
@@ -771,7 +806,31 @@ namespace iGoo.Classes
 			{
 				_follow = value;
 			}
-		}
+        }
+        
+        private SqlInt32 _sendEmail = SqlInt32.Null;
+        public SqlInt32 SendEmail
+        {
+            get
+            {
+                return _sendEmail;
+            }
+            set
+            {
+                _sendEmail = value;
+            }
+        }
+        private SqlString _taxNumber = SqlString.Null;
+        public SqlString TaxNumber
+        {
+            get
+            {return _taxNumber;
+            }
+            set
+            {
+                _taxNumber = value;
+            }
+        }
 		#endregion
 	}
 }

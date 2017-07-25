@@ -1,14 +1,17 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
-<%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
-    Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
-
+<%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
+<%@ Import Namespace="System.Drawing" %>
+<%@ Import Namespace="System.Drawing.Imaging" %>
+<%@ Import Namespace="System.Drawing.Printing" %>
+<%@ Import Namespace="System.IO" %>
 <head id="Head1" runat="server">
-    <title>Viện Công nghệ thông tin & Truyền thông - CDiT</title>
+    <title>Cty CPSXTM&DV BBT Việt Nam - Cty TNHH Intex Việt Nam</title>
     
 </head>
 
 
-<script type="text/javascript" src="~/Script/jquery-1.2.6.min.js"></script>
+<script type="text/javascript" src="~/Script/jquery-1.2.6.min.js"></script> 
+<script type="text/javascript" src="~/Script/gettheme.js"></script>     
 
 <script  type="text/javascript">
     function printdiv() {
@@ -37,39 +40,42 @@
         //return true;
     }
 
-    function showPrintButton() {    
+    function showPrintButton() {
         var table = $("table[title='Refresh']");
         var parentTable = $(table).parents('table');
-        
 
+        
+    }
+    function callBowserPrint() {
+        $("#span_prinlt").css("display", "none");
+        setTimeout("print()", 1000);
     }
 </script>
 <script runat="server">
-  private void Page_Load(object sender, System.EventArgs e)
-  {
-      ReportViewer1.Visible = true;
-      var sCodeOrder = "";
-      sCodeOrder = Request.Params["CodeOrder"];
-      ReportViewer1.LocalReport.ReportPath = Server.MapPath("~/Reports/Phieu_XK.rdlc");
-      ReportParameter rp = new ReportParameter("sOrderCode", sCodeOrder);
+    
+    private void Page_Load(object sender, System.EventArgs e)
+    {
+        ReportViewer1.Visible = true;
+        var sCodeOrder = "";
+        sCodeOrder = Request.Params["CodeOrder"];
+        ReportViewer1.LocalReport.ReportPath = Server.MapPath("~/Reports/Phieu_XK.rdlc");
+        ReportParameter rp = new ReportParameter("sOrderCode", sCodeOrder);
+
+        this.ReportViewer1.LocalReport.SetParameters(new ReportParameter[] { rp });
+        //ReportViewer1.LocalReport.Refresh();  
+        ///////////////////////////////////////
+        //Export to PDF. Get binary content.
+        string mimeType;
+        string encoding;
+        string fileNameExtension;
+        string[] streams;
+        Warning[] warnings;
+
+        
+         
       
-          this.ReportViewer1.LocalReport.SetParameters(new ReportParameter[] { rp });
-
-          //var sCodeOrder = "";     
-          //var reportParameterCollection = new ReportParameter[1];
-          //reportParameterCollection[0] = new ReportParameter { Name = "sOrderCode" };
-          //reportParameterCollection[0].Values.Add(sCodeOrder);
-          //reportParameterCollection[0].Visible = true;
-
-          //ReportViewer1.LocalReport.SetParameters(reportParameterCollection);
-
-
-          ReportViewer1.LocalReport.Refresh();          
-          
-                 
-  }
-  
-  
+    }
+    
 </script>
 
 <form id="Form2" runat="server">
@@ -77,7 +83,9 @@
   <%-- <asp:TextBox ID ="CodeOrder" runat="server" Visible="true" Text="RO-27052013-1361"></asp:TextBox>
     <a href ="ReportViewer" target="_blank" class="button" >In Phiếu</a>--%>
 <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
-<rsweb:ReportViewer ID="ReportViewer1" runat="server" AsyncRendering="False" Font-Names="Verdana" Font-Size="8pt" WaitMessageFont-Names="Verdana" WaitMessageFont-Size="14pt" Width="971px" ShowToolBar="true" Height="600px" >
+    <div style="width:100px"> 
+   
+<rsweb:ReportViewer ID="ReportViewer1" runat="server" AsyncRendering="False" Font-Names="Verdana" Font-Size="8pt" WaitMessageFont-Names="Verdana" WaitMessageFont-Size="14pt" Width="971px" Height="600px" >
     <LocalReport ReportEmbeddedResource="iGoo.Reports.Phieu_XK.rdlc">
        
         <DataSources>

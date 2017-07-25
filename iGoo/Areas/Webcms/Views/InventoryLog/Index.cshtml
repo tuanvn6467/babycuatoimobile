@@ -67,7 +67,7 @@
                 <!-- End title -->
                 <form id="frmSearch">
     			<div class="search">
-                    <label>Số chứng từ </label>
+                    <label>Số chứng từ/Mã đơn hàng </label>
                     <input type="text" name="txtKey" value="@Request.Get("txtKey")" />
                     @*<select name="slSearchCate" title="@Request.Get("slSearchCate")" >
                         <option value="">--- Danh mục ---</option>
@@ -96,10 +96,10 @@
                                     }
                                     </select>
                     <select name="slSearchInventory" title="@Request.Get("slSearchInventory")" >
-                        <option value=""> --- Kho hàng ---</option>
+                        @*<option value=""> --- Kho hàng ---</option>*@
                         @foreach (var item in ViewBag.Inventory)
                         {
-                        <option value="@item["InventoryID"]"> &nbsp;&nbsp;&nbsp; @item["InventoryName"] &nbsp;&nbsp;&nbsp;</option>
+                        <option value="@item["value"]"> &nbsp;&nbsp;&nbsp; @item["Name"] &nbsp;&nbsp;&nbsp;</option>
                         }
                     </select>
                     <select name="slSearchChangeType" title="@Request.Get("slSearchChangeType")" >
@@ -130,8 +130,9 @@
                     <label> Đến ngày </label>
                     <input type="text" name="txtEndDate" id="txtEndDate" value="@Request.Get("txtEndDate")" />
 
-                    <button type="submit">Tìm kiếm</button>
-                </div>
+			        <button type="submit">Tìm kiếm</button> 
+                    <label style="font-style: italic;">(Mặc định số liệu lấy từ đầu tháng)</label>
+			    </div>
                 </form>
                 <!-- End search -->
                 <form id="frmList">
@@ -150,6 +151,7 @@
                             
                         </div>
                         <div class="page-list">                        
+                            
                             <label>Show</label>
                             <select id="show" title="@Request.Get("show")">
                                 <option title="@Request.Query("show=20&page=1")" value="20">20</option>
@@ -187,9 +189,10 @@
                             </thead>
                             <tbody>
                                 @{int count = 0;}
+                                @{int SL = 0;}
                                 @foreach (var item in ViewBag.InventoryLog)
                                 {
-                                    count += 1;
+                                    count += 1;                                    
                                 <tr>
                                     <td>@count</td>
                                     <td>@item["ModifyDate"]
@@ -234,26 +237,30 @@
                                     <td>@item["FullName"]</td>
                                 </tr>
                                 }
+                                @foreach (var item in ViewBag.InventoryLog1)
+                                {                                   
+                                    SL += item["QuantityChange"];
+                                }
                             </tbody>
                             <tfoot>
-                                <th>#</th>
-                                <th><a class="@(Request.Get("OrderBy").Equals("MODIFYDATE") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=MODIFYDATE&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" > Ngày thực hiện </a></th>
-                                <th><a class="@(Request.Get("OrderBy").Equals("SKU") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=SKU&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" > Mã sản phẩm </a></th>
-                                <th><a class="@(Request.Get("OrderBy").Equals("Title") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Title&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Tên sản phẩm</a></th>
-                                <th> Hình thức</th>
-                                <th> Kho xuất</th>
-                                <th> Kho nhận</th>
-                                <th> SL </th>
-                                <th> Tồn đầu </th>
-                                <th> Tồn cuối </th>
-                                @*<th> SL hỏng </th>*@
-                                <th> Tình trạng</th>
-                                <th> Chứng từ </th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th> </th>
+                                <th> </th>
+                                <th> </th>
+                                <th> @(string.Format("{0:N0}", @SL)) </th>
+                                <th> </th>
+                                <th> </th>                                
+                                <th> </th>
+                                <th>  </th>
                                 @*<th> Ghi chú </th>*@
-                                <th><a class="@(Request.Get("OrderBy").Equals("FullName") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=FullName&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" > Người thực hiện </a></th>
+                                <th></th>
                             </tfoot>
                         </table>
                     </div>
+                    
                     <div class="page">
                         <div class="action">
                             <input type="hidden" name="count" value="@count" />
@@ -261,6 +268,7 @@
                             @*<button type="button" id="btnActionUpdate">Cập nhật</button>*@
                         </div>
                         <div class="page-list">                        
+                            
                             <label>Show</label>
                             <select id="show" title="@Request.Get("show")">
                                 <option title="@Request.Query("show=20&page=1")" value="20">20</option>

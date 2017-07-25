@@ -1,0 +1,407 @@
+﻿@using iGoo.Helpers
+
+@{
+    Layout = "~/Areas/Webcms/Views/Shared/Layout.cshtml";
+}
+
+@section head
+{
+<link href="@Url.Content("~/Source/bootstrap/css/bootstrap.css")" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Source/webcms/styles/bootstrap-table.css")" />
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Source/webcms/styles/jquery-ui-1.10.3.custom.min.css")" />
+}
+
+@section content
+{
+    <div class="box-content">
+        <div class="title">
+            <img src="@Url.Content("~/Source/webcms/images/home.png")" />
+            <span>Thông tin khách hàng</span>
+        </div>
+        <ul class="nav nav-tabs" style="height: 44px !important;">
+            <li class="active" id="infonav"><a href="#" id="info">Thông tin</a></li>
+            @if (Request.Get("ID").Length > 0)
+            {
+                <li id="ordernav"><a href="#" id="orders">Hóa đơn</a></li>
+                <li id="productnav"><a href="#" id="products">Các sản phẩm đã mua</a></li>
+            }
+        </ul>
+        <form id="frmAdd">
+            @if (Request.Get("result").Equals("1"))
+            {
+                <p class="result">Cập nhật thành công!</p>
+            }   
+            @if (Request.Get("error").Equals("1"))
+            {
+                <p class="error">Có lỗi, xin hãy kiểm tra và thử lại!</p>
+            }
+            <div>
+                <div class="item-box">
+                    <table class="table-add">
+                        <tbody>
+                            @{bool flag = ViewBag.Edit == null;}
+                            <tr>
+                                <th><label>Số điện thoại</label></th>
+                                <td><input type="text" name="txtPhone" value="@(flag ? String.Empty : ViewBag.Edit[0]["Phone"])" /></td>
+                            </tr>
+                            <tr>
+                                <th><label>Số điện thoại 1</label></th>
+                                <td><input type="text" name="txtPhone1" value="@(flag ? String.Empty : ViewBag.Edit[0]["Phone1"])" /></td>
+                            </tr>
+                            <tr>
+                                <th><label>Số điện thoại 2</label></th>
+                                <td><input type="text" name="txtPhone2" value="@(flag ? String.Empty : ViewBag.Edit[0]["Phone2"])" /></td>
+                            </tr>
+                            <tr>
+                                <th><label>Tên đầy đủ</label></th>
+                                <td><input type="text" name="txtFullName" value="@(flag ? String.Empty : ViewBag.Edit[0]["FullName"])" /></td>
+                            </tr>
+                            <tr>
+                                <th><label>Email</label></th>
+                                <td><input type="text" name="txtEmail" value="@(flag ? String.Empty : ViewBag.Edit[0]["Email"])" />
+                                    <br />
+                                    <input type="checkbox" id="sendEmail" name="sendEmail" style="margin: 5px 5px 5px 0px;" @(!flag && ViewBag.Edit[0]["SendMail"] == 1 ? "checked" : "")/><label for="sendEmail">Đăng ký nhận tin nhắn</label></td>
+                            </tr>
+                            <tr>
+                                <th><label>Mã số thuế</label></th>
+                                <td><input type="text" name="txtTaxNumber" value="@(flag ? String.Empty : ViewBag.Edit[0]["TaxNumber"])" /></td>
+                            </tr>
+                            <tr>
+                                <th><label>Tài khoản</label></th>
+                                <td><input type="text" name="txtUserName" value="@(flag ? String.Empty : ViewBag.Edit[0]["UserName"])" /></td>
+                            </tr>
+                            <tr>
+                                <th><label>Mật khẩu</label></th>
+                                <td><input type="password" name="txtPassword" id="txtPassword" value="@(flag ? String.Empty : ViewBag.Edit[0]["Password"])" /></td>
+                            </tr>
+                            <tr>
+                                <th><label>Nhập lại</label></th>
+                                <td><input type="password" name="txtRePassword" value="@(flag ? String.Empty : ViewBag.Edit[0]["Password"])" /></td>
+                            </tr>
+                            <tr>
+                                <th><label>Giới tính</label></th>
+                                <td><input type="radio" name="sex" value="male" style="margin-right: 10px;" @(flag || ViewBag.Edit[0]["Gender"] == 1 ? "checked" : "")> Nam
+                                    <input type="radio" name="sex" value="female" style="margin-left: 15px; margin-right: 10px;" @(!flag && ViewBag.Edit[0]["Gender"] == 0 ? "checked" : "")>Nữ
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label>Sinh nhật</label></th>
+                                <td><input type="text" name="txtBrithday" id="txtBrithday" value="@(flag ? String.Empty : ViewBag.Edit[0]["Brithday"])" style="width: 170px !important" /></td>
+                            </tr>
+                            <tr>
+                                <th><label>Địa chỉ</label></th>
+                                <td><input type="text" name="txtAddress" value="@(flag ? String.Empty : ViewBag.Edit[0]["Address"])" /></td>
+                            </tr>
+                            <tr>
+                                <th><label>Nhóm</label></th>
+                                <td>
+                                    <select name="slGroupID" title="@(flag ? String.Empty : ViewBag.Edit[0]["GroupID"])" >
+                                        @foreach (var item in ViewBag.GroupName)
+                                        {
+                                            <option value="@item["AttributeID"]">@item["Name"]</option>
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label>Trạng thái</label></th>
+                                <td>
+                                    <select name="slStatus" title="@(flag ? String.Empty : ViewBag.Edit[0]["Status"])" >
+                                        <option value="1">Hoạt động</option>
+                                        <option value="0">Không hoạt động</option>
+                                        <option value="2">Spam</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label>Con</label></th>
+                                <td>
+                                    <label>Tên</label>
+                                    <input type="text" name="txtChildName" id="txtChildName" value="" style="width: 170px !important" /> 
+                                    &nbsp;&nbsp;&nbsp;
+                                    <label>Sinh nhật</label>
+                                    <input type="text" name="txtChildBrithday" id="txtChildBrithday" value="" style="width: 170px !important" /> 
+                                    &nbsp;&nbsp;&nbsp;
+                                    <label>Giới tính</label>
+                                    <input type="radio" name="childSex" value="1" style="margin-right: 10px;">Nam
+                                    <input type="radio" name="childSex" value="0" style="margin-left: 15px; margin-right: 10px;">Nữ
+                                    &nbsp;&nbsp;&nbsp;
+                                    <button type="button" id="btnAddChild" class="btn btn-success" style="height: 30px;">Thêm</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <table id="tblChildrenList"></table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="action">
+                        <input type="hidden" name="ID" id="ID" value="@Request.Get("ID")" />
+                        <input type="hidden" name="returnUrl" value="@Request.Query(string.Empty)" />
+                        <button type="reset" class="btn btn-default" style="height: 35px;">Làm lại</button>
+                        <button type="button" id="btnUpdate" class="btn btn-success" style="height: 35px;">Cập nhật</button>
+                    </div>
+                </div>
+                <!-- End item-box -->
+            </div>
+            <!-- End box2 -->
+        </form>
+        <div id="ordersdetail" style="display: none;">
+            <h2>Đơn hàng</h2>
+            <div class="container" style="width: 90%; display: inline !important; float: left;">
+                <table id="tblEvalList"></table>
+            </div>
+        </div>
+        <div id="productslist" style="display: none;">
+            <h2>Các sản phẩm đã mua</h2>
+            <div class="container" style="width: 90%; display: inline !important; float: left;">
+                <table id="tblProductsList"></table>
+            </div>
+        </div>
+    </div>
+    <!-- End content -->
+    <script src="@Url.Content("~/Script/jquery.validate.js")" type="text/javascript"></script>
+    <script type="text/javascript" src="@Url.Content("~/Script/bootstrap-table.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Script/jquery-ui-1.10.4.custom.min.js")"></script>
+    <script type="text/javascript">
+        $().ready(function() {
+            ActionForm('@Url.Action(String.Empty)');
+            $("#txtBrithday").datepicker({ dateFormat: "dd/mm/yy" });
+            $("#txtChildBrithday").datepicker({ dateFormat: "dd/mm/yy" });
+            //Validate form
+            $("#frmAdd").validate({
+                errorPlacement: function(error, element) {
+                },
+                rules: {
+                    txtUserName: "required",
+                    txtPassword: "required",
+                    txtRePassword: { equalTo: "#txtPassword" },
+                    txtPhone: {
+                        required: true,
+                        digits: true
+                    }
+                }
+            });
+            $("#info").click(function() {
+                $("#ordernav").removeClass("active");
+                $("#productnav").removeClass("active");
+                $("#ordersdetail").attr("style", "display:none");
+                $("#productslist").attr("style", "display:none");
+                $("#infonav").addClass("active");
+                $("#frmAdd").removeAttr("style");
+            });
+            $("#orders").click(function() {
+                $("#infonav").removeClass("active");
+                $("#productnav").removeClass("active");
+                $("#frmAdd").attr("style", "display:none");
+                $("#productslist").attr("style", "display:none");
+                $("#ordernav").addClass("active");
+                $("#ordersdetail").removeAttr("style");
+            });
+            $("#products").click(function() {
+                $("#infonav").removeClass("active");
+                $("#ordernav").removeClass("active");
+                $("#frmAdd").attr("style", "display:none");
+                $("#ordersdetail").attr("style", "display:none");
+                $("#productnav").addClass("active");
+                $("#productslist").removeAttr("style");
+            });
+            $('#tblEvalList').bootstrapTable({
+                method: 'get',
+                url: '/Webcms/Member/GetOrdersByCustomerId?customerId=@Request.Get("ID")',
+                pagination: true,
+                pageSize: 20,
+                pageList: [10, 25, 50, 100, 200],
+                search: true,
+                showExport: true,
+                showFooter: true,
+                showColumns: false,
+                minimunCountColumns: 2,
+                columns: [{
+                        field: 'RowNum',
+                        title: 'STT',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false,
+                        footerFormatter: totalTextFormatter
+                    }, {
+                        field: 'OrderID',
+                        visible: false,
+                        align: 'right',
+                        valign: 'middle',
+                        sortable: false
+                    }, {
+                        field: 'OrderCode',
+                        title: 'Mã đơn hàng',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false,
+                        footerFormatter: totalOrdersFormatter
+                    }, {
+                        field: 'Created',
+                        title: 'Ngày mua',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false
+                    }, {
+                        field: 'TotalPrice',
+                        title: 'Tổng tiền',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false,
+                        footerFormatter: sumPrice
+                    }, {
+                        field: 'Status',
+                        title: 'Trạng thái',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false
+                    }]
+            }).on('click-row.bs.table', function(e, row, $element) {
+                //window.location.href = "/Webcms/Order/ProcessOrder?ID=" + row.OrderID;
+                window.open("/Webcms/Order/ProcessOrder?ID=" + row.OrderID, '_blank');
+            });
+
+            function totalTextFormatter(data) {
+                return 'Tổng số:';
+            }
+
+            function totalOrdersFormatter(data) {
+                return data.length;
+            }
+
+            function sumPrice(data) {
+                var total = 0;
+                $.each(data, function(i, row) {
+                    total += +(row.TotalPrice);
+                });
+                return total + ' VND';
+            }
+
+            $('#tblProductsList').bootstrapTable({
+                method: 'get',
+                url: '/Webcms/Member/GetProductsByCustomerId?customerId=@Request.Get("ID")',
+                pagination: true,
+                pageSize: 20,
+                pageList: [10, 25, 50, 100, 200],
+                search: true,
+                showExport: true,
+                showColumns: false,
+                minimunCountColumns: 2,
+                columns: [{
+                        field: 'RowNum',
+                        title: 'STT',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false
+                    }, {
+                        field: 'ProductID',
+                        visible: false,
+                        align: 'right',
+                        valign: 'middle',
+                        sortable: false
+                    }, {
+                        field: 'SKU',
+                        title: 'Mã sản phẩm',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false
+                    }, {
+                        field: 'Title',
+                        title: 'Tên sản phẩm',
+                        align: 'left',
+                        valign: 'middle',
+                        sortable: false
+                    }, {
+                        field: 'Quantity',
+                        title: 'Số lượng',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false
+                    }, {
+                        field: 'Price',
+                        title: 'Giá sản phẩm',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false
+                    }]
+            });
+
+            function RemoveChild(childId) {
+                if (confirm("Bạn có chắc chắn xóa?")) {
+                    $.ajax({
+                        url: "/Webcms/Member/DeleteChild?childId=" + childId,
+                        context: document.body
+                    }).success(function() {
+                        $('#tblChildrenList').bootstrapTable('refresh');
+                    });
+                }
+            }
+
+            $('#tblChildrenList').bootstrapTable({
+                method: 'get',
+                url: '/Webcms/Member/GetChildrenByParentId?parentId=@Request.Get("ID")',
+                pagination: false,
+                pageSize: 20,
+                pageList: [10, 25, 50, 100, 200],
+                search: false,
+                showColumns: false,
+                minimunCountColumns: 2,
+                columns: [{
+                        field: 'RowNum',
+                        title: 'STT',
+                        align: 'center',
+                        valign: 'middle',
+                        sortable: false
+                    }, {
+                        field: 'ChildID',
+                        visible: false,
+                        align: 'right',
+                        valign: 'middle',
+                        sortable: false
+                    }, {
+                        field: 'ChildName',
+                        title: 'Tên bé',
+                        align: 'center',
+                        valign: 'middle',
+                        width: 1,
+                        sortable: false
+                    }, {
+                        field: 'Sexual',
+                        title: 'Giới tính',
+                        align: 'center',
+                        valign: 'middle',
+                        width: 1,
+                        sortable: false
+                    }, {
+                        field: 'BirthDate',
+                        title: 'Ngày sinh',
+                        align: 'center',
+                        valign: 'middle',
+                        width: 1,
+                        sortable: false
+                    }]
+            }).on('dbl-click-row.bs.table', function (e, row, $element) {
+                RemoveChild(row.ChildID);
+            });
+
+            function AddChild() {
+                if (confirm("Bạn có muốn thêm?")) {
+                    $.ajax({
+                        url: '/Webcms/Member/CreateNewChild?parentID=@Request.Get("ID")&name=' + $("#txtChildName").val() + '&birthDate=' + $("#txtChildBrithday").val() + '&sex=' + $("input[name=childSex]:checked").val(),
+                        method: 'POST'
+                    }).success(function() {
+                        $('#tblChildrenList').bootstrapTable('refresh');
+                    });
+                }
+            }
+
+            $("#btnAddChild").click(function ()
+            {
+                 AddChild();
+            });
+        });
+    </script>
+}

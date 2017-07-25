@@ -76,6 +76,7 @@ namespace iGoo.Areas.Webcms.Controllers
                         return View("NotPermission");
                     iv.InventoryID = Guid.NewGuid();
                     iv.Insert();
+                    SaveUserLog(UserForm.Inventory.ToString(), UserActionType.Insert.ToString(), "Ma kho hang: " + iv.InventoryID.ToString());
                 }
                 else
                 {
@@ -83,6 +84,7 @@ namespace iGoo.Areas.Webcms.Controllers
                         return View("NotPermission");
                     iv.InventoryID = new Guid(Request.Get("InventoryID"));
                     iv.Update();
+                    SaveUserLog(UserForm.Inventory.ToString(), UserActionType.Update.ToString(), "Ma kho hang: " + iv.InventoryName.ToString());
                 }
 
                 string returnUrl = Request.Get("returnUrl");
@@ -109,6 +111,7 @@ namespace iGoo.Areas.Webcms.Controllers
                     {
                         iv.Status = (Request.GetNumber("slStatus-" + i.ToString()));
                         iv.Update();
+                        SaveUserLog(UserForm.Inventory.ToString(), UserActionType.Update.ToString(), "Ma kho hang: " + iv.InventoryID.ToString());
                     }
                 }
 
@@ -136,6 +139,7 @@ namespace iGoo.Areas.Webcms.Controllers
                     {
                         iv.InventoryID = new Guid(Request.Get("ckID-" + i.ToString()));
                         iv.Delete();
+                        SaveUserLog(UserForm.Inventory.ToString(), UserActionType.Delete.ToString(), "Ma kho hang: " + iv.InventoryID.ToString());
                     }
                 }
 

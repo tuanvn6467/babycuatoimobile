@@ -52,7 +52,7 @@ namespace iGoo.Classes
 				cmdToExecute.Parameters.Add(new SqlParameter("@guidGroupID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _groupID));
 				cmdToExecute.Parameters.Add(new SqlParameter("@iStatus", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, _status));
 				cmdToExecute.Parameters.Add(new SqlParameter("@daCreated", SqlDbType.DateTime, 8, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _created));
-
+                cmdToExecute.Parameters.Add(new SqlParameter("@guidInventoryID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _inventoryID));
 				if(_mainConnectionIsCreatedLocal)
 				{
 					// Open connection.
@@ -119,6 +119,7 @@ namespace iGoo.Classes
 				cmdToExecute.Parameters.Add(new SqlParameter("@guidGroupID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _groupID));
 				cmdToExecute.Parameters.Add(new SqlParameter("@iStatus", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, _status));
 				cmdToExecute.Parameters.Add(new SqlParameter("@daCreated", SqlDbType.DateTime, 8, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _created));
+                cmdToExecute.Parameters.Add(new SqlParameter("@guidInventoryID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _inventoryID));
 
 				if(_mainConnectionIsCreatedLocal)
 				{
@@ -578,6 +579,19 @@ namespace iGoo.Classes
 				_created = value;
 			}
 		}
+
+        private SqlGuid _inventoryID = SqlGuid.Null;
+        public SqlGuid InventoryID
+        {
+            get
+            {
+                return _inventoryID;
+            }
+            set
+            {
+                _inventoryID = value;
+            }
+        }
 		#endregion
 	}
 }

@@ -1,12 +1,14 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
+﻿
+
+<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
 <%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
     Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
 
 <head id="Head1" runat="server">
-    <title>Viện Công nghệ thông tin & Truyền thông - CDiT</title>
+    <title>Cty CPSXTM&DV BBT Việt Nam - Cty TNHH Intex Việt Nam</title>
     
 </head>
-
+<script type="text/javascript" src="~/Script/jquery-1.2.6.min.js"></script>
 <script runat="server">
   private void Page_Load(object sender, System.EventArgs e)
   {

@@ -1,0 +1,484 @@
+﻿@using iGoo.Helpers
+
+@{
+    Layout = "~/Areas/Webcms/Views/Shared/Layout.cshtml";
+}
+
+@section head
+{
+    <link href="@Url.Content("~/Source/bootstrap/css/bootstrap.css")" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Source/webcms/styles/bootstrap-table.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Source/webcms/styles/jquery-ui-1.10.3.custom.min.css")" />
+}
+
+@section content
+{
+    <div class="box-content">
+        <div class="title">
+            <img src="@Url.Content("~/Source/webcms/images/home.png")" />
+            <span>Thông tin bảo hành</span>
+        </div>
+        @*<form id="frmList">
+            <div class="list">
+                <select name="slSearchInventory" id="slSearchInventory" title="@Request.Get("slSearchInventory")" >
+                    @foreach (var item in ViewBag.Inventory)
+                    {
+                        <option value="@item["value"]">&nbsp;&nbsp;&nbsp; @item["Name"] &nbsp;&nbsp;&nbsp;</option>
+                    }
+                </select>
+            </div>
+        </form>   *@   
+        
+        <ul class="nav nav-tabs" style="height: 44px !important;">
+            <li class="active" id="infonav"><a href="#" id="info">Nhận bảo hành</a></li>
+            <li id="ordernav"><a href="#" id="orders">Chờ bảo hành</a></li>
+            <li id="ordernav1"><a href="#" id="orders1">Đang bảo hành</a></li>
+            <li id="ordernav2"><a href="#" id="orders2">Đã bảo hành</a></li>
+            <li id="ordernav3"><a href="#" id="orders3">Đang trả</a></li>
+            <li id="productnav"><a href="#" id="products">Đã trả</a></li>
+            <a href="Warranty/Detail" target="_blank" class="btn btn-primary" style="background-color: #357ebd; padding: 10px;">Thêm mới</a>
+        </ul>
+        <div id="frmAdd">
+            <p class="text-danger">(*) Bấm đúp một dòng để sửa</p>
+            <div class="container" style="width: 90%; display: inline !important; float: left;">
+                <table id="tblWarrantyItemsList"></table>
+            </div>
+        </div>
+        <div id="ordersdetail" style="display: none;">
+            <p class="text-danger">(*) Bấm đúp một dòng để sửa</p>
+            <div class="container" style="width: 90%; display: inline !important; float: left;">
+                <table id="tblEvalList"></table>
+            </div>
+        </div>
+        <div id="ordersdetail1" style="display: none;">
+            <p class="text-danger">(*) Bấm đúp một dòng để sửa</p>
+            <div class="container" style="width: 90%; display: inline !important; float: left;">
+                <table id="tblEvalList1"></table>
+            </div>
+        </div>
+        <div id="ordersdetail2" style="display: none;">
+            <p class="text-danger">(*) Bấm đúp một dòng để sửa</p>
+            <div class="container" style="width: 90%; display: inline !important; float: left;">
+                <table id="tblEvalList2"></table>
+            </div>
+        </div>
+        <div id="ordersdetail3" style="display: none;">
+            <p class="text-danger">(*) Bấm đúp một dòng để sửa</p>
+            <div class="container" style="width: 90%; display: inline !important; float: left;">
+                <table id="tblEvalList3"></table>
+            </div>
+        </div>
+        <div id="productslist" style="display: none;">
+            <p class="text-danger">(*) Bấm đúp một dòng để sửa</p>
+            <div class="container" style="width: 90%; display: inline !important; float: left;">
+                <table id="tblProductsList"></table>
+            </div>
+        </div>
+        </div>
+    <!-- End content -->
+    <script src="@Url.Content("~/Script/jquery.validate.js")" type="text/javascript"></script>
+    <script type="text/javascript" src="@Url.Content("~/Script/bootstrap-table.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Script/jquery-ui-1.10.4.custom.min.js")"></script>
+    <script type="text/javascript">
+        $().ready(function () {
+            ActionForm('@Url.Action(String.Empty)');
+
+            $("#info").click(function () {
+                $("#ordernav").removeClass("active");
+                $("#ordernav1").removeClass("active");
+                $("#ordernav2").removeClass("active");
+                $("#ordernav3").removeClass("active");
+                $("#productnav").removeClass("active");
+                $("#ordersdetail").attr("style", "display:none");
+                $("#ordersdetail1").attr("style", "display:none");
+                $("#ordersdetail2").attr("style", "display:none");
+                $("#ordersdetail3").attr("style", "display:none");
+                $("#productslist").attr("style", "display:none");
+                $("#infonav").addClass("active");
+                $("#frmAdd").removeAttr("style");
+                $('#tblWarrantyItemsList').bootstrapTable('refresh');
+            });
+            $("#orders").click(function () {
+                $("#infonav").removeClass("active");
+                $("#ordernav1").removeClass("active");
+                $("#ordernav2").removeClass("active");
+                $("#ordernav3").removeClass("active");
+                $("#productnav").removeClass("active");
+                $("#frmAdd").attr("style", "display:none");
+                $("#ordersdetail1").attr("style", "display:none");
+                $("#ordersdetail2").attr("style", "display:none");
+                $("#ordersdetail3").attr("style", "display:none");
+                $("#productslist").attr("style", "display:none");
+                $("#ordernav").addClass("active");
+                $("#ordersdetail").removeAttr("style");
+                $('#tblEvalList').bootstrapTable('refresh');
+            });
+            $("#orders1").click(function () {
+                $("#infonav").removeClass("active");
+                $("#ordernav").removeClass("active");
+                $("#ordernav2").removeClass("active");
+                $("#ordernav3").removeClass("active");
+                $("#productnav").removeClass("active");
+                $("#frmAdd").attr("style", "display:none");
+                $("#ordersdetail").attr("style", "display:none");
+                $("#ordersdetail2").attr("style", "display:none");
+                $("#ordersdetail3").attr("style", "display:none");
+                $("#productslist").attr("style", "display:none");
+                $("#ordernav1").addClass("active");
+                $("#ordersdetail1").removeAttr("style");
+                $('#tblEvalList1').bootstrapTable('refresh');
+            });
+            $("#orders2").click(function () {
+                $("#infonav").removeClass("active");
+                $("#ordernav1").removeClass("active");
+                $("#ordernav").removeClass("active");
+                $("#ordernav3").removeClass("active");
+                $("#productnav").removeClass("active");
+                $("#frmAdd").attr("style", "display:none");
+                $("#ordersdetail1").attr("style", "display:none");
+                $("#ordersdetail").attr("style", "display:none");
+                $("#ordersdetail3").attr("style", "display:none");
+                $("#productslist").attr("style", "display:none");
+                $("#ordernav2").addClass("active");
+                $("#ordersdetail2").removeAttr("style");
+                $('#tblEvalList2').bootstrapTable('refresh');
+            });
+            $("#orders3").click(function () {
+                $("#infonav").removeClass("active");
+                $("#ordernav1").removeClass("active");
+                $("#ordernav2").removeClass("active");
+                $("#ordernav").removeClass("active");
+                $("#productnav").removeClass("active");
+                $("#frmAdd").attr("style", "display:none");
+                $("#ordersdetail1").attr("style", "display:none");
+                $("#ordersdetail2").attr("style", "display:none");
+                $("#ordersdetail").attr("style", "display:none");
+                $("#productslist").attr("style", "display:none");
+                $("#ordernav3").addClass("active");
+                $("#ordersdetail3").removeAttr("style");
+                $('#tblEvalList3').bootstrapTable('refresh');
+            });
+            $("#products").click(function () {
+                $("#infonav").removeClass("active");
+                $("#ordernav").removeClass("active");
+                $("#ordernav1").removeClass("active");
+                $("#ordernav2").removeClass("active");
+                $("#ordernav3").removeClass("active");
+                $("#productnav").removeClass("active");
+                $("#frmAdd").attr("style", "display:none");
+                $("#ordersdetail").attr("style", "display:none");
+                $("#ordersdetail1").attr("style", "display:none");
+                $("#ordersdetail2").attr("style", "display:none");
+                $("#ordersdetail3").attr("style", "display:none");
+                $("#productnav").addClass("active");
+                $("#productslist").removeAttr("style");
+                $('#tblProductsList').bootstrapTable('refresh');
+            });
+
+            function RemoveTicket(ticketeId) {
+                if (confirm("Bạn có chắc chắn xóa?")) {
+                    $.ajax({
+                        url: "/Webcms/Warranty/DeleteTicket?ticketId=" + ticketeId,
+                        context: document.body
+                    }).success(function () {
+                        $('#tblWarrantyItemsList').bootstrapTable('refresh');
+                        $('#tblEvalList').bootstrapTable('refresh');
+                        $('#tblEvalList1').bootstrapTable('refresh');
+                        $('#tblEvalList2').bootstrapTable('refresh');
+                        $('#tblEvalList3').bootstrapTable('refresh');
+                        $('#tblProductsList').bootstrapTable('refresh');
+                    });
+                }
+            }
+
+            $('#tblWarrantyItemsList').bootstrapTable({
+                method: 'get',
+                url: '/Webcms/Warranty/GetListWarrantyTickets?ticketStatus=1',
+                pagination: true,
+                pageSize: 20,
+                pageList: [10, 25, 50, 100, 200],
+                search: true,
+                showExport: true,
+                showColumns: false,
+                minimunCountColumns: 2,
+                columns: [{
+                    field: 'ID',
+                    visible: false
+                }, {
+                    field: 'DateCreated',
+                    title: 'Ngày nhận',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }, {
+                    field: 'Name',
+                    title: 'Tên khách hàng',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }, {
+                    field: 'Phone',
+                    title: 'Số điện thoại',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }, {
+                    field: 'StatusName',
+                    title: 'Tình trạng',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }, {
+                    field: 'DateComplete',
+                    title: 'Ngày trả',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }]
+            }).on('dbl-click-row.bs.table', function (e, row, $element) {
+                window.open("/Webcms/Warranty/Detail?ID=" + row.ID, '_blank');
+            });
+
+            $('#tblEvalList').bootstrapTable({
+                method: 'get',
+                url: '/Webcms/Warranty/GetListWarrantyTickets?ticketStatus=2',
+                pagination: true,
+                pageSize: 20,
+                pageList: [10, 25, 50, 100, 200],
+                search: true,
+                showExport: true,
+                showColumns: false,
+                minimunCountColumns: 2,
+                columns: [{
+                    field: 'ID',
+                    visible: false
+                }, {
+                    field: 'DateCreated',
+                    title: 'Ngày nhận',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }, {
+                    field: 'Name',
+                    title: 'Tên khách hàng',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }, {
+                    field: 'Phone',
+                    title: 'Số điện thoại',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }, {
+                    field: 'StatusName',
+                    title: 'Tình trạng',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }, {
+                    field: 'DateComplete',
+                    title: 'Ngày trả',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }]
+            }).on('dbl-click-row.bs.table', function (e, row, $element) {
+                window.open("/Webcms/Warranty/Detail?ID=" + row.ID, '_blank');
+            });
+
+            $('#tblEvalList1').bootstrapTable({
+                method: 'get',
+                url: '/Webcms/Warranty/GetListWarrantyTickets?ticketStatus=3',
+                pagination: true,
+                pageSize: 20,
+                pageList: [10, 25, 50, 100, 200],
+                search: true,
+                showExport: true,
+                showColumns: false,
+                minimunCountColumns: 2,
+                columns: [{
+                    field: 'ID',
+                    visible: false
+                }, {
+                    field: 'DateCreated',
+                    title: 'Ngày nhận',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }, {
+                    field: 'Name',
+                    title: 'Tên khách hàng',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }, {
+                    field: 'Phone',
+                    title: 'Số điện thoại',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }, {
+                    field: 'StatusName',
+                    title: 'Tình trạng',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }, {
+                    field: 'DateComplete',
+                    title: 'Ngày trả',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }]
+            }).on('dbl-click-row.bs.table', function (e, row, $element) {
+                window.open("/Webcms/Warranty/Detail?ID=" + row.ID, '_blank');
+            });
+
+            $('#tblEvalList2').bootstrapTable({
+                method: 'get',
+                url: '/Webcms/Warranty/GetListWarrantyTickets?ticketStatus=4',
+                pagination: true,
+                pageSize: 20,
+                pageList: [10, 25, 50, 100, 200],
+                search: true,
+                showExport: true,
+                showColumns: false,
+                minimunCountColumns: 2,
+                columns: [{
+                    field: 'ID',
+                    visible: false
+                }, {
+                    field: 'DateCreated',
+                    title: 'Ngày nhận',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }, {
+                    field: 'Name',
+                    title: 'Tên khách hàng',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }, {
+                    field: 'Phone',
+                    title: 'Số điện thoại',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }, {
+                    field: 'StatusName',
+                    title: 'Tình trạng',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }, {
+                    field: 'DateComplete',
+                    title: 'Ngày trả',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }]
+            }).on('dbl-click-row.bs.table', function (e, row, $element) {
+                window.open("/Webcms/Warranty/Detail?ID=" + row.ID, '_blank');
+            });
+
+            $('#tblEvalList3').bootstrapTable({
+                method: 'get',
+                url: '/Webcms/Warranty/GetListWarrantyTickets?ticketStatus=5',
+                pagination: true,
+                pageSize: 20,
+                pageList: [10, 25, 50, 100, 200],
+                search: true,
+                showExport: true,
+                showColumns: false,
+                minimunCountColumns: 2,
+                columns: [{
+                    field: 'ID',
+                    visible: false
+                }, {
+                    field: 'DateCreated',
+                    title: 'Ngày nhận',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }, {
+                    field: 'Name',
+                    title: 'Tên khách hàng',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }, {
+                    field: 'Phone',
+                    title: 'Số điện thoại',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }, {
+                    field: 'StatusName',
+                    title: 'Tình trạng',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }, {
+                    field: 'DateComplete',
+                    title: 'Ngày trả',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }]
+            }).on('dbl-click-row.bs.table', function (e, row, $element) {
+                window.open("/Webcms/Warranty/Detail?ID=" + row.ID, '_blank');
+            });
+
+            $('#tblProductsList').bootstrapTable({
+                method: 'get',
+                url: '/Webcms/Warranty/GetListWarrantyTickets?ticketStatus=6',
+                pagination: true,
+                pageSize: 20,
+                pageList: [10, 25, 50, 100, 200],
+                search: true,
+                showExport: true,
+                showColumns: false,
+                minimunCountColumns: 2,
+                columns: [{
+                    field: 'ID',
+                    visible: false
+                }, {
+                    field: 'DateCreated',
+                    title: 'Ngày nhận',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }, {
+                    field: 'Name',
+                    title: 'Tên khách hàng',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }, {
+                    field: 'Phone',
+                    title: 'Số điện thoại',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }, {
+                    field: 'StatusName',
+                    title: 'Tình trạng',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }, {
+                    field: 'DateComplete',
+                    title: 'Ngày trả',
+                    align: 'center',
+                    valign: 'middle',
+                    sortable: false
+                }]
+            }).on('dbl-click-row.bs.table', function (e, row, $element) {
+                window.open("/Webcms/Warranty/Detail?ID=" + row.ID, '_blank');
+            });
+
+        });
+    </script>
+}

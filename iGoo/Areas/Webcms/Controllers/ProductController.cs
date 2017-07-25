@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.Serialization.Json;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
@@ -72,6 +73,7 @@ namespace iGoo.Areas.Webcms.Controllers
                 ViewBag.Edit = pv.SelectOne().AsEnumerable().ToList();
             }
 
+            ViewBag.InventoryId = pv.InventoryID;
             //Page
             List<DataRow> list = pv.SelectAll().AsEnumerable().ToList();
             ViewBag.Product = list;
@@ -330,16 +332,15 @@ namespace iGoo.Areas.Webcms.Controllers
             ViewBag.Type = at.SelectChild().AsEnumerable().ToList();
             at.Code = "ATTRIBUTE_PRODUCT";
             ViewBag.Filter = at.SelectChild().AsEnumerable().ToList();
-
-            //Select user
-            ProductViewModel pv = new ProductViewModel();
-
-            //Eidt
+            //Edit
             if (!Request.IsNull("ID"))
             {
+                ProductViewModel pv = new ProductViewModel();
+                clsCMS_InvProductPrice ipp = new clsCMS_InvProductPrice();
                 pv.ProductID = new Guid(Request.Get("ID"));
                 ViewBag.Edit = pv.SelectOne().AsEnumerable().ToList();
-
+                ipp.ProductID = new Guid(Request.Get("ID"));
+                ViewBag.ProductPriceList = ipp.SelectAllPriceByProductId().AsEnumerable().ToList();
             }
 
             return View();
@@ -390,10 +391,19 @@ namespace iGoo.Areas.Webcms.Controllers
                 pv.TransportFee = Request.Get("txtTransportFee");
                 pv.Promotion = Request.Get("txtPromotion");
                 pv.Parameter = Request.Get("txtParameter");
+
+                pv.HienThi = Request.Get("ckHienThi").Length > 0 ? 1 : 0;
+                pv.HienThiKho = Request.Get("ckHienThiKho").Length > 0 ? 1 : 0;
+
                 if (!Request.IsNull("txtOrder"))
                     pv.Order = Request.GetNumber("txtOrder");
                 else
                     pv.Order = 999;
+                if (!Request.IsNull("txtWarrantyPeriod"))
+                    pv.WarrantyPeriod = Request.GetNumber("txtWarrantyPeriod");
+                else
+                    pv.WarrantyPeriod = 0;
+
                 if (!Request.IsNull("txtPollID"))
                     pv.PollID = new Guid(Request.Get("txtPollID"));
                 if (Request.IsNull("ID"))
@@ -405,6 +415,7 @@ namespace iGoo.Areas.Webcms.Controllers
                     pv.Created = DateTime.Now;
                     pv.ProductID = Guid.NewGuid();
                     pv.Insert();
+                    SaveUserLog(UserForm.Product.ToString(), UserActionType.Insert.ToString(), pv.SKU.ToString() + " - " + pv.Title.ToString());
                 }
                 else
                 {
@@ -414,6 +425,8 @@ namespace iGoo.Areas.Webcms.Controllers
                         pv.Created = DateTime.Now;
                     pv.ProductID = new Guid(Request.Get("ID"));
                     pv.Update();
+                    SaveUserLog(UserForm.Product.ToString(), UserActionType.Update.ToString(), pv.SKU.ToString() + " - " + pv.Title.ToString());
+                    
                 }
 
                 return Redirect("/Webcms/Product/Add?ID=" + Request.Get("ID") + "&result=1");
@@ -433,41 +446,30 @@ namespace iGoo.Areas.Webcms.Controllers
             {
                 if (per.IndexOf("U") < 0)
                     return View("NotPermission");
-                ProductViewModel pv = new ProductViewModel();
+                clsCMS_InvProductPrice pv = new clsCMS_InvProductPrice();
+                var inventoryId = new Guid(Request.Get("invId"));
                 for (int i = 1; i <= Request.GetNumber("count"); i++)
                 {
                     if (!Request.IsNull("ckID-" + i.ToString()))
                     {
+                        pv.ID = Guid.NewGuid();
                         pv.ProductID = new Guid(Request.Get("ckID-" + i.ToString()));
+                        pv.InventoryID = inventoryId;
+
                         pv.Status = (Request.GetNumber("slStatus-" + i.ToString()));
                         if (!Request.IsNull("txtOrder-" + i.ToString()))
                             pv.Order = (Request.GetNumber("txtOrder-" + i.ToString()));
                         else
                             pv.Order = 999;
+
                         if (!Request.IsNull("txtsaleprice-" + i.ToString()))
                             pv.SalePrice = Request.GetDecimal("txtsaleprice-" + i.ToString());
                         else
                             pv.SalePrice = 0;
                         if (!Request.IsNull("txtsalepricedealer-" + i.ToString()))
-                            pv.SalePriceDealer = Request.GetDecimal("txtsalepricedealer-" + i.ToString());
+                            pv.DealerPrice = Request.GetDecimal("txtsalepricedealer-" + i.ToString());
                         else
-                            pv.SalePriceDealer = 0;
-                        if (!Request.IsNull("txtsalepricehcm-" + i.ToString()))
-                            pv.SalePriceHCM = Request.GetDecimal("txtsalepricehcm-" + i.ToString());
-                        else
-                            pv.SalePriceHCM = 0;
-                        if (!Request.IsNull("txtsalepricedealerhcm-" + i.ToString()))
-                            pv.SalePriceDealerHCM = Request.GetDecimal("txtsalepricedealerhcm-" + i.ToString());
-                        else
-                            pv.SalePriceDealerHCM = 0;
-                        if (!Request.IsNull("txtsalepricecn3-" + i.ToString()))
-                            pv.SalePriceCN3 = Request.GetDecimal("txtsalepricecn3-" + i.ToString());
-                        else
-                            pv.SalePriceCN3 = 0;
-                        if (!Request.IsNull("txtsalepricedealercn3-" + i.ToString()))
-                            pv.SalePriceDealerCN3 = Request.GetDecimal("txtsalepricedealercn3-" + i.ToString());
-                        else
-                            pv.SalePriceDealerCN3 = 0;
+                            pv.DealerPrice = 0;
                         pv.Update();
                     }
                 }
@@ -496,6 +498,7 @@ namespace iGoo.Areas.Webcms.Controllers
                     {
                         pv.ProductID = new Guid(Request.Get("ckID-" + i.ToString()));
                         pv.Delete();
+                        SaveUserLog(UserForm.Product.ToString(), UserActionType.Delete.ToString(), pv.SKU.ToString() + " - " + pv.Title.ToString());
                     }
                 }
 
@@ -539,11 +542,11 @@ namespace iGoo.Areas.Webcms.Controllers
                 pv.Type = Request.Get("slSearchType");
             if (!Request.IsNull("slSearchStatus"))
                 pv.Status = Request.GetNumber("slSearchStatus");
-            if (!Request.IsNull("slSearchInv"))
-                pv.InventoryID = new Guid(Request.Get("slSearchInv"));
+            if (!Request.IsNull("slInventory"))
+                pv.InventoryID = new Guid(Request.Get("slInventory"));
             else
-                pv.InventoryID = new Guid("665f2362-fe8a-4169-9513-0109340f3c0b");
-
+                pv.InventoryID = new Guid("0c80dcd0-5d8e-4041-acaf-2cf7c2916162");
+            ViewBag.InvId = pv.InventoryID;
             pv.PageIndex = Request.IsNull("page") ? 1 : Request.GetNumber("page");
             pv.PageSize = Request.IsNull("show") ? 20000 : Request.GetNumber("show");
 
@@ -564,37 +567,36 @@ namespace iGoo.Areas.Webcms.Controllers
             //SAVE THE DATA IN LIST             
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             List<ProductImportModel> productList = new List<ProductImportModel>();
+            StringBuilder productExport = new StringBuilder();
             for (int i = 1; i <= Request.GetNumber("count"); i++)
             {
                 if (!Request.IsNull("ckID-" + i.ToString()))
                 {
                     ProductImportModel pi = new ProductImportModel();
                     pi.MaSP = Request.Get("ckID-" + i.ToString());
-                    //pi.ProductName = Request.Get("txtTitle-" + i.ToString());
-                    pi.GiaLeHN = Request.Get("txtSalePrice-" + i.ToString());
-                    pi.GiaLeHN = pi.GiaLeHN.Replace(",", "");
-                    pi.GiaBuonHN = Request.Get("txtSalePriceDealer-" + i.ToString());
-                    pi.GiaBuonHN = pi.GiaBuonHN.Replace(",", "");
-                    pi.GiaLeHCM = Request.Get("txtSalePriceHCM-" + i.ToString());
-                    pi.GiaLeHCM = pi.GiaLeHCM.Replace(",", "");
-                    pi.GiaBuonHCM = Request.Get("txtSalePriceDealerHCM-" + i.ToString());
-                    pi.GiaBuonHCM = pi.GiaBuonHCM.Replace(",", "");
-                    pi.GiaLeCN3 = Request.Get("txtSalePriceCN3-" + i.ToString());
-                    pi.GiaLeCN3 = pi.GiaLeCN3.Replace(",", "");
-                    pi.GiaBuonCN3 = Request.Get("txtSalePriceDealerCN3-" + i.ToString());
-                    pi.GiaBuonCN3 = pi.GiaBuonCN3.Replace(",", "");
+                    productExport.Append(pi.MaSP).Append(";");
+                    pi.TenSP = Request.Get("txtTitle-" + i.ToString());
+                    pi.MucHang = Request.Get("txtName-" + i.ToString());
+                    pi.ChungLoai = Request.Get("txtNameAttribute-" + i.ToString());
+                    pi.GiaLe = Request.Get("txtSalePrice-" + i.ToString());
+                    pi.GiaLe = pi.GiaLe.Replace(",", "");
+                    pi.GiaBuon = Request.Get("txtSalePriceDealer-" + i.ToString());
+                    pi.GiaBuon = pi.GiaBuon.Replace(",", "");
                     productList.Add(pi);
                 }
             }
-
-            // install closedXML(third-party) tool to your project and  add namespace " using ClosedXML.Excel;".
+            SaveUserLog(UserForm.Product.ToString(), UserActionType.Export.ToString(), "Export list: " + productList.ToString());
             XLWorkbook wb = new XLWorkbook();
-            string sheetName = "ProductList"; //Give name for export file. 
+            InventoryViewModel iv = new InventoryViewModel();
+            iv.InventoryID = new Guid(Request.Get("curInvId"));
+            var selectedInv = iv.SelectOne().Rows[0];
+            string sheetName = "ProductList"; //Give name for sheet. 
+            
             var ws = wb.Worksheets.Add(sheetName);
             ws.Cell(1, 1).InsertTable(productList);  // assign list here.
             HttpContext.Response.Clear();
             HttpContext.Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            HttpContext.Response.AddHeader("content-disposition", String.Format(@"attachment;filename={0}.xlsx", sheetName.Replace(" ", "_")));
+            HttpContext.Response.AddHeader("content-disposition", String.Format(@"attachment;filename={0}.xlsx", selectedInv["InventoryCode"].ToString().Replace(" ", "_")));
 
             using (MemoryStream memoryStream = new MemoryStream())
             {
@@ -606,38 +608,14 @@ namespace iGoo.Areas.Webcms.Controllers
             HttpContext.Response.End(); ;
 
         }
-        public List<ProductImportModel> getExportProductList()
-        {
-            List<ProductImportModel> lpi = new List<ProductImportModel>();
-            for (int i = 1; i <= Request.GetNumber("count"); i++)
-            {
-                ProductImportModel pi = new ProductImportModel();
-                if (!Request.IsNull("ckID-" + i.ToString()))
-                {
-                    //pi.ProductId = Request.Get("ckID-" + i.ToString());
-                    //pi.ProductName = Request.Get("txtTitle-" + i.ToString());
-                    //pi.PriceHN = Request.Get("txtSalePrice-" + i.ToString());
-                    //pi.PriceDealerHN = Request.Get("txtSalePriceDealer-" + i.ToString());
-                    //pi.PriceHCM = Request.Get("txtSalePriceHCM-" + i.ToString());
-                    //pi.PriceDealerHCM = Request.Get("txtSalePriceDealerHCM-" + i.ToString());
-
-                    pi.MaSP = Request.Get("ckID-" + i.ToString());
-                    //pi.ProductName = Request.Get("txtTitle-" + i.ToString());
-                    pi.GiaLeHN = Request.Get("txtSalePrice-" + i.ToString());
-                    pi.GiaBuonHN = Request.Get("txtSalePriceDealer-" + i.ToString());
-                    pi.GiaLeHCM = Request.Get("txtSalePriceHCM-" + i.ToString());
-                    pi.GiaBuonHCM = Request.Get("txtSalePriceDealerHCM-" + i.ToString());
-                    pi.GiaLeCN3 = Request.Get("txtSalePriceCN3-" + i.ToString());
-                    pi.GiaBuonCN3 = Request.Get("txtSalePriceDealerCN3-" + i.ToString());
-                }
-                lpi.Add(pi);
-            }
-            return lpi;
-        }
 
         public ActionResult ImportExcel()
         {
             LoadDefault();
+            string strUserId = (string)Session["UserID"];//select inventory
+            InventoryViewModel inv = new InventoryViewModel();
+            inv.UserID = new SqlGuid(strUserId);
+            ViewBag.MenuInv = inv.SelectUserMenu().AsEnumerable().ToList();
             return View();
         }
 
@@ -673,7 +651,7 @@ namespace iGoo.Areas.Webcms.Controllers
                     if (fileExt.Equals(".xls"))
                         connectionString = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Extended Properties= \"Excel 8.0;IMEX=1;\"", Server.MapPath(savedFileName));
                     //This is for Excel 2007. 
-                    if (fileExt.Equals(".xlsx"))
+                    else if (fileExt.Equals(".xlsx"))
                         connectionString = string.Format("Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties= \"Excel 12.0;IMEX=1;\"", Server.MapPath(savedFileName));
 
 
@@ -688,61 +666,38 @@ namespace iGoo.Areas.Webcms.Controllers
                     List<DataRow> listPreview = data.AsEnumerable().ToList();
                     //ViewBag.File = listPreview;
                     string err = "";
-                    int c = 0, hn = 0, hnd = 0, hcm = 0, hcmd = 0, cn3 = 0, cn3d = 0;
-                    if (!Request.IsNull("chkHN"))
-                        hn = 1;
-                    if (!Request.IsNull("chkHN1"))
-                        hnd = 1;
-                    if (!Request.IsNull("chkHCM"))
-                        hcm = 1;
-                    if (!Request.IsNull("chkHCM1"))
-                        hcmd = 1;
-                    if (!Request.IsNull("chkCN3"))
-                        cn3 = 1;
-                    if (!Request.IsNull("chkCN31"))
-                        cn3d = 1;
+                    int c = 0, salePrice = 0, salePriceDealer = 0;
+                    if (!Request.IsNull("chkSalePrice"))
+                        salePrice = 1;
+                    if (!Request.IsNull("chkSalePriceDealer"))
+                        salePriceDealer = 1;
+                    Guid inventoryId = new Guid(Request.Get("slImportInv"));
+                    StringBuilder productCodeLog = new StringBuilder("");
+                    if(listPreview.Any())
                     foreach (DataRow dr in listPreview)
                     {
                         if (dr["MaSP"].ToString().Length > 0)
                         {
                             ProductViewModel pv = new ProductViewModel();
                             pv.SKU = dr["MaSP"].ToString();
-                            if (pv.CheckProductCode())
+                            productCodeLog.Append(pv.SKU).Append(";");
+                            var product = pv.CheckProductSKU();
+                            if (product.Rows.Count > 0)
                             {
+                                pv.InventoryID = inventoryId;
+                                pv.ProductID = new Guid(product.Rows[0]["ProductID"].ToString());
                                 //Gia HN
-                                if (dr["GiaLeHN"].ToString().Length > 0)
-                                    pv.SalePrice = SqlDecimal.Parse(dr["GiaLeHN"].ToString());
+                                if (dr["GiaLe"].ToString().Length > 0)
+                                    pv.SalePrice = SqlDecimal.Parse(dr["GiaLe"].ToString());
                                 else
                                     pv.SalePrice = 0;
-                                if (dr["GiaBuonHN"].ToString().Length > 0)
-                                    pv.SalePriceDealer = SqlDecimal.Parse(dr["GiaBuonHN"].ToString());
+                                if (dr["GiaBuon"].ToString().Length > 0)
+                                    pv.SalePriceDealer = SqlDecimal.Parse(dr["GiaBuon"].ToString());
                                 else
                                     pv.SalePriceDealer = 0;
-                                //Gia HCM
-                                if (dr["GiaLeHCM"].ToString().Length > 0)
-                                    pv.SalePriceHCM = SqlDecimal.Parse(dr["GiaLeHCM"].ToString());
-                                else
-                                    pv.SalePriceHCM = 0;
-                                if (dr["GiaBuonHCM"].ToString().Length > 0)
-                                    pv.SalePriceDealerHCM = SqlDecimal.Parse(dr["GiaBuonHCM"].ToString());
-                                else
-                                    pv.SalePriceDealerHCM = 0;
-                                //Gia CN3
-                                if (dr["GiaLeCN3"].ToString().Length > 0)
-                                    pv.SalePriceCN3 = SqlDecimal.Parse(dr["GiaLeCN3"].ToString());
-                                else
-                                    pv.SalePriceCN3 = 0;
-                                if (dr["GiaBuonCN3"].ToString().Length > 0)
-                                    pv.SalePriceDealerCN3 = SqlDecimal.Parse(dr["GiaBuonCN3"].ToString());
-                                else
-                                    pv.SalePriceDealerCN3 = 0;
-
-                                pv.HN = hn;
-                                pv.HN1 = hnd;
-                                pv.HCM = hcm;
-                                pv.HCM1 = hcmd;
-                                pv.CN3 = cn3;
-                                pv.CN31 = cn3d;
+                                
+                                pv.HN = salePrice;
+                                pv.HN1 = salePriceDealer;
 
                                 pv.UpdatePrice();
                                 c++;
@@ -757,8 +712,13 @@ namespace iGoo.Areas.Webcms.Controllers
                             err += dr["MaSP"].ToString() + ",";
                         }
                     }
+                    if (productCodeLog.Length > 0)
+                    {
+                        SaveUserLog(UserForm.Product.ToString(), UserActionType.Import.ToString(),"Import product success: " + productCodeLog.ToString());
+                    }
                     if (err.Length > 0)
                     {
+                        SaveUserLog(UserForm.Product.ToString(), UserActionType.Import.ToString(), "Import product fail: " + err);
                         if(c==0)
                             return Redirect("/Webcms/Product/ImportExcel?prer=1&err=" + err);
                         else
@@ -951,6 +911,41 @@ namespace iGoo.Areas.Webcms.Controllers
                 rows.Add(row);
             }
             return serializer.Serialize(rows);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateProductInventoryPrice()
+        {
+            if (per.IndexOf("I") < 0)
+                return View("NotPermission");
+            Guid productId = Guid.Parse(Request.Get("ProductID"));
+            try
+            {
+                //select inventory
+                InventoryViewModel inv = new InventoryViewModel();
+                var listInv = inv.SelectMenu().AsEnumerable().ToList();
+
+                clsCMS_InvProductPrice ipp = new clsCMS_InvProductPrice();
+                foreach (var item in listInv)
+                {
+                    ipp.ID = Guid.NewGuid();
+                    ipp.ProductID = productId;
+                    ipp.InventoryID = new Guid(item["Value"].ToString());
+                    var salePrice = Request.Get(item["Value"].ToString() + "-SalePrice").Replace(",", "");
+                    ipp.SalePrice = int.Parse(salePrice);
+                    var dealerPrice = Request.Get(item["Value"].ToString() + "-DealerPrice").Replace(",", "");
+                    ipp.DealerPrice = int.Parse(dealerPrice);
+                    ipp.Status = SqlInt32.Null;
+                    ipp.Order = SqlInt32.Null;
+                    ipp.Update();
+                }
+
+                return Redirect("/Webcms/Product/Add?ID=" + productId + "&result=2");
+            }
+            catch (Exception ex)
+            {
+                return Redirect("/Webcms/Product/Add?ID=" + productId + "&error=2");
+            }
         }
     }
 }

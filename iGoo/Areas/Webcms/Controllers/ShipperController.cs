@@ -33,18 +33,14 @@ namespace iGoo.Areas.Webcms.Controllers
             at.Code = "ATTRIBUTE_PRODUCT_STATUS";
             ViewBag.GroupType = at.SelectChild().AsEnumerable().ToList();
 
-//            InventoryViewModel iv = new InventoryViewModel();
-//            ViewBag.Inventory = iv.SelectOptimize().AsEnumerable().ToList();
+            ShipperViewModel sv = new ShipperViewModel();
+            ViewBag.Shipper = sv.SelectOptimize().AsEnumerable().ToList();
+            ViewBag.Province = sv.SelectProvince().AsEnumerable().ToList();
             //select inventory
             InventoryViewModel inv = new InventoryViewModel();
             inv.UserID = new SqlGuid(strUserId);
-            ViewBag.Inventory = inv.SelectUserMenu().AsEnumerable().ToList();
-
-            ShipperViewModel sv = new ShipperViewModel();
-            ViewBag.Shipper = sv.SelectOptimize().AsEnumerable().ToList();
-
-            ViewBag.Province = sv.SelectProvince().AsEnumerable().ToList();
-
+            List<DataRow> listIv = inv.SelectUserMenu2().AsEnumerable().ToList();
+            ViewBag.Inventory = listIv;
 
             //Select news
             OrderViewModel ov = new OrderViewModel();
@@ -55,7 +51,17 @@ namespace iGoo.Areas.Webcms.Controllers
 
             if (!Request.IsNull("District"))
                 ov.DistrictID = Request.GetNumber("District");
+            
+            if (listIv.Count > 0)
+            {
+                ViewBag.InventoryId = listIv[0]["value"];
+                ov.InventoryID = ViewBag.InventoryId;
+            }
+            if (!Request.IsNull("slSearchInventory"))
+            {
+                ov.InventoryID = new Guid(Request.Get("slSearchInventory"));
 
+            }
             if (!Request.IsNull("slsShipper"))
                 ov.ShipperID = new Guid(Request.Get("slsShipper"));
 

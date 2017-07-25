@@ -21,19 +21,31 @@ namespace iGoo.Areas.Webcms.Models
             }
         }
 
-        private SqlGuid _inventoryID = SqlGuid.Null;
-        public SqlGuid InventoryID
-        {
-            get
-            {
-                return _inventoryID;
-            }
-            set
-            {
-                _inventoryID = value;
-            }
-        }
+        //private SqlGuid _inventoryID = SqlGuid.Null;
+        //public SqlGuid InventoryID
+        //{
+        //    get
+        //    {
+        //        return _inventoryID;
+        //    }
+        //    set
+        //    {
+        //        _inventoryID = value;
+        //    }
+        //}
 
+        //private SqlInt16 _default = SqlInt16.Null;
+        //public SqlInt16 Default
+        //{
+        //    get
+        //    {
+        //        return _default;
+        //    }
+        //    set
+        //    {
+        //        _default = value;
+        //    }
+        //}
         //Check login
         public DataTable CheckLogin()
         {
@@ -236,6 +248,56 @@ namespace iGoo.Areas.Webcms.Models
             }
         }
 
+        public DataTable SelectUsersInvByUserID()
+        {
+            SqlCommand cmdToExecute = new SqlCommand();
+            cmdToExecute.CommandText = "dbo.[sp_ADM_Users_Inv_SelectByUserID]";
+            cmdToExecute.CommandType = CommandType.StoredProcedure;
+            DataTable toReturn = new DataTable("ADM_RollUsers");
+            SqlDataAdapter adapter = new SqlDataAdapter(cmdToExecute);
+
+            // Use base class' connection object
+            cmdToExecute.Connection = _mainConnection;
+
+            try
+            {
+                cmdToExecute.Parameters.Add(new SqlParameter("@guidUserID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, UserID));
+
+                if (_mainConnectionIsCreatedLocal)
+                {
+                    // Open connection.
+                    _mainConnection.Open();
+                }
+                else
+                {
+                    if (_mainConnectionProvider.IsTransactionPending)
+                    {
+                        cmdToExecute.Transaction = _mainConnectionProvider.CurrentTransaction;
+                    }
+                }
+
+                // Execute query.
+                adapter.Fill(toReturn);
+                return toReturn;
+            }
+            catch (Exception ex)
+            {
+                // some error occured. Bubble it to caller and encapsulate Exception object
+                throw new Exception("clsADM_RollModules::SelectRollUsersByUserID::Error occured.", ex);
+            }
+            finally
+            {
+                if (_mainConnectionIsCreatedLocal)
+                {
+                    // Close connection.
+                    _mainConnection.Close();
+                }
+                cmdToExecute.Dispose();
+                adapter.Dispose();
+            }
+        }
+
+
         public bool DeleteRollUsers()
         {
             SqlCommand cmdToExecute = new SqlCommand();
@@ -343,6 +405,7 @@ namespace iGoo.Areas.Webcms.Models
             {
                 cmdToExecute.Parameters.Add(new SqlParameter("@guidUserID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, UserID));
                 cmdToExecute.Parameters.Add(new SqlParameter("@guidInventoryID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, InventoryID));
+                //cmdToExecute.Parameters.Add(new SqlParameter("@iDefault", SqlDbType.SmallInt, 1, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, Default));
                 if (_mainConnectionIsCreatedLocal)
                 {
                     // Open connection.

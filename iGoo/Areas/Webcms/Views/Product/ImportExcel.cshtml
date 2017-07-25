@@ -70,48 +70,34 @@
                     <a href="/FileMau/DanhSachSanPham.xls" target="_blank" class="button">Tải file mẫu</a>  
 
                 </div><br />
-            <div>Click chọn những giá trị cần thay đổi! </div><br />
+            <div>Chọn kho hàng và giá cần cập nhật (không chọn sẽ cập nhật cả 2 giá)</div><br />
                 <form action="@Url.Action(String.Empty)/ImportExcel" method="post" enctype="multipart/form-data" name="frmUpload" id="frmUpload">
                     <div class="row">
                         <div class="col-sm-3">
                             <label class="checkbox-inline">
-                                <input type="checkbox" id="chkHN" name="chkHN" />
-                                Bán lẻ Hà Nội
+                                <select name="slImportInv" id="slImportInv" onchange="javascipt:InvChange(this.value);">
+                                    @foreach (var item in ViewBag.MenuInv)
+                                    {
+                                        <option value="@item["Value"]">@item["Name"]</option>
+                                    }
+                                </select>
+                                <input type="hidden" name="curInv1" id="curInv1" value="" />
                             </label>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                             <label class="checkbox-inline">
-                                <input type="checkbox" id="chkHCM" name="chkHCM" />
-                                Bán lẻ Hồ Chí Minh
+                                <input type="checkbox" id="chkSalePrice" name="chkSalePrice" checked="checked" />
+                                Giá lẻ
                             </label>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
                             <label class="checkbox-inline">
-                                <input type="checkbox" id="chkCN3" name="chkCN3"/>
-                                Bán lẻ CN3
+                                <input type="checkbox" id="chkSalePriceDealer" name="chkSalePriceDealer" checked="checked"/>
+                                Giá buôn 
                             </label>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label class="checkbox-inline">
-                                <input type="checkbox" id="chkHN1" name="chkHN1" />
-                                Bán buôn Hà Nội
-                            </label>
-                        </div>
-                        <div class="col-sm-3">
-                            <label class="checkbox-inline">
-                                <input type="checkbox" id="chkHCM1" name="chkHCM1" />
-                                Bán buôn Hồ Chí Minh
-                            </label>
-                        </div>
-                        <div class="col-sm-3">
-                            <label class="checkbox-inline">
-                                <input type="checkbox" id="chkCN31" name="chkCN31" />
-                                Bán buôn CN3
-                            </label>
-                        </div>
-                    </div>
+                    
                     <br />
                     <input type="file" id="excelFile" name="excelFile" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                     <br />

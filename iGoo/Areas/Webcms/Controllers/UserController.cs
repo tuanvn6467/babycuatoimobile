@@ -50,8 +50,12 @@ namespace iGoo.Areas.Webcms.Controllers
             {
                 uv.UserID = new Guid(Request.Get("ID"));
                 ViewBag.Edit = uv.SelectOne().AsEnumerable().ToList();
-                
             }
+            //select inventory
+            
+            InventoryViewModel inv = new InventoryViewModel();
+            inv.UserID = uv.UserID;
+            ViewBag.Inventory = inv.SelectUserMenu().AsEnumerable().ToList();
 
             //Page
             List<DataRow> list = uv.SelectAll().AsEnumerable().ToList();
@@ -76,6 +80,7 @@ namespace iGoo.Areas.Webcms.Controllers
                 u.Gender = Request.GetNumber("slGender");
                 u.GroupID = new Guid(Request.Get("slGroupID"));
                 u.UserName = Request.Get("txtUserName");
+                u.InventoryID = new Guid(Request.Get("slOrderInv")); 
                 if (!"".Equals(u.GoogleID))
                 {
                     String pt = @"width=""200"" height=""200"" src=""(?<Url>.*?)"" />";
@@ -91,6 +96,7 @@ namespace iGoo.Areas.Webcms.Controllers
                     u.Created = DateTime.Now;
                     u.UserID = Guid.NewGuid();
                     u.Insert();
+                    SaveUserLog(UserForm.User.ToString(), UserActionType.Insert.ToString(), "Create new user: " + u.UserName.ToString());
                 }
                 else
                 {
@@ -100,6 +106,7 @@ namespace iGoo.Areas.Webcms.Controllers
                     if (!Request.Get("txtPassword").Equals("password") && !Request.IsNull("txtPassword"))
                         u.Password = Libs.sMD5(Request.Get("txtPassword"));
                     u.Update();
+                    SaveUserLog(UserForm.User.ToString(), UserActionType.Update.ToString(), "Update user: " + u.UserName.ToString());
                 }
 
                 string returnUrl = Request.Get("returnUrl");
@@ -127,6 +134,7 @@ namespace iGoo.Areas.Webcms.Controllers
                         u.UserID = new Guid(Request.Get("ckID-" + i.ToString()));
                         u.Status = (Request.GetNumber("slStatus-" + i.ToString()));
                         u.Update();
+                        SaveUserLog(UserForm.User.ToString(), UserActionType.Update.ToString(), "Update user: " + u.UserName.ToString());
                     }
                 }
 
@@ -153,7 +161,9 @@ namespace iGoo.Areas.Webcms.Controllers
                     if (!Request.IsNull("ckID-" + i.ToString()))
                     {
                         u.UserID = new Guid(Request.Get("ckID-" + i.ToString()));
+                        var deleteUser = u.SelectOne();
                         u.Delete();
+                        SaveUserLog(UserForm.User.ToString(), UserActionType.Delete.ToString(), "Delete user: " + deleteUser.Rows[0]["UserName"]);
                     }
                 }
 
@@ -193,6 +203,12 @@ namespace iGoo.Areas.Webcms.Controllers
             List<DataRow> list = iv.SelectAll1().AsEnumerable().ToList();
             ViewBag.Inventory = list;
 
+            InventoryViewModel ivde = new InventoryViewModel();
+            ivde.UserID = new SqlGuid(Request.Get("ID"));
+            //List<DataRow> listde = ivde.SelectInvDef().AsEnumerable().ToList();
+            List<DataRow> listde = ivde.SelectAll1().AsEnumerable().ToList();
+            ViewBag.InventoryDefault = listde;
+
             return View();
         }
 
@@ -209,19 +225,24 @@ namespace iGoo.Areas.Webcms.Controllers
                 var list = uv.SelectRollUsersByUserID().AsEnumerable();
                 clsADM_RollUsers ru = new clsADM_RollUsers();
                 ru.UserID = userID;
+                var u = uv.SelectOne();
 
                 String[] id = Request.Get("hID").Split(',');
 
                 int count;
                 for (int i = 0; i < id.Length; i++)
                 {
+                    RollViewModel rv = new RollViewModel();
                     count = list.Where(a => a["Checked"].ToString() == id[i]).Count();
                     if (Request.IsNull("ckID-" + id[i]))
                     {
                         if (count > 0)
                         {
                             uv.RollID = new Guid(id[i]);
+                            rv.RollID = uv.RollID;
+                            var r = rv.SelectRollModulesByRollID();
                             uv.DeleteRollUsers();
+                            SaveUserLog(UserForm.User.ToString(), UserActionType.Delete.ToString(), "Delete user role: UserName: " + u.Rows[0]["UserName"] + " -> role: " + r.Rows[0]["Name"]);
                         }
                     }
                     else
@@ -242,6 +263,10 @@ namespace iGoo.Areas.Webcms.Controllers
                     if (!Request.IsNull("ckID1-" + j))
                     {
                         uv.InventoryID = new Guid(id1[i]);
+                        //if (uv.InventoryID.ToString() == Request.Get("slOrderInv").ToString())
+                        //{
+                        //    uv.Default = 1;
+                        //}
                         uv.InsertInvUser();
                     }
                 }

@@ -112,25 +112,25 @@
               <Width>0.89584in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.866in</Width>
+              <Width>1.43892in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.75036in</Width>
+              <Width>1.05244in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.68458in</Width>
+              <Width>0.96583in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.62208in</Width>
+              <Width>0.93458in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.50001in</Width>
+              <Width>0.53126in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.39583in</Width>
+              <Width>1.20833in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.12501in</Width>
+              <Width>0.81253in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -877,9 +877,9 @@
         </Paragraphs>
         <rd:DefaultName>Textbox21</rd:DefaultName>
         <Top>1.76958in</Top>
-        <Left>6.87376in</Left>
+        <Left>7.04043in</Left>
         <Height>0.25in</Height>
-        <Width>2.48958in</Width>
+        <Width>2.32291in</Width>
         <ZIndex>4</ZIndex>
         <Style>
           <Border>
@@ -898,12 +898,6 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Chưa TT: </Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-              <TextRun>
                 <Value>=Sum(Fields!TotalPrice.Value - Fields!PrePayment.Value)</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
@@ -912,15 +906,15 @@
               </TextRun>
             </TextRuns>
             <Style>
-              <TextAlign>Left</TextAlign>
+              <TextAlign>Right</TextAlign>
             </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox21</rd:DefaultName>
-        <Top>1.44896in</Top>
-        <Left>6.15461in</Left>
+        <Top>1.47792in</Top>
+        <Left>6.00582in</Left>
         <Height>0.25in</Height>
-        <Width>1.6071in</Width>
+        <Width>0.87764in</Width>
         <ZIndex>5</ZIndex>
         <Style>
           <Border>
@@ -939,12 +933,6 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Tổng: </Value>
-                <Style>
-                  <FontWeight>Bold</FontWeight>
-                </Style>
-              </TextRun>
-              <TextRun>
                 <Value>=Sum(Fields!TotalPrice.Value)</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
@@ -958,10 +946,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox21</rd:DefaultName>
-        <Top>1.44458in</Top>
-        <Left>3.20147in</Left>
+        <Top>1.46541in</Top>
+        <Left>3.98199in</Left>
         <Height>0.25in</Height>
-        <Width>1.6198in</Width>
+        <Width>1.00869in</Width>
         <ZIndex>6</ZIndex>
         <Style>
           <Border>
@@ -980,7 +968,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Đã TT: </Value>
+                <Value xml:space="preserve"> </Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -994,15 +982,15 @@
               </TextRun>
             </TextRuns>
             <Style>
-              <TextAlign>Left</TextAlign>
+              <TextAlign>Right</TextAlign>
             </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox21</rd:DefaultName>
-        <Top>1.4418in</Top>
-        <Left>4.89071in</Left>
+        <Top>1.4793in</Top>
+        <Left>5.06707in</Left>
         <Height>0.25in</Height>
-        <Width>1.19445in</Width>
+        <Width>0.8693in</Width>
         <ZIndex>7</ZIndex>
         <Style>
           <Border>
@@ -1014,6 +1002,66 @@
           <PaddingBottom>2pt</PaddingBottom>
         </Style>
       </Textbox>
+      <Line Name="Line1">
+        <Top>1.42791in</Top>
+        <Left>3.95421in</Left>
+        <Height>0.32501in</Height>
+        <Width>0in</Width>
+        <ZIndex>8</ZIndex>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+          </Border>
+        </Style>
+      </Line>
+      <Line Name="Line2">
+        <Top>1.42791in</Top>
+        <Left>5.00457in</Left>
+        <Height>0.32501in</Height>
+        <Width>0in</Width>
+        <ZIndex>9</ZIndex>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+          </Border>
+        </Style>
+      </Line>
+      <Line Name="Line3">
+        <Top>1.42791in</Top>
+        <Left>5.96415in</Left>
+        <Height>0.32501in</Height>
+        <Width>0in</Width>
+        <ZIndex>10</ZIndex>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+          </Border>
+        </Style>
+      </Line>
+      <Line Name="Line4">
+        <Top>1.42791in</Top>
+        <Left>6.89873in</Left>
+        <Height>0.32501in</Height>
+        <Width>0in</Width>
+        <ZIndex>11</ZIndex>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+          </Border>
+        </Style>
+      </Line>
+      <Line Name="Line5">
+        <Top>1.75708in</Top>
+        <Left>6.89453in</Left>
+        <Height>0in</Height>
+        <Width>-2.93122in</Width>
+        <ZIndex>12</ZIndex>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+          </Border>
+        </Style>
+      </Line>
     </ReportItems>
     <Height>4.89584in</Height>
     <Style>
@@ -1022,7 +1070,7 @@
       </Border>
     </Style>
   </Body>
-  <Width>9.4571in</Width>
+  <Width>10.17585in</Width>
   <Page>
     <PageHeight>8.27in</PageHeight>
     <PageWidth>11.69in</PageWidth>

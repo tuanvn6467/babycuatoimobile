@@ -77,13 +77,19 @@
                             }
                         }
                     </select>
-			        <select name="slSearchType" title="@Request.Get("slSearchType")" >
+			        <select name="slSearchType" title="@Request.Get("slSearchType")">
 			            <option value="">Loại</option>
 			            @foreach (var item in ViewBag.GroupType)
-                        {
+			            {
 			                <option value="@item["Value"]">@item["Name"]</option>
-                        }
+			            }
 			        </select>
+                    <select name="slInventory" id="slInventory" title="@ViewBag.InvId">
+                        @foreach (var item in ViewBag.MenuInv)
+                        {
+                            <option value="@item["Value"]">@item["Name"]</option>
+                        }
+                    </select>
                     <button type="submit">Tìm kiếm</button>
                 </div>
                 </form>
@@ -102,22 +108,8 @@
                         <div class="page">
                             <div class="action">
                                 <button type="submit" value="Xuât Excel danh sách đã chọn" title="Xuât Excel danh sách đã chọn" >Xuât Excel danh sách đã chọn</button>
+                                <input type="hidden" name="curInvId" id="curInvId" value="@ViewBag.InvId" />
                             </div>
-                            @*<div class="page-list">
-                                    <label>Show</label>
-                                    <select id="show" title="@Request.Get("show")">
-                                        <option title="@Request.Query("show=20&page=1")" value="20">20</option>
-                                        <option title="@Request.Query("show=60&page=1")" value="60">60</option>
-                                        <option title="@Request.Query("show=100&page=1")" value="100">100</option>
-                                    </select>
-                                    <label>Trang @(Request.IsNull("page") ? "1" : @Request.Get("page"))/@ViewBag.TotalPages</label>
-                                    <select id="page" title="@Request.Get("page")">
-                                        @for (int i = 1; i <= Convert.ToInt32(ViewBag.TotalPages); i++)
-                                        {
-                                    <option title="@(Request.Query("page=" + i))" value="@i">@i</option>
-                                        }
-                                    </select>
-                            </div>*@
                         </div>
                         <!-- End page -->
                         <div class="table-list1" style="max-height: 500px; overflow-y: auto; overflow-x: hidden;">
@@ -127,12 +119,10 @@
                                     <th style="width:30px;"><input type="checkbox" value="ckID" id="ckCheckAll" /></th>
                                     <th>Mã sản phẩm</th>
                                     <th><a class="@(Request.Get("OrderBy").Equals("Title") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Title&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Tên sản phẩm</a></th>
-                                    <th>Giá HN</th>
-                                    <th>Giá bán buôn HN</th>
-                                    <th>Giá HCM</th>
-                                    <th>Giá bán buôn HCM</th>
-                                    <th>Giá CN3</th>
-                                    <th>Giá bán buôn CN3</th>
+                                    <th>Mục hàng</th>
+                                    <th>Chủng loại</th>
+                                    <th>Giá </th>
+                                    <th>Giá bán buôn</th>
                                 </thead>
                                 <tbody>
                                     @{int count = 0;}
@@ -143,13 +133,11 @@
                                         <td>@count</td>
                                         <td><input type="checkbox" title="ckID" name="ckID-@count" id="@item["SKU"]" lang="@item["Title"]" value="@item["SKU"]"/></td>
                                         <td><input type="text" value="@item["SKU"]" name="txtSKU-@count" size="10" readonly /></td>
-                                        <td><input type="text" value="@item["Title"]" name="txtTitle-@count" size="60" readonly/></td>
-                                        <td><input type="text" value="@(string.Format("{0:N0}", @item["SalePrice"]))" name="txtSalePrice-@count" size="8" readonly /></td>
-                                        <td><input type="text" value="@(string.Format("{0:N0}", @item["SalePriceDealer"]))" name="txtSalePriceDealer-@count" size="8" readonly /></td>
-                                        <td><input type="text" value="@(string.Format("{0:N0}", @item["SalePriceHCM"]))" name="txtSalePriceHCM-@count" size="8" readonly /></td>
-                                        <td><input type="text" value="@(string.Format("{0:N0}", @item["SalePriceDealerHCM"]))" name="txtSalePriceDealerHCM-@count" size="8" readonly /></td>
-                                        <td><input type="text" value="@(string.Format("{0:N0}", @item["SalePriceCN3"]))" name="txtSalePriceCN3-@count" size="8" readonly /></td>
-                                        <td><input type="text" value="@(string.Format("{0:N0}", @item["SalePriceDealerCN3"]))" name="txtSalePriceDealerCn3-@count" size="8" readonly /></td>
+                                        <td><input type="text" value="@item["Title"]" name="txtTitle-@count" size="30" readonly/></td>
+                                        <td><input type="text" value="@item["Name"]" name="txtName-@count" size="10" readonly/></td>
+                                        <td><input type="text" value="@item["NameAttribute"]" name="txtNameAttribute-@count" size="6" readonly/></td>
+                                        <td><input type="text" value="@(string.Format("{0:N0}", @item["SalePrice"]))" name="txtSalePrice-@count" size="6" readonly /></td>
+                                        <td><input type="text" value="@(string.Format("{0:N0}", @item["SalePriceDealer"]))" name="txtSalePriceDealer-@count" size="6" readonly /></td>
                                     </tr>
                                     }
                                 </tbody>
@@ -158,12 +146,10 @@
                                     <th style="width:30px;"><input type="checkbox" value="ckID" id="ckCheckAll" /></th>
                                     <th>Mã sản phẩm</th>
                                     <th><a class="@(Request.Get("OrderBy").Equals("Title") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Title&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Tên sản phẩm</a></th>
-                                    <th>Giá HN</th>
-                                    <th>Giá bán buôn HN</th>
-                                    <th>Giá HCM</th>
-                                    <th>Giá bán buôn HCM</th>
-                                    <th>Giá CN3</th>
-                                    <th>Giá bán buôn CN3</th>
+                                    <th>Mục hàng</th>
+                                    <th>Chủng loại</th>
+                                    <th>Giá</th>
+                                    <th>Giá bán buôn</th>
                                 </tfoot>
                             </table>
                         </div>

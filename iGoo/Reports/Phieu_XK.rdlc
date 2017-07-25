@@ -94,7 +94,7 @@
                 <Style />
               </TextRun>
               <TextRun>
-                <Value>=Fields!FullName.Value</Value>
+                <Value>=First(Fields!FullName.Value, "DataSet1")</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -104,7 +104,7 @@
                 <Style />
               </TextRun>
               <TextRun>
-                <Value>=Fields!Phone.Value</Value>
+                <Value>=First(Fields!Phone.Value, "DataSet1")</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -119,7 +119,7 @@
                 <Style />
               </TextRun>
               <TextRun>
-                <Value>=Fields!Address.Value</Value>
+                <Value>=First(Fields!Address.Value, "DataSet1")</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -172,7 +172,7 @@
               <Width>0.78888in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.69467in</Width>
+              <Width>0.92708in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -392,7 +392,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Chiết khấu</Value>
+                              <Value>Giảm giá</Value>
                               <Style>
                                 <FontWeight>Bold</FontWeight>
                               </Style>
@@ -687,7 +687,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Discount.Value</Value>
+                              <Value>=IIF((Fields!Discount.Value &gt;100),Fields!Discount.Value,Fields!Discount.Value &amp; "%")</Value>
                               <Style>
                                 <Format>n0</Format>
                               </Style>
@@ -720,7 +720,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Quantity.Value*Fields!Price.Value - Fields!Quantity.Value*Fields!Discount.Value</Value>
+                              <Value>=Fields!Quantity.Value*Fields!Price.Value - Fields!Quantity.Value*(IIF((Fields!Discount.Value &gt;100),Fields!Discount.Value,Fields!Price.Value*Fields!Discount.Value/100))</Value>
                               <Style>
                                 <Format>n0</Format>
                               </Style>
@@ -744,21 +744,23 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox10">
+                    <Textbox Name="WarrantyPeriod1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>=Fields!WarrantyPeriod.Value.ToString()</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox10</rd:DefaultName>
+                      <rd:DefaultName>WarrantyPeriod1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>Solid</Style>
@@ -802,7 +804,7 @@
         <Top>1.40431in</Top>
         <Left>0.09916in</Left>
         <Height>0.53472in</Height>
-        <Width>6.38168in</Width>
+        <Width>6.61409in</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>
@@ -823,7 +825,7 @@
                 </Style>
               </TextRun>
               <TextRun>
-                <Value>=Fields!PriceText.Value</Value>
+                <Value>=First(Fields!PriceText.Value, "DataSet1")</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -1023,7 +1025,7 @@
                 <Style />
               </TextRun>
               <TextRun>
-                <Value xml:space="preserve">    </Value>
+                <Value xml:space="preserve">  </Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -1061,7 +1063,7 @@
                 </Style>
               </TextRun>
               <TextRun>
-                <Value>=Fields!PrePayment.Value</Value>
+                <Value>=First(Fields!PrePayment.Value, "DataSet1")</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                   <Format>n0</Format>
@@ -1100,7 +1102,13 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>Ghi chú: HD sử dụng và điều khoản bảo hành tại website intexvietvietnam hoặc babycuatoi.vn</Value>
+                <Value>Ghi chú: </Value>
+                <Style>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+              <TextRun>
+                <Value>=First(Fields!Comment.Value, "DataSet1")</Value>
                 <Style>
                   <FontWeight>Bold</FontWeight>
                 </Style>
@@ -1166,13 +1174,8 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Label>lblCty</Label>
-                <Value>=IIf(First(Fields!InventoryCode.Value, "DataSet1") = "HNI", "&lt;b&gt;CÔNG TY CỔ PHẦN SX TM &amp; DV BBT VIỆT NAM &lt;/b&gt;&lt;br /&gt;" &amp; Space(100) &amp;
-"&lt;/br&gt;&lt;b&gt;LK 75 Lô 6A Làng Việt Kiều Châu Âu - Km10 Nguyễn Trãi - HN&lt;/b&gt;&lt;br /&gt;" &amp; Space(10) &amp;
-"Hotline: 04.399.00.366 - 3993.77888 - website: babycuatoi.vn - intexvietnam.vn",
- "&lt;b&gt;Chi nhánh Công ty CPSXTM và DV BBT Việt Nam&lt;/b&gt;&lt;br /&gt;" &amp; Space(30) &amp;
- "&lt;b&gt;ĐC: 538/2A Lý Thường Kiệt, P7, Q. Tân Bình, TPHCM&lt;/b&gt;&lt;br /&gt;" &amp; Space(30) &amp;
- "SĐT: 0946.196.996 / 0939.090.298")</Value>
+                <Label>lblDiaChi</Label>
+                <Value>=First(Fields!InventoryDesc.Value, "DataSet1")</Value>
                 <MarkupType>HTML</MarkupType>
                 <Style />
               </TextRun>
@@ -1182,7 +1185,7 @@
         </Paragraphs>
         <rd:DefaultName>Textbox8</rd:DefaultName>
         <Height>0.52084in</Height>
-        <Width>4.7825in</Width>
+        <Width>4.99729in</Width>
         <ZIndex>13</ZIndex>
         <Style>
           <Border>
@@ -1195,7 +1198,7 @@
         </Style>
       </Textbox>
     </ReportItems>
-    <Height>6.32292in</Height>
+    <Height>6.10292in</Height>
     <Style>
       <Border>
         <Style>None</Style>
@@ -1326,10 +1329,22 @@
           <DataField>InventoryCode</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="Comment">
+          <DataField>Comment</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="InventoryDesc">
+          <DataField>InventoryDesc</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="WarrantyPeriod">
+          <DataField>WarrantyPeriod</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
       <rd:DataSetInfo>
         <rd:DataSetName>babycuatoi_dbDataSet</rd:DataSetName>
-        <rd:SchemaPath>K:\BBT\SC v2\iGoo\babycuatoi_dbDataSet.xsd</rd:SchemaPath>
+        <rd:SchemaPath>F:\Solutions\BBT\Backup\Babycuatoi v3.0 (Running)\BBT\iGoo\babycuatoi_dbDataSet.xsd</rd:SchemaPath>
         <rd:TableName>sp_CMS_Orders_SelectByOrderCode</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
@@ -1350,6 +1365,7 @@
       <Value>=Parameters!sOrderCode.Value</Value>
     </Variable>
   </Variables>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>381d4711-ba8c-4c22-adc6-d9ab0216feb5</rd:ReportID>
 </Report>

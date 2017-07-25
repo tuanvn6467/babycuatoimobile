@@ -42,7 +42,9 @@ namespace iGoo.Areas.Webcms.Models
                         cmdToExecute.Transaction = _mainConnectionProvider.CurrentTransaction;
                     }
                 }
-
+                //Kh@nhHQ 21Mar2016
+                //cmdToExecute.CommandTimeout = 300; //5'
+                cmdToExecute.CommandTimeout = 0; //No limit
                 // Execute query.
                 adapter.Fill(toReturn);
                 return toReturn;
@@ -63,6 +65,97 @@ namespace iGoo.Areas.Webcms.Models
                 adapter.Dispose();
             }
         }
-               
+        public DataTable ReportDoanhThu_ChiNhanh_MonthChart()
+        {
+            SqlCommand cmdToExecute = new SqlCommand();
+            cmdToExecute.CommandText = "dbo.[sp_Report_DoanhThu_CN_Month]";
+            cmdToExecute.CommandType = CommandType.StoredProcedure;
+            DataTable toReturn = new DataTable("sp_Report_DoanhThu_CN");
+            SqlDataAdapter adapter = new SqlDataAdapter(cmdToExecute);
+
+            // Use base class' connection object
+            cmdToExecute.Connection = _mainConnection;
+
+            try
+            {
+                if (_mainConnectionIsCreatedLocal)
+                {
+                    // Open connection.
+                    _mainConnection.Open();
+                }
+                else
+                {
+                    if (_mainConnectionProvider.IsTransactionPending)
+                    {
+                        cmdToExecute.Transaction = _mainConnectionProvider.CurrentTransaction;
+                    }
+                }
+
+                // Execute query.
+                adapter.Fill(toReturn);
+                return toReturn;
+            }
+            catch (Exception ex)
+            {
+                // some error occured. Bubble it to caller and encapsulate Exception object
+                throw new Exception("DTChiNhanhViewModel::sp_Report_DoanhThu_CN_Month::Error occured.", ex);
+            }
+            finally
+            {
+                if (_mainConnectionIsCreatedLocal)
+                {
+                    // Close connection.
+                    _mainConnection.Close();
+                }
+                cmdToExecute.Dispose();
+                adapter.Dispose();
+            }
+        }
+
+        public DataTable ReportDoanhThu_ChiNhanh_MonthChartData()
+        {
+            SqlCommand cmdToExecute = new SqlCommand();
+            cmdToExecute.CommandText = "dbo.[sp_Report_GetChartData]";
+            cmdToExecute.CommandType = CommandType.StoredProcedure;
+            DataTable toReturn = new DataTable("sp_Report_GetChartData");
+            SqlDataAdapter adapter = new SqlDataAdapter(cmdToExecute);
+
+            // Use base class' connection object
+            cmdToExecute.Connection = _mainConnection;
+
+            try
+            {
+                if (_mainConnectionIsCreatedLocal)
+                {
+                    // Open connection.
+                    _mainConnection.Open();
+                }
+                else
+                {
+                    if (_mainConnectionProvider.IsTransactionPending)
+                    {
+                        cmdToExecute.Transaction = _mainConnectionProvider.CurrentTransaction;
+                    }
+                }
+
+                // Execute query.
+                adapter.Fill(toReturn);
+                return toReturn;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("DTChiNhanhViewModel::sp_Report_GetChartData::Error occured.", ex);
+            }
+            finally
+            {
+                if (_mainConnectionIsCreatedLocal)
+                {
+                    // Close connection.
+                    _mainConnection.Close();
+                }
+                cmdToExecute.Dispose();
+                adapter.Dispose();
+            }
+        }
     }
 }

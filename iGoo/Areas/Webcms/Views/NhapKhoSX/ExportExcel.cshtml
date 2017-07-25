@@ -68,7 +68,11 @@
 			       <select name="slSearchType" id="slSearchType" title="@Request.Get("slSearchType")">
                 @foreach (var item in ViewBag.MenuInv)
                 {
-                    <option value="@item["Value"]">@item["Name"]</option>
+                    if (@item["Value"].ToString() != "c69946be-f6f3-468b-b7da-dcd645db43d3")
+                    {
+                        <option value="@item["Value"]">@item["Name"]</option>
+                    }
+                    
                 }
             </select>
                     <select name="slSearchStatus" title="@Request.Get("slSearchStatus")" >

@@ -191,16 +191,30 @@ function CheckAllPermission() {
 function ActionForm(action)
 {
     $('button[id="btnActionAdd"]').click(function () {
-        $('#frmList').attr('method', "POST");
-        $('#frmList').attr('action', action + "/AddNew");
-        //$('input:checkbox[title="ckID"]').attr('checked', true);
-        $('#frmList').submit();
+        var form = $('#frmList');
+        form.validate();
+        if (form.valid()) {
+            $('#frmList').attr('method', "POST");
+            $('#frmList').attr('action', action + "/AddNew");
+            //$('input:checkbox[title="ckID"]').attr('checked', true);
+            $('button[id="btnActionAdd"]').prop('disabled', true);
+            $('#frmList').submit();
+        } else {
+            alert("Bạn phải nhập các thông tin cần thiết!");
+        }
     });
 
     $('button[id="btnActionUpdate"]').click(function () {
         if (window.confirm("Bạn có chắc chắn cập nhật không?")) {
             $('#frmList').attr('method', "POST");
             $('#frmList').attr('action',action+"/Update");
+            $('#frmList').submit();
+        }
+    });
+    $('button[id="btnUpdateProductRate"]').click(function () {
+        if (window.confirm("Bạn có chắc chắn cập nhật không?")) {
+            $('#frmList').attr('method', "POST");
+            $('#frmList').attr('action', action + "/UpdateProductRate");
             $('#frmList').submit();
         }
     });
@@ -211,13 +225,6 @@ function ActionForm(action)
         //alert($('#frmList').attr('action'));
         $('#frmList').submit();
     });
-    //$('button[id="btnActionXuatKhoNB"]').click(function () {
-    //    $('#frmList').attr('method', "POST");
-    //    $('#frmList').attr('action', action + "/ImportUpdate");
-    //    $('input:checkbox[title="ckID"]').attr('checked', true);
-    //    //alert($('#frmList').attr('action'));
-    //    $('#frmList').submit();
-    //});
     $('button[id="btnActionExport"]').click(function () {
         //var selectedOption = $("#slSearchType option:selected").text();
         //if (selectedOption == null) $("#slSearchType option:1").text();
@@ -229,37 +236,26 @@ function ActionForm(action)
         //alert($('#frmList').attr('action'));
         $('#frmList').submit();
     });
-
     $('button[id="btnExportBC"]').click(function () {
-        //var selectedOption = $("#slSearchType option:selected").text();
-        //if (selectedOption == null) $("#slSearchType option:1").text();
-        //$("<input/>", { type: 'hidden', name: 'hdfInventoryName' }).val(selectedOption).appendTo("#frmList");
-        //alert(selectedOption);
         $('#frmSearch').attr('method', "POST");
         $('#frmSearch').attr('action', action + "/ExportData");
-        //$('input:checkbox[title="ckID"]').attr('checked', true);
-        //alert($('#frmList').attr('action'));
         $('#frmSearch').submit();
     });
-
+    $('button[id="btnExportHD"]').click(function () {        
+        $('#frmList').attr('method', "POST");
+        $('#frmList').attr('action', action + "/ExportData");
+        $('#frmList').submit();
+    });
     $('button[id="btnChon"]').click(function () {
-        //var selectedOption = $("#slSearchType option:selected").text();
-        //if (selectedOption == null) $("#slSearchType option:1").text();
-        //$("<input/>", { type: 'hidden', name: 'hdfInventoryName' }).val(selectedOption).appendTo("#frmList");
-        //alert(selectedOption);
         $('#frmSearch').attr('method', "GET");
         $('#frmSearch').attr('action', action + "/Index");
-        //$('input:checkbox[title="ckID"]').attr('checked', true);
-        //alert($('#frmList').attr('action'));
         $('#frmSearch').submit();
     });
-
     $('button[id="btnActionUpdatePermission"]').click(function () {
         $('#frmList').attr('method', "POST");
         $('#frmList').attr('action', action + "/UpdatePermission");
         $('#frmList').submit();
     });
-
     $('button[id="btnActionDelete"]').click(function () {
         if ($('input:checkbox[title="ckID"]:checked').val() != null) {
             if (confirm("Bạn thực sự muốn xóa?")) {
@@ -269,7 +265,6 @@ function ActionForm(action)
             }
         }
     });
-
     $('button[id="btnDelete"]').click(function () {
         if ($('input:checkbox[title="ckID"]:checked').val() != null) {
             if (confirm("Bạn thực sự muốn xóa?")) {
@@ -283,9 +278,7 @@ function ActionForm(action)
         $('#frmAdd').attr('method',"POST");
         $('#frmAdd').attr('action',action+"/Create");
         $('#frmAdd').submit();
-    });
-
-   
+    });   
     
     //sln added
     $('button[id="btnTemplate"]').click(function () {
@@ -325,6 +318,44 @@ function ActionForm(action)
         $('#frmList').attr('action', action + "/UpdateInventory");
         $('#frmList').submit();
     });
+    
+    $("#slSearchInv").change(function () {
+        $('#frmSearch').attr('method', "GET");
+        $('#frmSearch').attr('action', action + "/Index");
+        $('#frmSearch').submit();
+    });
+    $("#slSearchInvProductRate").change(function () {
+        $('#frmSearchProductRate').attr('method', "GET");
+        $('#frmSearchProductRate').attr('action', action + "/ProductRate");
+        $('#frmSearchProductRate').submit();
+    });
+
+    //btn Campaign
+    $('button[id="btnAddCampaign"]').click(function () {
+        $('#frmList').attr('method', "POST");
+        $('#frmList').attr('action', action + "/AddNew");
+        $('#frmList').submit();
+    });
+    $('button[id="btnUpdateCampaign"]').click(function () {
+        $('#frmList').attr('method', "POST");
+        $('#frmList').attr('action', action + "/Update");
+        $('#frmList').submit();
+    });
+    $('button[id="btnCampaignDelete"]').click(function () {
+        if ($('input:checkbox[title="ckID"]:checked').val() != null) {
+            if (confirm("Bạn thực sự muốn xóa?")) {
+                $('#frmList').attr('method', "POST");
+                $('#frmList').attr('action', action + "/Delete");
+                $('#frmList').submit();
+            }
+        }
+    });
+
+    $('button[id="btnTestMailCampaign"]').click(function () {
+        $('#frmList').attr('method', "POST");
+        $('#frmList').attr('action', action + "/TestEmail");
+        $('#frmList').submit();
+    });
 }
 
 function Delete(id) {
@@ -335,6 +366,13 @@ function Delete(id) {
 function DeleteVas(id) {
     $('input:checkbox[value="' + id + '"]').attr('checked', true);
     $('#btnVasDelete').trigger('click');
+}
+
+
+// btn Campaign
+function DeleteCampaign(id) {
+    $('input:checkbox[value="' + id + '"]').attr('checked', true);
+    $('#btnCampaignDelete').trigger('click');
 }
 
 function DeleteList(id) {
@@ -358,14 +396,6 @@ function ShowUpload() {
         createCookie("cookieFileValue", $(this).val(), 1);
     });
 }
-
-//function Xuat() {
-//    $('button[id="btnXuat"]').click(function () {
-//        $('#frmAdd').attr('method', "POST");
-//        $('#frmAdd').attr('action', action + "/ExportExcelDoanhThu");
-//        $('#frmAdd').submit();
-//    });
-//}
 
 function Xuat() {
     $('button[id="btnXuat"]').click(function () {

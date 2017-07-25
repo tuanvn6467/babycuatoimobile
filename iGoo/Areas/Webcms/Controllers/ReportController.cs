@@ -24,6 +24,7 @@ using iGoo.Helpers;
 using System.Data;
 using iGoo.Classes;
 using Microsoft.Reporting.WebForms;
+using System.IO;
 
 namespace iGoo.Areas.Webcms.Controllers
 {
@@ -99,7 +100,18 @@ namespace iGoo.Areas.Webcms.Controllers
             ////this.rv.Visible = true;
 
             ////this.rv.ReportRefresh();
-           
+
+            return View();
+        }
+
+
+        public ActionResult ReportViewer3()
+        {
+            return View();
+        }
+
+        public ActionResult ReportViewer4()
+        {
             return View();
         }
 
@@ -112,6 +124,7 @@ namespace iGoo.Areas.Webcms.Controllers
         {
             return View();
         }
+
         //public ActionResult ViewUserControl1()
         //{
         //    return View();
@@ -119,7 +132,7 @@ namespace iGoo.Areas.Webcms.Controllers
         public ActionResult Index1()
         {
             ReportViewModel ov = new ReportViewModel();
-            var localReport = new LocalReport { ReportPath = Server.MapPath("~/Reports/Report1.rdlc") };
+            var localReport = new LocalReport {ReportPath = Server.MapPath("~/Reports/Report1.rdlc")};
             var reportDataSource = new ReportDataSource("Customers", ov.SelectByShipperID());
 
             localReport.DataSources.Add(reportDataSource);
@@ -153,9 +166,53 @@ namespace iGoo.Areas.Webcms.Controllers
             return File(renderedBytes, mimeType);
 
         }
-    }
 
-        
+        protected void PrintFile()
+        {
+
+            ReportViewModel pv = new ReportViewModel();
+            LocalReport localReport = new LocalReport();
+            
+
+            localReport.ReportPath = @"Reports/Phieu_XK.rdlc";
+
+            var sCodeOrder = "";
+            sCodeOrder = Request.Params["CodeOrder"];
+            ReportParameter rp = new ReportParameter("sOrderCode", sCodeOrder);
+            localReport.SetParameters(new ReportParameter[] {rp});
+
+            ReportDataSource rds = new ReportDataSource();
+            rds.Name = "DataSet1"; //This refers to the dataset name in the RDLC file
+            rds.Value = pv.SelectByOrderCode(sCodeOrder);
+
+            localReport.DataSources.Add(rds);
+
+            Warning[] warnings;
+            string[] streamIds;
+            string mimeType = string.Empty;
+            string encoding = string.Empty; //enter code here`
+            string extension = string.Empty;
+
+
+
+            byte[] bytes = localReport.Render("PDF", null, out mimeType, out encoding, out extension,
+                out streamIds, out warnings);
+            // byte[] bytes = viewer.LocalReport.Render("Excel", null, out mimeType, out encoding, out extension, out streamIds, out warnings);
+            // Now that you have all the bytes representing the PDF report, buffer it and send it to the client.         
+            // System.Web.HttpContext.Current.Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Buffer = true;
+            Response.Clear();
+            Response.ContentType = mimeType;
+            Response.AddHeader("content-disposition", "attachment; filename= filename" + "." + extension);
+            Response.OutputStream.Write(bytes, 0, bytes.Length); // create the file 
+            Response.Flush(); // send it to the client to download 
+            Response.End();
+
+
+
+        }
+
 
     }
+}
 

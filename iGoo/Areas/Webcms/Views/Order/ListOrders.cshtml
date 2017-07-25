@@ -1,4 +1,6 @@
-﻿@using System.Globalization
+﻿
+
+@using System.Globalization
 @using iGoo.Helpers
 
 @{
@@ -12,6 +14,14 @@
 @*    <script src="@Url.Content("~/Script/jquery-ui-1.10.4.custom.min.js")" type="text/javascript"></script>*@
     @*<link href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css" rel="stylesheet" />*@
     <link href="@Url.Content("~/Source/bootstrap/css/bootstrap.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Script/jquery-1.9.1.js")"  type="text/javascript"></script>
+<script src="@Url.Content("~/Script/jquery-ui-1.10.3.custom.js")"  type="text/javascript"></script>
+<link rel="stylesheet" href="@Url.Content("~/Source/webcms/styles/jquery-ui-1.10.3.custom.min.css")" type="text/css">
+    
+    <script src="@Url.Content("~/Script/jquery.datetimepicker.js")"  type="text/javascript"></script>
+    <link rel="stylesheet" href="@Url.Content("~/Source/webcms/styles/jquery.datetimepicker.css")" type="text/css">
+
+
     
     <script type="text/javascript">
         function addNew(){
@@ -25,6 +35,42 @@
         function tabOrder(id) {
             window.location.href = "ListOrders?slSearchStatus="+id;
         }
+
+        $(function () {
+            $('#txtFromDate').datetimepicker({
+                format: 'd/m/Y H:i',
+                lang: 'vi',
+                defaultTime: '00:00',
+                
+            });
+            $(".txtFromDate").datetimepicker({
+                firstDay: 1
+            });
+            $('#txtToDate').datetimepicker({
+                format: 'd/m/Y H:i',
+                lang: 'vi',
+                defaultTime: '23:59',
+            });           
+        });        
+
+        //$(function () {
+        //    $("#txtFromDate").datepicker({
+        //        dateFormat: 'dd/mm/yy', changeYear: true,
+                
+        //        changeMonth: true,
+        //        yearRange: 'c-3:c+1',
+                
+        //        showButtonPanel: true
+        //    });
+        //    $("#txtToDate").datepicker({
+        //        dateFormat: 'dd/mm/yy', changeYear: true,
+        //        changeMonth: true,
+        //        yearRange: 'c-3:c+1',
+        //        showButtonPanel: true,
+        //    });
+
+
+        //});
     </script>
 }
 
@@ -45,11 +91,11 @@
                     {
                         if (!@Request.Get("t").Equals("1"))
                         {
-                            <p class="result">Cập nhật thành công!</p>
+                        <p class="result">Cập nhật thành công!</p>
                         }
                         else
                         {
-                            <p class="result">Hóa đơn đã giao hàng, không thể xóa!</p>
+                        <p class="result">Hóa đơn đã giao hàng, không thể xóa!</p>
                         }
                     }
                     @if (@Request.Get("error").Equals("1"))
@@ -58,159 +104,212 @@
                     }
                     <span class="action">
                         <input type="text" name="txtKey" value="@Request.Get("txtKey")" />
-                        <button type="submit">Tìm kiếm</button>
+
                     </span>
+                    <select name="slSearchInventory" title="@Request.Get("slSearchInventory")" >
+                        @*<option value="">--- Chi nhánh ---</option>*@
+                        @foreach (var item in ViewBag.Inventory)
+                        {
+                            <option value="@item["value"]">&nbsp;&nbsp;&nbsp; @item["Name"] &nbsp;&nbsp;&nbsp;</option>
+                        }
+                    </select>
+                    <select id="slsUser" name="slsUser" title="@Request.Get("slsUser")" >
+                        <option value="">-- Nhân viên bán hàng -- </option>
+                        @foreach (var item in ViewBag.NVBH)
+                        {
+                            <option value="@item["UserID"]">@item["FullName"]</option>
+                        }
+                    </select>
+                    <select id="slsUser1" name="slsUser1" title="@Request.Get("slsUser1")" >
+                        <option value="">-- Nhân viên giao hàng -- </option>
+                        @foreach (var item in ViewBag.NVGH)
+                        {
+                            <option value="@item["ShipperID"]">@item["FullName"]</option>
+                        }
+                    </select>
+                    <select name="cboCusClass" id="cboCusClass"  title="@Request.Get("cboCusClass")" >
+                        <option value="">-- Loại khách hàng -- </option>
+                        @foreach (var item in ViewBag.CusClass)
+                        {
+                            <option value="@item["value"]">@item["Name"]</option>
+                        }
+
+                    </select>
+                    <br>
+                    <tr>
+                        <label>Từ ngày </label>
+                        <input type="text" name="txtFromDate" id="txtFromDate" value="@Request.Get("txtFromDate")" />
+                        <label>Đến ngày </label>
+                        <input type="text" name="txtToDate" id="txtToDate" value="@Request.Get("txtToDate")" />
+                        <button type="submit" id ="btnTimKiem">Tìm kiếm</button>                        
+                        <button type="button" id="btnExportHD">Xuất Excel </button>
+                       <label style="font-style: italic;">(Mặc định đơn hàng lấy từ đầu tháng)</label>
+
                     <div class="page">
-                        <input type="hidden" name="slSearchStatus" id="slSearchStatus" value="@ViewBag.ViewStatus" />
-                        <div class="action">
-                            <button type="button" id="btnDelete" class="btn btn-danger" style="height: 34px !important;">Xóa</button>
-                            <a href="ProcessOrder?t=2" target="_blank" class="btn btn-info">Thêm mới</a>
-                        </div>
-                        <div class="page-list">
-                            <label>Show</label>
-                            <select id="show" title="@Request.Get("show")">
-                                <option title="@Request.Query("show=20&page=1")" value="20">20</option> @*&txtKey=@Request.Get("txtKey")&slSearchStatus=@ViewBag.ViewStatus*@
-                                <option title="@Request.Query("show=60&page=1")" value="60">60</option>
-                                <option title="@Request.Query("show=100&page=1")" value="100">100</option>
-                            </select>
-                            <label>Trang @(Request.IsNull("page") ? "1" : @Request.Get("page"))/@ViewBag.TotalPages</label>
-                            <select id="page" title="@Request.Get("page")">
-                                @for (int i = 1; i <= Convert.ToInt32(ViewBag.TotalPages); i++)
-                                {
-                                    <option title="@(Request.Query("page=" + i))" value="@i">@i</option>
+                            <input type="hidden" name="slSearchStatus" id="slSearchStatus" value="@ViewBag.ViewStatus" />
+                            <div class="action">
+                                <button type="button" id="btnDelete" class="btn btn-danger" style="height: 34px !important;">Xóa</button>
+                                <a href="ProcessOrder?t=2" target="_blank" class="btn btn-info">Thêm mới</a>
+                            </div>
+                            <div class="page-list">
+                                <label>Show</label>
+                                <select id="show" title="@Request.Get("show")">
+                                    <option title="@Request.Query("show=20&page=1")" value="20">20</option>
+                                    @*&txtKey=@Request.Get("txtKey")&slSearchStatus=@ViewBag.ViewStatus*@
+                                    <option title="@Request.Query("show=60&page=1")" value="60">60</option>
+                                    <option title="@Request.Query("show=100&page=1")" value="100">100</option>
+                                </select>
+                                <label>Trang @(Request.IsNull("page") ? "1" : @Request.Get("page"))/@ViewBag.TotalPages</label>
+                                <select id="page" title="@Request.Get("page")">
+                                    @for (int i = 1; i <= Convert.ToInt32(ViewBag.TotalPages); i++)
+                                    {
+                                        <option title="@(Request.Query("page=" + i))" value="@i">@i</option>
                                 }
-                            </select>
-                        </div>
-                    </div>
-                    <div style="padding-top: 10px !important;">
-                        <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-                            <li @(ViewBag.ViewStatus == 0 ? "class=active" : "")><a href="ListOrders?slSearchStatus=0">Chờ xử lý (@ViewBag.OrderCount[0]["Order_0"])</a></li>
-                            <li @(ViewBag.ViewStatus == 1 ? "class=active" : "")><a href="ListOrders?slSearchStatus=1">Đang xử lý (@ViewBag.OrderCount[0]["Order_1"])</a></li>
-                            <li @(ViewBag.ViewStatus == 5 ? "class=active" : "")><a href="ListOrders?slSearchStatus=5">Chờ vào sổ (@ViewBag.OrderCount[0]["Order_5"])</a></li>
-                            <li @(ViewBag.ViewStatus == 3 ? "class=active" : "")><a href="ListOrders?slSearchStatus=3">Chờ giao hàng (@ViewBag.OrderCount[0]["Order_3"])</a></li>
-                            <li @(ViewBag.ViewStatus == 6 ? "class=active" : "")><a href="ListOrders?slSearchStatus=6">Đang giao hàng (@ViewBag.OrderCount[0]["Order_6"])</a></li>
-                            <li @(ViewBag.ViewStatus == 2 ? "class=active" : "")><a href="ListOrders?slSearchStatus=2">Hoàn tất (@ViewBag.OrderCount[0]["Order_2"])</a></li>
-                            <li @(ViewBag.ViewStatus == 4 ? "class=active" : "")><a href="ListOrders?slSearchStatus=4">Huỷ bỏ (@ViewBag.OrderCount[0]["Order_4"])</a></li>
-                        </ul>
-                        <div style="padding-top: 0px;">
-                            <div class="table-list">
-                                <table id="oList">
-                                    <thead>
-                                        <th>#</th>
-                                        <th style="width:30px;"><input type="checkbox" value="ckID" id="ckCheckAll" /></th>
-                                        <th><a class="@(Request.Get("OrderBy").Equals("OrderCode") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=OrderCode&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))">Mã đơn hàng</a></th>
-                                        <th><a class="@(Request.Get("OrderBy").Equals("FullName") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=FullName&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))&t=@ViewBag.oType">Tên khách hàng</a></th>
-                                        <th>Số điện thoại</th>
-                                        <th>Địa chỉ</th>
-                                        <th><a class="@(Request.Get("OrderBy").Equals("TotalPrice") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=TotalPrice&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))">Tổng tiền</a></th>
-                                        <th><a class="@(Request.Get("OrderBy").Equals("Created") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Created&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))">Thời gian đặt hàng</a></th>
-                                        <th>Chi nhánh</th>
-                                    </thead>
-                                    <tbody>
-                                        @{string btnDelete = "<button type=\"button\" id=\"btnActionDelete\">Xóa</button>";}
-                                        @{int count = 0;}
-                                        @foreach (var item in ViewBag.Order)
-                                        {
-                                            count += 1;
-                                            string disable = "disabled=\"disabled\"";
-                                            string statusID = item["Status"].ToString();
-                                            if (statusID.Equals("4"))
-                                            {
-                                                disable = "";
-                                                btnDelete = "";
-                                            }
-                                            <tr>
-                                                <td>@count</td>
-                                                <td><input type="checkbox" title="ckID" name="ckID-@count" value="@item["OrderID"]" @disable /></td>
-                                                <td class="subject">
-                                                    <span>@item["OrderCode"]</span>
-                                                    <div class="edit">
-                                                        @if (statusID.Equals("0") || statusID.Equals("1") || statusID.Equals("3") || statusID.Equals("5"))
-                                                        {
-                                                            <a target="_blank" class="actionEdit" href="/Webcms/Order/ProcessOrder?ID=@item["OrderID"]">Sửa</a>
-                                                        }
-                                                        @if (statusID.Equals("2") || statusID.Equals("6") || statusID.Equals("4"))
-                                                        {
-                                                            <a target="_blank" class="actionEdit" href="/Webcms/Order/ProcessOrder?ID=@item["OrderID"]">Xem</a>
-                                                        }
-                                                        @if (statusID.Equals("3"))
-                                                        {
-                                                            <a target="_blank" class="actionEdit" href="/Webcms/Shipper?txtKey=@item["OrderCode"]">Giao hàng</a>
-                                                        }
-                                                        @if (statusID.Equals("6"))
-                                                        {
-                                                            <a target="_blank" class="actionEdit" href="/Webcms/Shipper?txtKey=@item["OrderCode"]&slSearchStatus=6">Hoàn tất</a>
-                                                        }
-                                                        @*Shipper?txtKey=RO-27062014-5717*@
-                                                        @if (statusID.Equals("4"))
-                                                        {
-                                                            <a class="actionDelete" href="javascript:DeleteList('@item["OrderID"]');">Xóa</a>
-                                                        }
-                                                    </div>
-                                                </td>
-                                                <td>@item["FullName"]</td>
-                                                <td>@item["Phone"]</td>
-                                                <td>@item["Address"]</td>
-                                                <td>@(string.Format("{0:N0}", item["TotalPrice"]))</td>
-                                                <td>@item["Created"]</td>
-                                                <td>@item["InventoryName"]</td>
-@*                                                <td>*@
-@*                                                    <select class="change" name="slStatus-@count" title="@item["Status"]" disabled="disabled">*@
-@*                                                        <option value="0">Chờ xử lý</option>*@
-@*                                                        <option value="1">Đang xử lý</option>*@
-@*                                                        <option value="5">Chờ vào sổ</option>*@
-@*                                                        <option value="3">Chờ giao hàng</option>*@
-@*                                                        <option value="6">Đang giao hàng</option>*@
-@*                                                        <option value="2">Hoàn tất</option>*@
-@*                                                        <option value="4">Huỷ bỏ</option>*@
-@*                                                    </select>*@
-@*                                                </td>*@
-                                            </tr>
-                                        }
-                                    </tbody>
-                                    <tfoot>
-                                        <th>#</th>
-                                        <th style="width:30px;"><input type="checkbox" value="ckID" id="ckCheckAll" /></th>
-                                        <th><a class="@(Request.Get("OrderBy").Equals("OrderCode") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=OrderCode&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))">Mã đơn hàng</a></th>
-                                        <th><a class="@(Request.Get("OrderBy").Equals("FullName") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=FullName&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))&t=@ViewBag.oType">Tên khách hàng</a></th>
-                                        <th>Số điện thoại</th>
-                                        <th>Địa chỉ</th>
-                                        <th><a class="@(Request.Get("OrderBy").Equals("TotalPrice") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=TotalPrice&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))">Tổng tiền</a></th>
-                                        <th><a class="@(Request.Get("OrderBy").Equals("Created") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Created&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))">Thời gian đặt hàng</a></th>
-                                        <th>Chi nhánh</th>
-                                    </tfoot>
-                                </table>
+                                </select>
                             </div>
                         </div>
-                    </div>
-                    <!-- End page -->
-                        
-                    <div class="page">
-                        <div class="action">
-                            <input type="hidden" name="count" value="@count" />
-                            <input type="hidden" name="returnUrl" id="returnUrl" value="@Request.Query(string.Empty)" />
-                            <button type="button" id="btnActionDelete" class="btn btn-danger" style="height: 34px !important;">Xóa</button>
+                        <div style="padding-top: 10px !important;">
+                            <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+                                <li @(ViewBag.ViewStatus == 0 ? "class=active" : "")><a href="ListOrders?slSearchStatus=0">Chờ xử lý (@ViewBag.OrderCount[0]["Order_0"])</a></li>
+                                <li @(ViewBag.ViewStatus == 1 ? "class=active" : "")><a href="ListOrders?slSearchStatus=1">Đang xử lý (@ViewBag.OrderCount[0]["Order_1"])</a></li>
+                                <li @(ViewBag.ViewStatus == 5 ? "class=active" : "")><a href="ListOrders?slSearchStatus=5">Chờ vào sổ (@ViewBag.OrderCount[0]["Order_5"])</a></li>
+                                <li @(ViewBag.ViewStatus == 3 ? "class=active" : "")><a href="ListOrders?slSearchStatus=3">Chờ giao hàng (@ViewBag.OrderCount[0]["Order_3"])</a></li>
+                                <li @(ViewBag.ViewStatus == 6 ? "class=active" : "")><a href="ListOrders?slSearchStatus=6">Đang giao hàng (@ViewBag.OrderCount[0]["Order_6"])</a></li>
+                                <li @(ViewBag.ViewStatus == 2 ? "class=active" : "")><a href="ListOrders?slSearchStatus=2">Hoàn tất (@ViewBag.OrderCount[0]["Order_2"])</a></li>
+                                <li @(ViewBag.ViewStatus == 4 ? "class=active" : "")><a href="ListOrders?slSearchStatus=4">Huỷ bỏ (@ViewBag.OrderCount[0]["Order_4"])</a></li>
+                            </ul>
+                            <div style="padding-top: 0px;">
+                                <div class="table-list">
+                                    <table id="oList">
+                                        <thead>
+                                            <th>#</th>
+                                            <th style="width: 30px;">
+                                                <input type="checkbox" value="ckID" id="ckCheckAll" /></th>
+                                            <th><a class="@(Request.Get("OrderBy").Equals("OrderCode") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=OrderCode&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))">Mã đơn hàng</a></th>
+                                            <th><a class="@(Request.Get("OrderBy").Equals("FullName") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=FullName&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))&t=@ViewBag.oType">Tên KH</a></th>
+                                            <th>Số ĐT</th>
+                                            <th>Địa chỉ</th>
+                                            <th><a class="@(Request.Get("OrderBy").Equals("TotalPrice") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=TotalPrice&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))">Tổng tiền</a></th>
+                                            <th><a class="@(Request.Get("OrderBy").Equals("Created") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Created&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))">Thời gian ĐH</a></th>
+                                            <th>Chi nhánh</th>
+                                            <th>NV bán</th>
+                                            <th>Giao hàng</th>
+                                            <th>Loại khách</th>
+                                        </thead>
+                                        <tbody>
+                                            @{string btnDelete = "<button type=\"button\" id=\"btnActionDelete\">Xóa</button>";}
+                                            @{int count = 0;}
+
+                                            @foreach (var item in ViewBag.Order)
+                                            {
+                                                count += 1;
+                                                string disable = "disabled=\"disabled\"";
+                                                string statusID = item["Status"].ToString();
+                                                if (statusID.Equals("4"))
+                                                {
+                                                    disable = "";
+                                                    btnDelete = "";
+                                                }
+                                                <tr>
+                                                    <td>@count</td>
+                                                    <td>
+                                                        <input type="checkbox" title="ckID" name="ckID-@count" value="@item["OrderID"]" @disable /></td>
+                                                    <td class="subject">
+                                                        <span>@item["OrderCode"]</span>
+                                                        <div class="edit">
+                                                            @if (statusID.Equals("0") || statusID.Equals("1") || statusID.Equals("3") || statusID.Equals("5"))
+                                                            {
+                                                                <a target="_blank" class="actionEdit" href="/Webcms/Order/ProcessOrder?ID=@item["OrderID"]">Sửa</a>
+                                                        }
+                                                            @if (statusID.Equals("2") || statusID.Equals("6") || statusID.Equals("4"))
+                                                            {
+                                                                <a target="_blank" class="actionEdit" href="/Webcms/Order/ProcessOrder?ID=@item["OrderID"]">Xem</a>
+                                                        }
+                                                            @if (statusID.Equals("3"))
+                                                            {
+                                                                <a target="_blank" class="actionEdit" href="/Webcms/Shipper?txtKey=@item["OrderCode"]">Giao hàng</a>
+                                                        }
+                                                            @if (statusID.Equals("6"))
+                                                            {
+                                                                <a target="_blank" class="actionEdit" href="/Webcms/Shipper?txtKey=@item["OrderCode"]&slSearchStatus=6">Hoàn tất</a>
+                                                        }
+@*Shipper?txtKey=RO-27062014-5717*@
+                                                            @if (statusID.Equals("4"))
+                                                            {
+                                                                <a class="actionDelete" href="javascript:DeleteList('@item["OrderID"]');">Xóa</a>
+                                                        }
+                                                        </div>
+                                                    </td>
+                                                    <td>@item["FullName"]</td>
+                                                    <td>@item["Phone"]</td>
+                                                    <td>@item["Address"]</td>
+                                                    <td>@(string.Format("{0:N0}", item["TotalPrice"]))</td>
+                                                    <td>@item["Created"] @item["CreatedTime"]</td>
+                                                    <td>@item["InventoryName"]</td>
+                                                    <td>@item["nhanvien"]</td>
+                                                    <td>@item["giaohang"]</td>
+                                                    <td>@item["CusClassName"]</td>
+                                                    @*                                                <td>*@
+                                                    @*                                                    <select class="change" name="slStatus-@count" title="@item["Status"]" disabled="disabled">*@
+                                                    @*                                                        <option value="0">Chờ xử lý</option>*@
+                                                    @*                                                        <option value="1">Đang xử lý</option>*@
+                                                    @*                                                        <option value="5">Chờ vào sổ</option>*@
+                                                    @*                                                        <option value="3">Chờ giao hàng</option>*@
+                                                    @*                                                        <option value="6">Đang giao hàng</option>*@
+                                                    @*                                                        <option value="2">Hoàn tất</option>*@
+                                                    @*                                                        <option value="4">Huỷ bỏ</option>*@
+                                                    @*                                                    </select>*@
+                                                    @*                                                </td>*@
+                                                </tr>
+                                        }
+                                        </tbody>
+                                        <tfoot>
+                                            <th>#</th>
+                                            <th style="width: 30px;">
+                                                <input type="checkbox" value="ckID" id="ckCheckAll" /></th>
+                                            <th><a class="@(Request.Get("OrderBy").Equals("OrderCode") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=OrderCode&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))">Mã đơn hàng</a></th>
+                                            <th><a class="@(Request.Get("OrderBy").Equals("FullName") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=FullName&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))&t=@ViewBag.oType">Tên KH</a></th>
+                                            <th>Số ĐT</th>
+                                            <th>Địa chỉ</th>
+                                            <th><a class="@(Request.Get("OrderBy").Equals("TotalPrice") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=TotalPrice&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))">Tổng tiền</a></th>
+                                            <th><a class="@(Request.Get("OrderBy").Equals("Created") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Created&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))">Thời gian ĐH</a></th>
+                                            <th>Chi nhánh</th>
+                                            <th>NV bán</th>
+                                            <th>Giao hàng</th>
+                                            <th>Loại khách</th>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                        <div class="page-list">
-                            <label>Show</label>
-                            <select id="show" title="@Request.Get("show")">
-                                <option title="@Request.Query("show=20&page=1")" value="20">20</option>
-                                <option title="@Request.Query("show=60&page=1")" value="60">60</option>
-                                <option title="@Request.Query("show=100&page=1")" value="100">100</option>
-                            </select>
-                            <label>Trang @(Request.IsNull("page") ? "1" : @Request.Get("page"))/@ViewBag.TotalPages</label>
-                            <select id="page" title="@Request.Get("page")">
-                                @for (int i = 1; i <= Convert.ToInt32(ViewBag.TotalPages); i++)
-                                {
-                                    <option title="@(Request.Query("page=" + i))" value="@i">@i</option>
+                        <!-- End page -->
+
+                        <div class="page">
+                            <div class="action">
+                                <input type="hidden" name="count" value="@count" />
+                                <input type="hidden" name="returnUrl" id="returnUrl" value="@Request.Query(string.Empty)" />
+                                <button type="button" id="btnActionDelete" class="btn btn-danger" style="height: 34px !important;">Xóa</button>
+                            </div>
+                            <div class="page-list">
+                                <label>Show</label>
+                                <select id="show" title="@Request.Get("show")">
+                                    <option title="@Request.Query("show=20&page=1")" value="20">20</option>
+                                    <option title="@Request.Query("show=60&page=1")" value="60">60</option>
+                                    <option title="@Request.Query("show=100&page=1")" value="100">100</option>
+                                </select>
+                                <label>Trang @(Request.IsNull("page") ? "1" : @Request.Get("page"))/@ViewBag.TotalPages</label>
+                                <select id="page" title="@Request.Get("page")">
+                                    @for (int i = 1; i <= Convert.ToInt32(ViewBag.TotalPages); i++)
+                                    {
+                                        <option title="@(Request.Query("page=" + i))" value="@i">@i</option>
                                 }
-                            </select>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <!-- End page -->
+                        <!-- End page -->
                 </div>
                 <!-- End list -->
-            </form>
+            </form>           
         </div>
         <!-- End box1 -->
     </div>

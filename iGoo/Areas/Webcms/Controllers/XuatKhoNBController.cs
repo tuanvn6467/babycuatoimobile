@@ -61,7 +61,7 @@ namespace iGoo.Areas.Webcms.Controllers
             string strUserId = (string)Session["UserID"];
             //select inventory            
             iv.UserID = new SqlGuid(strUserId);
-            List<DataRow> listIv = iv.SelectUserMenu().AsEnumerable().ToList();
+            List<DataRow> listIv = iv.SelectUserMenu2().AsEnumerable().ToList();
             ViewBag.MenuInv = listIv;
             ViewBag.MenuInvKX = listIv;
             ViewBag.MenuInvKN = listIvNhap;

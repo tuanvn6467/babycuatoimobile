@@ -96,6 +96,7 @@ namespace iGoo.Areas.Webcms.Controllers
                     c.Created = DateTime.Now;
                     c.CategoryID = Guid.NewGuid();
                     c.Insert();
+                    SaveUserLog(UserForm.Category.ToString(), UserActionType.Insert.ToString(), "Thêm mới Danh mục: " + c.Name.ToString());
                 }
                 else
                 {
@@ -105,8 +106,8 @@ namespace iGoo.Areas.Webcms.Controllers
                     if (!Request.IsNull("slSearchCate"))
                         c.ParentID = new Guid(Request.Get("slSearchCate"));
                     c.Update();
+                    SaveUserLog(UserForm.Category.ToString(), UserActionType.Update.ToString(), "Cập nhật Danh mục: " + c.Name.ToString());
                 }
-
                 string returnUrl = Request.Get("returnUrl");
                 return Redirect("/Webcms/Category" + returnUrl + "&result=1");
             }
@@ -133,6 +134,7 @@ namespace iGoo.Areas.Webcms.Controllers
                         c.Order = (Request.GetNumber("txtOrder-" + i.ToString()));
                         c.CategoryID = new Guid(Request.Get("ckID-" + i.ToString()));
                         c.Update();
+                        SaveUserLog(UserForm.Category.ToString(), UserActionType.Update.ToString(), "Cập nhật Danh mục: " + c.SelectOne().Rows[0]["Name"].ToString());
                     }
                 }
 
@@ -159,7 +161,9 @@ namespace iGoo.Areas.Webcms.Controllers
                     if (!Request.IsNull("ckID-" + i.ToString()))
                     {
                         c.CategoryID = new Guid(Request.Get("ckID-" + i.ToString()));
+                        var d = c.SelectOne();
                         c.Delete();
+                        SaveUserLog(UserForm.Category.ToString(), UserActionType.Delete.ToString(), "Xóa Danh mục: " + d.Rows[0]["Name"].ToString());
                     }
                 }
 

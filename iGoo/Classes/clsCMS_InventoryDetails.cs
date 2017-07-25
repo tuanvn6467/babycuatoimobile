@@ -5,8 +5,7 @@ using System.Data.SqlClient;
 
 namespace iGoo.Classes
 {
-    /// <summary>
-    /// Dang Ngoc Hung - hungdn@ptit.edu.vn
+    /// <summary>    
     /// Purpose: Data Access class for the table 'CMS_InventoryDetails'.
     /// </summary>
     public class clsCMS_InventoryDetails:clsDBInteractionBase
@@ -776,6 +775,21 @@ namespace iGoo.Classes
             public string TinhTrang { get; set; }
             public string ChungTu { get; set; }
             public string NguoiThucHien { get; set; }
+        }
+
+        public class Order_SelectAll_Export
+        {
+            public string STT { get; set; }
+            public string MaDH { get; set; }
+            public string TenKH { get; set; }
+            public string SoDT { get; set; }
+            public string DiaChi { get; set; }
+            public Double TongTien { get; set; }
+            public string NgayDatHang { get; set; }
+            public string ChiNhanh { get; set; }
+            public string NVBan { get; set; }
+            public string NVGiaoHang { get; set; }
+            public string LoaiKH { get; set; }
         }
 
 

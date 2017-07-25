@@ -162,11 +162,11 @@ namespace iGoo.Classes
                 cmdToExecute.Parameters.Add(new SqlParameter("@guidInventoryID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _InventoryID));
                 cmdToExecute.Parameters.Add(new SqlParameter("@sInventoryName", SqlDbType.NVarChar, 200, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _InventoryName));
                 cmdToExecute.Parameters.Add(new SqlParameter("@sInventoryDeputy", SqlDbType.NVarChar, 200, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _InventoryDeputy));
-                cmdToExecute.Parameters.Add(new SqlParameter("@sInventoryDesc", SqlDbType.NVarChar, 200, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _InventoryDesc));
+                cmdToExecute.Parameters.Add(new SqlParameter("@sInventoryDesc", SqlDbType.NVarChar, 4000, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _InventoryDesc));
                 cmdToExecute.Parameters.Add(new SqlParameter("@iStatus", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, _Status));
                 cmdToExecute.Parameters.Add(new SqlParameter("@sCityArr", SqlDbType.NVarChar, 1000, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _CityArr));
                 cmdToExecute.Parameters.Add(new SqlParameter("@sInventoryCode", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _InventoryCode));
-                cmdToExecute.Parameters.Add(new SqlParameter("@sInventoryLocation", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _InventoryLocation));
+                cmdToExecute.Parameters.Add(new SqlParameter("@sInventoryLocation", SqlDbType.NVarChar, 1000, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _InventoryLocation));
                 if (_mainConnectionIsCreatedLocal)
                 {
                     // Open connection.
@@ -220,11 +220,11 @@ namespace iGoo.Classes
                 cmdToExecute.Parameters.Add(new SqlParameter("@guidInventoryID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _InventoryID));
                 cmdToExecute.Parameters.Add(new SqlParameter("@sInventoryName", SqlDbType.NVarChar, 200, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _InventoryName));
                 cmdToExecute.Parameters.Add(new SqlParameter("@sInventoryDeputy", SqlDbType.NVarChar, 200, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _InventoryDeputy));
-                cmdToExecute.Parameters.Add(new SqlParameter("@sInventoryDesc", SqlDbType.NVarChar, 200, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _InventoryDesc));
+                cmdToExecute.Parameters.Add(new SqlParameter("@sInventoryDesc", SqlDbType.NVarChar, 4000, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _InventoryDesc));
                 cmdToExecute.Parameters.Add(new SqlParameter("@iStatus", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, _Status));
                 cmdToExecute.Parameters.Add(new SqlParameter("@sCityArr", SqlDbType.NVarChar, 1000, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _CityArr));
                 cmdToExecute.Parameters.Add(new SqlParameter("@sInventoryCode", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _InventoryCode));
-                cmdToExecute.Parameters.Add(new SqlParameter("@sInventoryLocation", SqlDbType.NVarChar, 50, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _InventoryLocation));
+                cmdToExecute.Parameters.Add(new SqlParameter("@sInventoryLocation", SqlDbType.NVarChar, 1000, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _InventoryLocation));
                 if (_mainConnectionIsCreatedLocal)
                 {
                     // Open connection.

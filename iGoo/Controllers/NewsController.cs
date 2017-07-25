@@ -31,7 +31,8 @@ namespace iGoo.Controllers
             //Select news
             NewsViewModel nvm = new NewsViewModel();
             nvm.Top = 10;
-            nvm.CategoryID = listCate.Count > 0 ? new Guid(listCate[0]["CategoryID"].ToString()) : new Guid("11111111-1111-1111-1111-111111111111");
+            if (listCate.Count > 0)
+                nvm.CategoryID = new Guid(listCate[0]["CategoryID"].ToString());
             ViewBag.NewsComment = nvm.SelectByModified().AsEnumerable().ToList();
 
             if (!Request.IsNull("key"))

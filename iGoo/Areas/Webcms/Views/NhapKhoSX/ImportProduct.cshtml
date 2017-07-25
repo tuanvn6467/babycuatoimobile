@@ -91,7 +91,11 @@
                 Chọn kho:  <select name="slSearchGroup" >
                     @foreach (var item in ViewBag.MenuInv)
                     {
+                        if (@item["Value"].ToString() != "c69946be-f6f3-468b-b7da-dcd645db43d3")
+                    {
                         <option value="@item["value"]"> &nbsp;&nbsp;&nbsp; @item["Name"] &nbsp;&nbsp;&nbsp;</option>
+                    }
+                        
                     }
                 </select>
                 <button type="button" id="btnActionImport">Cập nhật</button>                

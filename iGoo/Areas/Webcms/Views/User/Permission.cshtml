@@ -13,6 +13,7 @@
         ActionForm('@Url.Action(String.Empty)');
         SearchForm();
     });
+    
 </script>
 
 }
@@ -22,11 +23,11 @@
         <div class="box-content">
 
 			<div class="content-left">
-                <div class="title">
-                    <img src="@Url.Content("~/Source/webcms/images/home.png")" />
-                    <span>Quản lý nhóm quyền</span>
-                    <button type="button" onclick="history.back(-1);">Quay lại</button>
-                </div>
+			    <div class="title">
+			        <img src="@Url.Content("~/Source/webcms/images/home.png")" />
+			        <span>Quản lý nhóm quyền</span>
+			        <button type="button" onclick="history.back(-1);">Quay lại</button>
+			    </div>
                 <!-- End title -->
                 <form id="frmList">
                     <div class="list">
@@ -78,42 +79,54 @@
                         </div>
                         <br/>
                         <div class="table-list">
-                        <table>
-                            <thead>
-                                <th>#</th>
-                                <th style="width:30px;"><input type="checkbox" value="ckID1" id="ckCheckAll1"/></th>
-                                <th> Tên </th>
-                                <th> Địa chỉ </th>
-                            </thead>
-                            <tbody>
-                                @{
-                                    count = 0;
-                                }
-                                @foreach (var item in ViewBag.Inventory)
-                                {
-                                    count += 1;
-                                    <tr>
-                                        <td>@count</td>
-                                        <td>
-                                            <input type="checkbox" title="ckID1-@(item["Checked"] == null ? String.Empty : item["Checked"])" name="ckID1-@count" id="ckID1-@count" value="@item["InventoryID"]" />
-                                            <input type="hidden" name="hID1" value="@item["InventoryID"]" />
-                                        </td>
-                                        <td>@item["InventoryName"]</td>
-                                        <td>
-                                            @item["InventoryLocation"]
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                            <tfoot>
-                                <th>#</th>
-                                <th style="width:30px;"><input type="checkbox" value="ckID" id="ckCheckAll1" /></th>
-                                <th> Tên </th>
-                                <th> Địa chỉ </th>
-                            </tfoot>
-                        </table>
-                    </div>
-                    <div class="page">
+                            <table>
+                                <thead>
+                                    <th>#</th>
+                                    <th style="width:30px;"><input type="checkbox" value="ckID1" id="ckCheckAll1"/></th>
+                                    <th> Tên </th>
+                                    <th> Địa chỉ </th>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        count = 0;
+                                    }
+                                    @foreach (var item in ViewBag.Inventory)
+                                    {
+                                        count += 1;
+                                        <tr>
+                                            <td>@count</td>
+                                            <td>
+                                                <input type="checkbox" title="ckID1-@(item["Checked"] == null ? String.Empty : item["Checked"])" name="ckID1-@count" id="ckID1-@count" value="@item["InventoryID"]" />
+                                                <input type="hidden" name="hID1" value="@item["InventoryID"]" />
+                                            </td>
+                                            <td>@item["InventoryName"]</td>
+                                            <td>
+                                                @item["InventoryLocation"]
+                                            </td>
+                                            @*<td>
+                                                <input type="radio" value="@item["Checked2"]" name="choseone" id="ckID2-@count" />
+                                                <input type="radio" name="ckID1-@count" value="@item["Checked2"]" style="margin-left: 15px; margin-right: 10px;" @(ViewBag.Edit[0]["default"] == 0 ? "checked" : "")>
+                                            </td>*@
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <th>#</th>
+                                    <th style="width:30px;"><input type="checkbox" value="ckID" id="ckCheckAll1" /></th>
+                                    <th> Tên </th>
+                                    <th> Địa chỉ </th>
+                                </tfoot>
+                            </table>
+                        </div>
+                        @*@{bool flag = ViewBag.InventoryDefault == null;}
+                        Chi nhánh mặc định:&nbsp;
+                        <select name="slOrderInv" id="slOrderInv" title="@(flag ? ViewBag.InventoryDefault : ViewBag.InventoryDefault[0]["InventoryID"])">
+                            @foreach (var item in ViewBag.Inventory)
+                            {
+                                <option value="@item["InventoryID"]">@item["InventoryName"]</option>
+                            }
+                        </select>*@
+                        <div class="page">
                         <div class="action">
                             <input type="hidden" name="UserID" id="UserID" value="@Request.Get("ID")" />
                             <input type="hidden" name="returnUrl" id="returnUrl" value="@Request.Query(string.Empty)" />

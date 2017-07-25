@@ -33,5 +33,43 @@ namespace iGoo.Areas.Webcms.Controllers
             return;
         }
 
+        public void SaveUserLog(string controller, string action, string comment)
+        {
+            LogViewModel userLog = new LogViewModel();
+            userLog.LogID = Guid.NewGuid();
+            userLog.UserID = new Guid(Session["UserID"].ToString());
+            userLog.UserName = Session["UserName"].ToString();
+            userLog.Created = DateTime.Now;
+            userLog.ActionType = action;
+            userLog.Form = controller;
+            userLog.Comment = comment;
+            userLog.Insert();
+        }
+        public enum UserActionType
+        {
+            Insert,
+            Update,
+            Delete,
+            Import,
+            Export
+        };
+        //public enum UserForm
+        //{
+        //    Product,
+        //    Category,
+        //    Inventory,
+        //    Member,
+        //    News, 
+        //    User
+        //};
+        public class UserForm
+        {
+            public const string Product = "QL sản phẩm";
+            public const string Category = "QL danh mục";
+            public const string Inventory = "QL kho";
+            public const string Member = "QL khách hàng";
+            public const string News = "QL tin tức";
+            public const string User = "QL người dùng";           
+        }
     }
 }

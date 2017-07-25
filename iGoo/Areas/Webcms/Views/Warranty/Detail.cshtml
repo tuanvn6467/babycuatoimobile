@@ -1,0 +1,450 @@
+﻿@using iGoo.Helpers
+
+@{
+    Layout = "~/Areas/Webcms/Views/Shared/Layout.cshtml";
+}
+
+@section head
+{
+<link href="@Url.Content("~/Source/bootstrap/css/bootstrap.css")" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Source/webcms/styles/bootstrap-table.css")" />
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Source/webcms/styles/jquery-ui-1.10.3.custom.min.css")" />
+}
+
+@section content
+{
+    <div class="box-content">
+        <ul class="nav nav-tabs" style="height: 44px !important;">
+            <li class="active" id="infonav"><a href="#" id="info"><img src="@Url.Content("~/Source/webcms/images/home.png")" /> Thông tin phiếu bảo hành</a></li>
+        </ul>
+        <form id="frmAdd">
+            @if (Request.Get("result").Equals("1"))
+            {
+                <p class="result">Cập nhật thành công!</p>
+            }   
+            @if (Request.Get("error").Equals("1"))
+            {
+                <p class="error">Có lỗi, xin hãy kiểm tra và thử lại!</p>
+            }
+            <div>
+                <div class="item-box">
+                    <table class="table-add">
+    <tbody>
+        @{bool flag = ViewBag.Edit == null;} 
+        @if (!flag)
+        {
+            <tr>
+                <th><label>Ngày nhận</label></th>
+                <td><input type="text" name="txtDateCreated" id="txtDateCreated" value="@ViewBag.Edit[0]["DateCreated"]" style="width: 200px !important" disabled="disabled" /></td>
+            </tr>
+        }
+        
+        <tr><th><label>Số điện thoại <font color="red">(*):</font></label></th><td><input type="text" name="txtPhone" id="txtPhone" value="@(flag ? String.Empty : ViewBag.Edit[0]["Phone"])" style="width: 200px"/></td></tr>                                                                
+        <tr><th><label>Tên khách hàng <font color="red">(*):</font></label></th><td><input type="text" name="txtFullName" id="txtFullName" value="@(flag ? String.Empty : ViewBag.Edit[0]["Name"])" style="width: 200px"/></th></tr>
+        <tr><th><label>Địa chỉ <font color="red">(*):</font></label></th><td><input type="text" name="txtAddress" id="txtAddress" lang="ImageFile" value="@(flag ? String.Empty : ViewBag.Edit[0]["Address"])" style="width: 610px"/></td></tr>
+        <tr><th><label>Email</label></th><td><input type="text" name="txtEmail" id="txtEmail" value="@(flag ? String.Empty : ViewBag.Edit[0]["Email"])" style="width: 200px"/></td></tr>
+        <tr>
+            <th><label>Chọn chi nhánh:</label></th>
+            <td>
+                <select name="slOrderInv" id="slOrderInv" title="@(flag ? ViewBag.InventoryId : ViewBag.Edit[0]["InventoryId"])">
+                    @foreach (var item in ViewBag.MenuInv)
+                    {
+                        <option value="@item["Value"]">@item["Name"]</option>
+                    }
+                </select>
+            </td>
+            @*<input type="hidden" name="slOrderInv" id="slOrderInv" value="@(flag ? String.Empty : ViewBag.Edit[0]["InventoryId"])" />*@
+        </tr>
+        <tr>
+            <th><label>Trạng thái</label></th>
+            <td>
+                <select name="slStatus" id="slStatus" title="@(flag ? String.Empty : ViewBag.Edit[0]["Status"])">
+                    <option value="1">Nhận bảo hành</option>
+                    <option value="2">Chờ bảo hành</option>
+                    <option value="3">Đang bảo hành</option>
+                    <option value="4">Đã bảo hành</option>
+                    <option value="5">Đang trả</option>
+                    <option value="6">Đã trả</option>
+                </select>
+                <input type="hidden" name="txtStatus" id="txtStatus" value="@(flag ? String.Empty : ViewBag.Edit[0]["Status"])" />
+            </td>
+        </tr>
+        <tr>
+            <th><label>Người trả hàng:</label></th>
+            <td>
+                <select id="slsShipper" name="slsShipper" title="@(flag ? ViewBag.InventoryId : ViewBag.Edit[0]["ShipperID"])">
+                        <option value="">---- Chọn ----</option>
+                        @foreach (var item in ViewBag.Shipper)
+                        {
+                        <option value="@item["ShipperID"]">@item["FullName"]</option>
+                        }
+                    </select>
+            </td>
+            @*<input type="hidden" name="slsShipper" id="slsShipper" value="@(flag ? String.Empty : ViewBag.Edit[0]["ShipperID"])" />*@
+        </tr>
+        @if (flag == false)
+        {
+            if (ViewBag.Edit[0]["Status"] == 1)
+            {
+                <tr>
+                    <th>
+                        <label>Sản phẩm bảo hành</label>
+                        <input type="hidden" name="txtWarrantyProductId" id="txtWarrantyProductId" />
+                    </th>
+                    <td>
+                        <table>
+                            <tr>
+                                <td style="width: 130px !important"><label>Tên sản phẩm</label></td>
+                                <td>
+                                    <input type="text" name="txtProductName" id="txtProductName" value="" style="width: 170px !important"/>
+                                    <input type="hidden" name="txtProductId" id="txtProductId" />
+                                </td>
+                                <td style="width: 130px !important"><label>Ngày mua</label></td>
+                                <td><input type="text" name="txtBuyDate" id="txtBuyDate" value="" style="width: 170px !important"/></td>
+                                <td><button type="button" id="btnAddItem" name="btnAddItem" class="btn btn-success" style="height: 30px;">Thêm</button></td>
+                            </tr>
+                            <tr>
+                                <td><label>Lý do</label></td>
+                                <td colspan="3"><input type="text" name="txtWarrantyStatus" id="txtWarrantyStatus" value="" style="width: 100% !important" /></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 130px !important"><label>Số lượng</label></td>
+                                <td>
+                                    <input type="text" name="txtQuantity" id="txtQuantity" value="" style="width: 170px !important" />
+                                </td>
+                                <td style="width: 130px !important"><label>Giá sửa</label></td>
+                                <td><input type="text" name="txtPrice" id="txtPrice" value="" style="width: 170px !important" /></td>
+                                <td><input type="text" name="txtTotalCost" id="txtTotalCost" value="" style="width: 100px !important" disabled="disabled" /></td>
+                            </tr>
+                            <tr>
+                                <td><label>Người sửa</label></td>
+                                <td>
+                                    <select name="slFixer" id="slFixer">
+                                        <option value=""> -- Chọn -- </option>
+                                        @foreach (var item in ViewBag.Users)
+                                        {
+                                            <option value="@item["UserID"]">@item["FullName"]</option>
+                                        }
+                                    </select>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td><label>Ghi chú</label></td>
+                                <td colspan="3">
+                                    <input type="text" name="txtDescription" id="txtDescription" value="" style="width: 100% !important" />
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td colspan="2">
+                    <p class="text-danger">(*) Bấm đúp một dòng để sửa</p>
+                    <table id="tblWarrantyProductList"></table>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+                    <div class="action">
+                        <input type="hidden" name="ID" id="ID" value="@Request.Get("ID")" />
+                        <input type="hidden" name="returnUrl" value="@Request.Query(string.Empty)" />
+                        <button type="button" id="btnUpdate" class="btn btn-success" style="height: 35px;">Cập nhật</button>
+                        <a href ="../Reports/ReportViewer3?ID=@(flag ? String.Empty : ViewBag.Edit[0]["ID"])" target="_blank" class="button" style="height: 28px !important; padding: 7px 10px !important;">In Phiếu Nhận BH</a>
+                        <a href ="../Reports/ReportViewer4?ID=@(flag ? String.Empty : ViewBag.Edit[0]["ID"])" target="_blank" class="button" style="height: 28px !important; padding: 7px 10px !important;">In Phiếu Trả BH</a>
+                    </div>
+                </div>
+                <!-- End item-box -->
+            </div>
+            <!-- End box2 -->
+        </form>
+    </div>
+    <!-- End content -->
+    @*<script src="@Url.Content("~/Script/jquery.validate.js")" type="text/javascript"></script>
+    <script type="text/javascript" src="@Url.Content("~/Script/bootstrap-table.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Script/jquery-ui-1.10.4.custom.min.js")"></script>*@
+    <script src="@Url.Content("~/Script/jquery-ui-1.10.4.custom.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Script/jquery.validate.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Script/autoNumeric.js")" type="text/javascript"></script>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    @*    <link href="http://code.jquery.com/ui/1.9.0/themes/le-frog/jquery-ui.css" rel="stylesheet" />*@
+    <script src="@Url.Content("~/Script/jqueryui/ui/jquery.ui.core.js")"></script>
+    <script src="@Url.Content("~/Script/jqueryui/ui/jquery.ui.widget.js")"></script>
+    <script src="@Url.Content("~/Script/jqueryui/ui/jquery.ui.position.js")"></script>
+    <script src="@Url.Content("~/Script/jqueryui/ui/jquery.ui.menu.js")"></script>
+    <script src="@Url.Content("~/Script/jqueryui/ui/jquery.ui.autocomplete.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Script/bootstrap-table.js")"></script>
+
+    <script type="text/javascript">
+        $().ready(function() {
+            ActionForm('@Url.Action(String.Empty)');
+            
+            /*$("#txtDateCreated").datepicker({
+                dateFormat: "dd/mm/yy"
+            });*/
+            $("#txtBuyDate").datepicker({
+                dateFormat: "dd/mm/yy"
+            });
+            //Validate form
+            $("#frmAdd").validate({
+                errorPlacement: function(error, element) {
+                },
+                rules: {
+                    txtDateCreated: {
+                        required: true,
+                        //date: true
+                    },
+                    txtPhoneDec: {
+                        required: true,
+                        digits: true
+                    },
+                    txtFullNameDec: "required",
+                    txtAddressDec: "required",
+                }
+            });           
+
+            $("#txtPhone").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/Webcms/Order/GetUserByPhoneNumber",
+                        dataType: "json",
+                        data: {
+                            sPhone: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return {
+                                    label: item.FullName + " - " + item.Phone,
+                                    fullname: item.FullName,
+                                    id: item.UserID,
+                                    phone: item.Phone,
+                                    address: item.Address,
+                                    email: item.Email
+                                };
+                            }));
+                        }
+                    });
+                },
+                minLength: 2,
+                focus: function (event, ui) {
+                    $("#txtPhone").val(ui.item.Phone);
+                    return false;
+                },
+                select: function (event, ui) {
+                    $("#txtAddress").val(ui.item.address);
+                    $("#txtFullName").val(ui.item.fullname);
+                    $("#txtPhone").val(ui.item.phone);
+                    $("#txtEmail").val(ui.item.email);
+                    return false;
+                }
+            })
+           .data("ui-autocomplete")._renderItem = function (ul, item) {
+               return $("<li class=\"underline\">")
+                   .append("<a>Tên: " + item.fullname + "<br>Số điện thoại: " + item.phone + "<br>Địa chỉ: " + item.address + "<br>Email: " + item.email + "</a>")
+                   .appendTo(ul);
+           };
+
+            function OpenWarrantyProductDetail(id) {
+                window.location.href = "/Webcms/Warranty/WarrantyProductDetail?ID=" + id;
+            }
+
+            function EditWarrantyProduct(item) {
+                $("#txtWarrantyProductId").val(item.ID);
+                $("#txtProductName").val(item.ProductName);
+                $("#txtProductId").val(item.ProductID);
+                $("#txtBuyDate").val(item.PurchaseDate);
+                $("#txtWarrantyStatus").val(item.WarrantyStatus);
+                $("#txtQuantity").val(item.Quantity);
+                $("#txtPrice").val(item.Price);
+                $("#txtDescription").val(item.Description);
+                $("#txtTotalCost").val(item.TotalCost);
+                $('select[name=slFixer]').val(item.FixerID);
+                $("#btnAddItem").html('Cập nhật');
+            }
+
+            function Reset() {
+                $("#txtWarrantyProductId").val('');
+                $("#txtProductName").val('');
+                $("#txtProductId").val('');
+                $("#txtBuyDate").val('');
+                $("#txtWarrantyStatus").val('');
+                $("#txtQuantity").val('');
+                $("#txtPrice").val('');
+                $("#txtDescription").val('');
+                $('select[name=slFixer]').val('');
+                $("#btnAddItem").html('Thêm');
+            }
+
+            $('#tblWarrantyProductList').bootstrapTable({
+                method: 'get',
+                url: '/Webcms/Warranty/GetWarrantyProductByTicketsId?ticketId=@Request.Get("ID")',
+                pagination: false,
+                pageSize: 20,
+                pageList: [10, 25, 50, 100, 200],
+                search: false,
+                showColumns: false,
+                checkboxHeader: true,
+                minimunCountColumns: 2,
+                columns: [{
+                        field: 'RowNum',
+                        title: 'STT',
+                        align: 'center',
+                        halign: 'center',
+                        valign: 'middle',
+                        width: 1,
+                        sortable: false
+                    }, {
+                        field: 'ProductName',
+                        title: 'Tên sản phẩm',
+                        align: 'left',
+                        halign: 'center',
+                        valign: 'middle',
+                        sortable: false
+                    }, {
+                        field: 'PurchaseDate',
+                        title: 'Ngày mua',
+                        align: 'center',
+                        halign: 'center',
+                        valign: 'middle',
+                        width: 1,
+                        sortable: false
+                    }, {
+                        field: 'WarrantyDate',
+                        title: 'Ngày bảo hành',
+                        align: 'center',
+                        halign: 'center',
+                        valign: 'middle',
+                        width: 1,
+                        sortable: false
+                    }, {
+                        field: 'Quantity',
+                        title: 'Số lượng',
+                        align: 'center',
+                        halign: 'center',
+                        valign: 'middle',
+                        width: 1,
+                        sortable: false
+                    }, {
+                        field: 'Price',
+                        title: 'Giá',
+                        align: 'center',
+                        halign: 'center',
+                        valign: 'middle',
+                        width: 1,
+                        sortable: false
+                    }, {
+                        field: 'TotalCost',
+                        title: 'Tổng tiền',
+                        align: 'center',
+                        halign: 'center',
+                        valign: 'middle',
+                        width: 1,
+                        sortable: false
+                    }, {
+                        field: 'CreatedUser',
+                        title: 'Người nhận',
+                        align: 'center',
+                        valign: 'middle',
+                        width: 1,
+                        sortable: false
+                    }, {
+                        field: 'FixerName',
+                        title: 'Người sửa',
+                        align: 'center',
+                        halign: 'center',
+                        valign: 'middle',
+                        width: 1,
+                        sortable: false
+                    }, {
+                        field: 'ReturnDate',
+                        title: 'Ngày trả',
+                        align: 'center',
+                        halign: 'center',
+                        valign: 'middle',
+                        width: 1,
+                        sortable: false
+                    }, {
+                        field: 'WarrantyStatus',
+                        title: 'Lý do',
+                        align: 'center',
+                        halign: 'center',
+                        valign: 'middle',
+                        width: 1,
+                        sortable: false
+                    }, {
+                        field: 'Description',
+                        title: 'Ghi chú',
+                        align: 'center',
+                        halign: 'center',
+                        valign: 'middle',
+                        width: 1,
+                        sortable: false
+                    }]
+            }).on('dbl-click-row.bs.table', function (e, row, $element) {
+                if ($("#txtStatus").val() !== "3")
+                {
+                    EditWarrantyProduct(row);
+//                    OpenWarrantyProductDetail(row.ID);
+                }
+            });
+
+            function AddItem() {
+                if (confirm("Bạn có muốn thêm?")) {
+                    $.ajax({
+                        url: '/Webcms/Warranty/InsertWarrantyProduct?ticketId=@Request.Get("ID")&productId=' + $("#txtProductId").val() + '&productName=' + $("#txtProductName").val() + '&buyDate=' + $("#txtBuyDate").val() + '&warrantyStatus=' + $("#txtWarrantyStatus").val() + '&description=' + $("#txtDescription").val() + '&quantity=' + $("#txtQuantity").val() + '&price=' + $("#txtPrice").val() + '&fixer=' + $('select[name=slFixer]').val() + '&wproductid=' + $("#txtWarrantyProductId").val(),
+                        method: 'POST'
+                    }).success(function() {
+                        $('#tblWarrantyProductList').bootstrapTable('refresh');
+                        Reset();
+                    });
+                }
+            }
+
+            $("#btnAddItem").click(function ()
+            {
+                 AddItem();
+            });
+
+            $("#txtProductName").autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: "/Webcms/Warranty/GetProductByCode",
+                        dataType: "json",
+                        data: {
+                            pCode: request.term
+                        },
+                        success: function(data) {
+                            response($.map(data, function(item) {
+                                return {
+                                    value: item.title,
+                                    title: item.title,
+                                    sku: item.sku,
+                                    productid: item.productid
+                                };
+                            }));
+                        }
+                    });
+                },
+                minLength: 2,
+                focus: function(event, ui) {
+                    $("#txtProductName").val(ui.item.title);
+                    return false;
+                },
+                select: function(event, ui) {
+                    $("#txtProductId").val(ui.item.productid);
+                    $("#txtProductName").val(ui.item.title);
+                    return false;
+                }
+            })
+            .data("ui-autocomplete")._renderItem = function(ul, item) {
+                return $("<li class=\"underline\">")
+                    //.append("<a style='vertical-align:text-top;'>" + item.title + "-" + item.sku + "</strong> VNĐ</a>")
+                    .append("<a style='vertical-align:text-top;'>" + item.title)
+                    .appendTo(ul);
+            };
+        });
+        $("#txtPhoneDec").focus();
+    </script>
+}

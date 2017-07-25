@@ -5,16 +5,21 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using iGoo.Areas.Webcms.Models;
 using iGoo.Helpers;
 using System.Data;
 using iGoo.Classes;
+
+using ClosedXML.Excel;
+using System.IO;
 
 namespace iGoo.Areas.Webcms.Controllers
 {
     public class OrderController : DefaultController
     {
         private String per = Libs.GetPermission("ORDER");
+        private List<DataRow> list;
         public ActionResult Index()
         {
             LoadDefault();
@@ -32,6 +37,7 @@ namespace iGoo.Areas.Webcms.Controllers
             ViewBag.GroupType = at.SelectChild().AsEnumerable().ToList();
             //Select news
             OrderViewModel ov = new OrderViewModel();
+            UserViewModel sv = new UserViewModel();
             ov.SaleID = new SqlGuid(strUserId);
             
             ov.OType = 2;
@@ -53,12 +59,40 @@ namespace iGoo.Areas.Webcms.Controllers
             ViewBag.District = ov.SelectMenuDistrict().AsEnumerable().ToList();
             if (!Request.IsNull("txtKey"))
                 ov.OrderCode = Request.Get("txtKey");
+
+            InventoryViewModel inv = new InventoryViewModel();
+            //List<DataRow> listIv = inv.SelectOptimize().AsEnumerable().ToList();
+            inv.UserID = new SqlGuid(strUserId);
+            List<DataRow> listIv = inv.SelectUserMenu2().AsEnumerable().ToList();
+            ViewBag.Inventory = listIv;
+            if (listIv.Count > 0)
+            {
+                ViewBag.InventoryId = listIv[0]["value"];
+                ov.InventoryID = ViewBag.InventoryId;
+            }
+            ViewBag.NVBH = sv.SelectUserOptimize().AsEnumerable().ToList();
+            ViewBag.CusClass = ov.SelectMenuCusClass().AsEnumerable().ToList();
+
+            if (!Request.IsNull("slSearchInventory"))
+                ov.InventoryID = new Guid(Request.Get("slSearchInventory"));
+            if (!Request.IsNull("slsUser"))
+                ov.SaleOrderID = new Guid(Request.Get("slsUser"));
+
             if (!Request.IsNull("slSearchStatus"))
                 ov.Status = Request.GetNumber("slSearchStatus");
             else
                 ov.Status = 0;
             if(ov.OType == 1)
                 ov.Status = 2;
+
+            if (!Request.IsNull("cboCusClass"))
+                ov.CusClassID = new Guid(Request.Get("cboCusClass")); 
+
+            if (!Request.IsNull("txtFromDate"))
+                ov.FromDate = Request.Get("txtFromDate");            
+            if (!Request.IsNull("txtToDate"))
+                ov.ToDate = Request.Get("txtToDate");
+            
             ov.PageIndex = Request.IsNull("page") ? 1 : Request.GetNumber("page");
             ov.PageSize = Request.IsNull("show") ? 20 : Request.GetNumber("show");
 
@@ -78,6 +112,105 @@ namespace iGoo.Areas.Webcms.Controllers
             ViewBag.Order = list;
             ViewBag.TotalPages = list.Count > 0 ? (int)Math.Ceiling(Convert.ToDouble(list[0]["TotalRows"]) / (double)ov.PageSize) : 0;
             return View();
+        }
+
+        [HttpPost]
+        public void ExportData()
+        {
+            OrderViewModel ov = new OrderViewModel();
+            string strUserId = (string)Session["UserID"];
+            
+            try
+            {
+                ov.SaleID = new SqlGuid(strUserId);      
+                if (!Request.IsNull("txtKey"))
+                    ov.OrderCode = Request.Get("txtKey");
+                if (!Request.IsNull("slSearchInventory"))
+                    ov.InventoryID = new Guid(Request.Get("slSearchInventory"));
+                if (!Request.IsNull("slsUser"))
+                    ov.SaleOrderID = new Guid(Request.Get("slsUser"));
+                if (!Request.IsNull("slsUser1"))
+                    ov.ShipperID = new Guid(Request.Get("slsUser1"));
+                if (!Request.IsNull("cboCusClass"))
+                    ov.CusClassID = new Guid(Request.Get("cboCusClass"));
+                if (!Request.IsNull("txtFromDate"))
+                    ov.FromDate = Request.Get("txtFromDate");
+                if (!Request.IsNull("txtToDate"))
+                    ov.ToDate = Request.Get("txtToDate");
+                if (!Request.IsNull("OrderBy") && !Request.IsNull("Order"))
+                    ov.OrderBy = Request.Get("OrderBy") + " " + Request.Get("Order");
+
+                if (!Request.IsNull("slSearchStatus"))
+                    ov.Status = Request.GetNumber("slSearchStatus");
+                else
+                    ov.Status = 0;                
+
+                //Page
+                //List<DataRow> list = iv.ReportDoanhThu().AsEnumerable().ToList();
+                list = ov.SelectAll_Export().AsEnumerable().ToList();
+                List<Order_SelectAll_Export> ReportList = new List<Order_SelectAll_Export>();
+                int stt = 0;
+                for (int i = 0; i <= list.Count - 1; i++)
+                {
+                    stt++;
+                    Order_SelectAll_Export id = new Order_SelectAll_Export();
+                    id.STT = stt.ToString();
+                    id.MaDH = list[i]["OrderCode"].ToString();
+                    id.TenKH = list[i]["FullName"].ToString();
+                    id.SoDT = list[i]["Phone"].ToString();
+                    id.DiaChi = list[i]["Address"].ToString();
+                    id.TongTien = Convert.ToDouble(list[i]["TotalPrice"].ToString());
+                    id.NgayDatHang = list[i]["Created"].ToString() + ' ' + list[i]["CreatedTime"].ToString();
+                    id.ChiNhanh = list[i]["InventoryName"].ToString();
+                    id.NVBan = list[i]["NhanVien"].ToString();
+                    id.NVGiaoHang = list[i]["GiaoHang"].ToString();
+                    id.LoaiKH = list[i]["CusClassName"].ToString();                   
+
+                    ReportList.Add(id);
+
+                }
+//                SaveUserLog(UserForm.Order.ToString(), UserActionType.Export.ToString(), "");
+                // install closedXML(third-party) tool to your project and  add namespace " using ClosedXML.Excel;".
+                XLWorkbook wb = new XLWorkbook();
+                string sheetName = "BaoCaoDonHang"; //Give name for export file. 
+                var ws = wb.Worksheets.Add(sheetName);
+                #region Style settings
+                ws.Columns().AdjustToContents();
+                ws.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;                    
+                ws.Column(6).Style.NumberFormat.Format = "#,###";
+                ws.Column(2).Width = 20;//Ma DH
+                ws.Column(3).Width = 30;//Ten KH
+                ws.Column(4).Width = 20;//So DT
+                ws.Column(5).Width = 50;//Dia chi   
+                ws.Column(6).Width = 15;//Tien
+                ws.Column(7).Width = 20;//Ngay
+                ws.Column(9).Width = 20;//Ngay
+                ws.Column(10).Width = 20;//Ngay
+                #endregion
+                ws.Cell(1, 1).InsertTable(ReportList);  // assign list here.
+                HttpContext.Response.Clear();
+                HttpContext.Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                HttpContext.Response.AddHeader("content-disposition", String.Format(@"attachment;filename={0}.xlsx", sheetName.Replace(" ", "_")));
+
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    wb.SaveAs(memoryStream);
+                    memoryStream.WriteTo(HttpContext.Response.OutputStream);
+                    memoryStream.Close();
+                }
+
+                HttpContext.Response.End();
+                //string returnUrl = Request.Get("returnUrl");
+                //return Redirect("/Webcms/InventoryDetail" + returnUrl + "&result=1");
+
+            }
+            catch (Exception ex)
+            {
+                Libs.WriteError(ex.ToString());
+                Redirect("/Webcms/Order/ListOrders?error=1");
+            }
+            //return View("MyView"); 
+
         }
 
         public ActionResult ProcessOrder()
@@ -121,7 +254,7 @@ namespace iGoo.Areas.Webcms.Controllers
             //select inventory
             InventoryViewModel inv = new InventoryViewModel();
             inv.UserID = new SqlGuid(strUserId);
-            ViewBag.MenuInv = inv.SelectUserMenu().AsEnumerable().ToList();
+            ViewBag.MenuInv = inv.SelectUserMenu1().AsEnumerable().ToList();
             
             string strDisable = "style=visibility:hidden;";
             string strDisable1 = "style=visibility:hidden;";
@@ -130,6 +263,7 @@ namespace iGoo.Areas.Webcms.Controllers
             ViewBag.District = ov.SelectMenuDistrict().AsEnumerable().ToList();
             ViewBag.UserId = strUserId;
             ViewBag.CusClass = ov.SelectMenuCusClass().AsEnumerable().ToList();
+            //ViewBag.InventoryId = new Guid("0c80dcd0-5d8e-4041-acaf-2cf7c2916162");
             if (!Request.IsNull("ID"))
             {
                 btnAction = "btnActionUpdate";
@@ -227,7 +361,8 @@ namespace iGoo.Areas.Webcms.Controllers
                             odv.Update();
                         }
                     }
-                    List<ShoppingCart> lstSC = getProducts(Request.Get("slOrderInv"), Request.Get("cboCusClass"));
+//                    List<ShoppingCart> lstSC = getProducts(Request.Get("slOrderInv"), Request.Get("cboCusClass"));
+                    List<ShoppingCart> lstSC = getProducts(Request.Get("curInv"), Request.Get("cboCusClass"));
                     foreach (ShoppingCart sc in lstSC)
                     {
                         odv.OrderDetailID = Guid.NewGuid();
@@ -264,6 +399,8 @@ namespace iGoo.Areas.Webcms.Controllers
                 ov.FullName = Request.Get("txtFullnameDec");
                 ov.Email = Request.Get("txtEmailDec");
                 ov.Phone = Request.Get("txtPhoneDec");
+                ov.Phone1 = Request.Get("txtPhone1");
+                ov.Phone2 = Request.Get("txtPhone2");
                 ov.Request = Request.Get("txtRequest");
                 ov.OrderID = new Guid(Request.Get("OrderID"));
                 if (oStatus == 0 || oStatus == 1)
@@ -274,6 +411,8 @@ namespace iGoo.Areas.Webcms.Controllers
                 {
                     ov.SaleID = SqlGuid.Null;
                 }
+                if (!Request.IsNull("txtMemberID"))
+                    ov.UserID = new Guid(Request.Get("txtMemberID"));
                 ov.Comment = Request.Get("txtComment");
                 ov.Tax = Request.GetNumber("txtTax");
                 ov.TransportFee = Request.GetDecimal("txtTransportFee");
@@ -282,6 +421,12 @@ namespace iGoo.Areas.Webcms.Controllers
                 ov.ProvinceID = Request.GetNumber("province");
                 ov.CusClassID = new Guid(Request.Get("cboCusClass"));
                 ov.InventoryID = new Guid(Request.Get("slOrderInv"));
+                var curCusClass = Request.Get("curCusClass");
+                var curInv = Request.Get("curInv");
+                if (!curCusClass.Equals(Request.Get("cboCusClass")) || !curInv.Equals(Request.Get("slOrderInv")))
+                    ov.IsDatachanged = 1;
+                else
+                    ov.IsDatachanged = 0;
                 ov.Discount = Int32.Parse(Request.Get("txtDiscount").Replace(",", ""));
                 ov.TotalPrice = Int32.Parse(Request.Get("orderCash1").Replace(",", ""));
                 ov.OrderSend = DateTime.Now;
@@ -291,6 +436,7 @@ namespace iGoo.Areas.Webcms.Controllers
                 if (!Request.IsNull("slPayment"))
                     ov.PaymentID = new Guid(Request.Get("slPayment"));
                 ov.UpdateOrderByOrderDetail();
+//                SaveUserLog(UserForm.Order.ToString(), UserActionType.Update.ToString(), "Ma don hang: "+ov.OrderCode.ToString());
                 return Redirect("/Webcms/Order/ProcessOrder?ID=" + Request.Get("OrderID") + "&result=1");
             }
             catch (Exception ex)
@@ -337,6 +483,8 @@ namespace iGoo.Areas.Webcms.Controllers
                     ov.InventoryID = new Guid(Request.Get("slOrderInv"));
                     ov.CusClassID = new Guid(Request.Get("cboCusClass"));
                     ov.UpdateInventory();
+//                    SaveUserLog(UserForm.Order.ToString(), UserActionType.Update.ToString(), "Ma don hang: "+ov.OrderCode.ToString());
+//                    SaveUserLog(UserForm.Order.ToString(), UserActionType.Update.ToString(), "Cap nhat kho -> Ma don hang: " + ov.OrderCode.ToString());
                 }
 //                ov.Address = Request.Get("txtAddressDec");
 //                ov.FullName = Request.Get("txtFullnameDec");
@@ -394,6 +542,8 @@ namespace iGoo.Areas.Webcms.Controllers
                         ov.OrderID = new Guid(Request.Get("ckID-" + i.ToString()));
                         ov.Delete();
                         ov.DeleteByOrderId();
+//                        SaveUserLog(UserForm.Order.ToString(), UserActionType.Update.ToString(), "Ma don hang: "+ov.OrderCode.ToString());
+//                        SaveUserLog(UserForm.Order.ToString(), UserActionType.Delete.ToString(), "ID don hang: " + ov.OrderID.ToString());
                     }
                 }
 
@@ -443,7 +593,7 @@ namespace iGoo.Areas.Webcms.Controllers
                 Libs.WriteError(ex.ToString());
                 return false;
             }
-        }
+        }        
 
         //sonln added 2013oct17;
         // 
@@ -468,11 +618,15 @@ namespace iGoo.Areas.Webcms.Controllers
                 }
                 if (!Request.IsNull("txtUserID"))
                     ov.SaleID = new Guid(Request.Get("txtUserID"));
+                if (!Request.IsNull("txtMemberID"))
+                    ov.UserID = new Guid(Request.Get("txtMemberID"));
                 ov.OType = Request.GetNumber("t");
                 ov.FullName = Request.Get("txtFullNameDec");
                 ov.Email = Request.Get("txtEmailDec");
                 ov.Address = Request.Get("txtAddressDec");
                 ov.Phone = Request.Get("txtPhoneDec");
+                ov.Phone1 = Request.Get("txtPhone1");
+                ov.Phone2 = Request.Get("txtPhone2");
                 ov.Request = Request.Get("txtRequest");
                 ov.Tax = Request.GetNumber("txtTax");
                 ov.TransportFee = Request.GetNumber("txtTransportFee");
@@ -489,6 +643,7 @@ namespace iGoo.Areas.Webcms.Controllers
                     ov.PaymentID = new Guid(Request.Get("slPayment"));
                 ov.Created = DateTime.Now;
                 ov.Insert();
+//                SaveUserLog(UserForm.Order.ToString(), UserActionType.Insert.ToString(), "ID don hang: " + ov.OrderID.ToString());
 
                 List<ShoppingCart> lstSC = getProducts(Request.Get("slOrderInv"), Request.Get("cboCusClass"));
                 OrderDetailViewModel odv = new OrderDetailViewModel();
@@ -573,7 +728,7 @@ namespace iGoo.Areas.Webcms.Controllers
                     ShoppingCart sc = new ShoppingCart();
                     String[] arr = row[i].Split('#');
                     sc.ProductID = arr[0];
-                    sc.Quantity = Convert.ToInt16(arr[1]);
+                    sc.Quantity = Convert.ToInt32(arr[1]);
                     string discountval = Request.Get("txtDiscount-" + arr[0]);
                     sc.Discount = int.Parse(discountval);
                     lstSC.Add(sc);
@@ -719,6 +874,8 @@ namespace iGoo.Areas.Webcms.Controllers
             string strUserId = (string)Session["UserID"];
             
             OrderViewModel ov = new OrderViewModel();
+            UserViewModel sv = new UserViewModel();
+            ShipperViewModel sh = new ShipperViewModel();
             ov.SaleID = new SqlGuid(strUserId);           
             
             if (!Request.IsNull("txtKey"))
@@ -729,10 +886,39 @@ namespace iGoo.Areas.Webcms.Controllers
             else
                 ov.Status = 0;
             ViewBag.ViewStatus = ov.Status;
+
+            InventoryViewModel inv = new InventoryViewModel();
+            //List<DataRow> listIv = inv.SelectOptimize().AsEnumerable().ToList();
+            inv.UserID = new SqlGuid(strUserId);
+            List<DataRow> listIv = inv.SelectUserMenu2().AsEnumerable().ToList();
+            ViewBag.Inventory = listIv;
+            if (listIv.Count > 0)
+            {
+                ViewBag.InventoryId = listIv[0]["value"];
+                ov.InventoryID = ViewBag.InventoryId;
+            }
+            
+            ViewBag.NVBH = sv.SelectUserOptimize().AsEnumerable().ToList();
+            ViewBag.NVGH = sh.SelectOptimize().AsEnumerable().ToList();
+            ViewBag.CusClass = ov.SelectMenuCusClass().AsEnumerable().ToList();
+
+            if (!Request.IsNull("slSearchInventory"))
+                ov.InventoryID = new Guid(Request.Get("slSearchInventory"));
+            if (!Request.IsNull("slsUser"))
+                ov.SaleOrderID = new Guid(Request.Get("slsUser"));
+            if (!Request.IsNull("slsUser1"))
+                ov.ShipperID = new Guid(Request.Get("slsUser1"));
+            if (!Request.IsNull("cboCusClass"))
+                ov.CusClassID = new Guid(Request.Get("cboCusClass")); 
+
+            if (!Request.IsNull("txtFromDate"))
+                ov.FromDate = Request.Get("txtFromDate");
+            if (!Request.IsNull("txtToDate"))
+                ov.ToDate = Request.Get("txtToDate");             
+
             ov.PageIndex = Request.IsNull("page") ? 1 : Request.GetNumber("page");
             ov.PageSize = Request.IsNull("show") ? 20 : Request.GetNumber("show");
-
-
+            
             if (!Request.IsNull("OrderBy") && !Request.IsNull("Order"))
                 ov.OrderBy = Request.Get("OrderBy") + " " + Request.Get("Order");
 
@@ -766,6 +952,7 @@ namespace iGoo.Areas.Webcms.Controllers
                         ov.OrderID = new Guid(Request.Get("ckID-" + i.ToString()));
                         ov.Delete();
                         ov.DeleteByOrderId();
+//                        SaveUserLog(UserForm.Order.ToString(), UserActionType.Delete.ToString(), "ID don hang: " + ov.OrderID.ToString());
                     }
                 }
                 return Redirect("/Webcms/Order/ListOrders?slSearchStatus=4&result=1");
@@ -776,6 +963,58 @@ namespace iGoo.Areas.Webcms.Controllers
                 return Redirect("/Webcms/Order/ListOrders?slSearchStatus=4&error=1");
             }
         }
+        public string GetUserByPhoneNumber(string sPhone)
+        {
+            //            string resultStr = "";
+            if (sPhone.Length < 5)
+                return string.Empty;
+            OrderViewModel ov = new OrderViewModel();
+            ov.Phone = sPhone;
+            DataTable dt = ov.SelectUserByPhone();
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+            Dictionary<string, object> row;
+            foreach (DataRow dr in dt.Rows)
+            {
+                row = new Dictionary<string, object>();
+                foreach (DataColumn col in dt.Columns)
+                {
+                    row.Add(col.ColumnName, dr[col]);
+                }
+                rows.Add(row);
+            }
+            return serializer.Serialize(rows);
+        }
+        public string GetMarkettingList()
+        {
+            string result = "[{\"ID\" : 1,\"Name\" : \"Đợt 1\",\"DateStart\" : \"20/12/2014\",\"DateEnd\" : \"20/01/2015\",\"Status\" : \"Kết thúc\"}, {\"ID\" : 2,\"Name\" : \"Đợt 2\",\"DateStart\" : \"24/01/2015\",\"DateEnd\" : \"24/02/2015\",\"Status\" : \"Kết thúc\"}, {\"ID\" : 3,\"Name\" : \"Đợt 3\",\"DateStart\" : \"01/03/2015\",\"DateEnd\" : \"14/03/2015\",\"Status\" : \"Kết thúc\"}, {\"ID\" : 4,\"Name\" : \"Đợt 4\",\"DateStart\" : \"20/04/2015\",\"DateEnd\" : \"10/06/2015\",\"Status\" : \"Đang thực hiện\"}, {\"ID\" : 5,\"Name\" : \"Đợt 5\",\"DateStart\" : \"24/06/2015\",\"DateEnd\" : \"01/08/2015\",\"Status\" : \"Lên kế hoạch\"}]";
+            return result;
+        }
+        public ActionResult Marketting()
+        {
+            LoadDefault();
+
+            if (per.IndexOf("S") < 0)
+                return View("NotPermission");
+            return View();
+        }
+        public ActionResult MarkettingDetail()
+        {
+            LoadDefault();
+
+            if (per.IndexOf("S") < 0)
+                return View("NotPermission");
+            return View();
+        }
+        public ActionResult BonusPointDetail()
+        {
+            LoadDefault();
+
+            if (per.IndexOf("S") < 0)
+                return View("NotPermission");
+            return View();
+        }
+
         //sonln ended
     }
 

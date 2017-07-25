@@ -1,4 +1,5 @@
-﻿@using iGoo.Helpers
+﻿
+@using iGoo.Helpers
 
 @{
     Layout = "~/Areas/Webcms/Views/Shared/Layout.cshtml";
@@ -112,13 +113,20 @@
 
                     <select id="District" name="District" title="@Request.Get("District")"></select>
 
-                    <select name="slSearchStatus" id="slSearchStatus" title="@Request.Get("slSearchStatus")">
+			        <select name="slSearchStatus" id="slSearchStatus" title="@Request.Get("slSearchStatus")">
                         
-                        <option value="3">Chờ giao hàng</option>
-                        <option value="6">Đang giao hàng</option>
+			            <option value="3">Chờ giao hàng</option>
+			            <option value="6">Đang giao hàng</option>
                         
-                    </select>
+			        </select>
 
+                    <select name="slSearchInventory" title="@Request.Get("slSearchInventory")" >
+                        @*<option value=""> --- Chi nhánh ---</option>*@
+                        @foreach (var item in ViewBag.Inventory)
+                        {
+                        <option value="@item["value"]"> &nbsp;&nbsp;&nbsp; @item["Name"] &nbsp;&nbsp;&nbsp;</option>
+                        }
+                    </select>
                     <select id="slsShipper" name="slsShipper" title="@Request.Get("slsShipper")" >
                         <option value="">---- Nhân viên giao hàng -----</option>
                         @foreach (var item in ViewBag.Shipper)
@@ -175,6 +183,7 @@
                                 <th style="width:30px;"></th>
                                 <th><a class="@(Request.Get("OrderBy").Equals("OrderCode") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=OrderCode&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Mã đơn hàng</a></th>
                                 <th><a class="@(Request.Get("OrderBy").Equals("FullName") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=FullName&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Tên khách hàng</a></th>
+                                <th>Địa chỉ</th>
                                 <th><a class="@(Request.Get("OrderBy").Equals("TotalPrice") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=TotalPrice&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Tổng tiền</a></th>
                                 <th><a class="@(Request.Get("OrderBy").Equals("Created") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Created&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Thời gian đặt hàng</a></th>
                                 <th>Yêu cầu</th>
@@ -219,6 +228,7 @@
                                             </div>*@
                                         </td>
                                         <td>@item["FullName"]</td>
+                                        <td>@item["Address"]</td>
                                         <td>@(string.Format("{0:N0}", item["TotalPrice"]))</td>
                                         <td>@item["Created"]</td>
                                         @*<td>@item["Request"]</td>*@
@@ -260,6 +270,7 @@
                                 <th style="width:30px;"></th>
                                 <th><a class="@(Request.Get("OrderBy").Equals("OrderCode") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=OrderCode&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Mã đơn hàng</a></th>
                                 <th><a class="@(Request.Get("OrderBy").Equals("FullName") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=FullName&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Tên khách hàng</a></th>
+                                <th>Địa chỉ</th>
                                 <th><a class="@(Request.Get("OrderBy").Equals("TotalPrice") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=TotalPrice&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Tổng tiền</a></th>
                                 <th><a class="@(Request.Get("OrderBy").Equals("Created") ? (Request.Get("Order").Equals("asc") ? "desc" : "asc") : String.Empty)" href="@Request.Query("OrderBy=Created&Order=" + (Request.Get("Order").Equals("asc") ? "desc" : "asc"))" >Thời gian đặt hàng</a></th>
                                 <th>Yêu cầu</th>

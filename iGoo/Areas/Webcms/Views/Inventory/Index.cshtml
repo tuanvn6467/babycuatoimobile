@@ -70,7 +70,7 @@
                         <tbody>
                             @{bool flag = ViewBag.Edit == null;}
                             <tr>
-                                <th><label> Tên kho hàng </label></th>
+                                <th><label> Tên chi nhánh </label></th>
                                 <td><input type="text" id="txtInventoryName" name="txtInventoryName" value="@(flag ? String.Empty : ViewBag.Edit[0]["InventoryName"])" /></td>
                             </tr>
                             <tr>
@@ -132,7 +132,7 @@
 			<div class="content-left">
                 <div class="title">
                     <img src="@Url.Content("~/Source/webcms/images/home.png")" />
-                    <span>Quản lý Kho hàng</span>
+                    <span>Quản lý Chi nhánh</span>
                     <button type="button" onclick="history.back(-1);">Quay lại</button>
                 </div>
                 <!-- End title -->

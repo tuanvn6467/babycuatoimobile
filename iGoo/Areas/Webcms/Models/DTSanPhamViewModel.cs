@@ -44,7 +44,11 @@ namespace iGoo.Areas.Webcms.Models
                     }
                 }
 
-                // Execute query.
+                //Kh@nhHQ 09Nov2015
+                //cmdToExecute.CommandTimeout = 300; //5'
+                cmdToExecute.CommandTimeout = 0; //No limit
+
+                // Execute query.                
                 adapter.Fill(toReturn);
                 return toReturn;
             }

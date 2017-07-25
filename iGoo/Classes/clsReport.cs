@@ -67,5 +67,18 @@ namespace iGoo.Classes
                 _ShipperID = value;
             }
         }
+
+        private SqlString _orderCode = SqlString.Null;
+        public SqlString OrderCode
+        {
+            get
+            {
+                return _orderCode;
+            }
+            set
+            {
+                _orderCode = value;
+            }
+        }
     }
 }

@@ -12,7 +12,7 @@ using System.Text;
 
 using ClosedXML.Excel;
 using System.IO;
-
+using System.Data.SqlTypes;
 namespace iGoo.Areas.Webcms.Controllers
 {
     public class InventoryLogController : DefaultController
@@ -27,15 +27,14 @@ namespace iGoo.Areas.Webcms.Controllers
             LoadDefault();
             if (per.IndexOf("S") < 0)
                 return View("NotPermission");
-            //Select Inventory
-
             try
             {
-
+            //select inventory    
             InventoryViewModel iv = new InventoryViewModel();
-            List<DataRow> listIv = iv.SelectOptimize().AsEnumerable().ToList();
+            string strUserId = (string)Session["UserID"];
+            iv.UserID = new SqlGuid(strUserId);
+            List<DataRow> listIv = iv.SelectUserMenu2().AsEnumerable().ToList();
             ViewBag.Inventory = listIv;
-
             // add form
             //Select menu
             CategoryViewModel ct = new CategoryViewModel();
@@ -55,6 +54,7 @@ namespace iGoo.Areas.Webcms.Controllers
 
 
             InventoryLogViewModel idv = new InventoryLogViewModel();
+            InventoryLogViewModel idv1 = new InventoryLogViewModel();
 
             //if (!Request.IsNull("txtKey"))
             //    idv.ProductName = Request.Get("txtKey");
@@ -67,6 +67,11 @@ namespace iGoo.Areas.Webcms.Controllers
             //if (!Request.IsNull("slSearchCate"))
             //    idv.CategoryID = new Guid(Request.Get("slSearchCate"));
 
+            if (listIv.Count > 0)
+            {
+                ViewBag.InventoryId = listIv[0]["value"];
+                idv.InventoryID = ViewBag.InventoryId;
+            }
             if (!Request.IsNull("slSearchInventory"))
                 idv.InventoryID = new Guid(Request.Get("slSearchInventory"));
 
@@ -83,15 +88,39 @@ namespace iGoo.Areas.Webcms.Controllers
                 //idv.EndDate = DateTime.Parse(Request.Get("txtEndDate"), culture);            
                 
             idv.PageIndex = Request.IsNull("page") ? 1 : Request.GetNumber("page");
-            idv.PageSize = Request.IsNull("show") ? 20 : Request.GetNumber("show");
+            idv.PageSize = Request.IsNull("show") ? 20 : Request.GetNumber("show");           
 
             if (!Request.IsNull("OrderBy") && !Request.IsNull("Order"))
                 idv.OrderBy = Request.Get("OrderBy") + " " + Request.Get("Order");
 
+            #region "Dung de tinh tong SL"
+            if (!Request.IsNull("txtKey"))
+                idv1.SoChungTu = Request.Get("txtKey");
+            if (!Request.IsNull("slManuFacture"))
+                idv1.ChungLoai = new Guid(Request.Get("slManuFacture"));
+            if (!Request.IsNull("slSearchChangeType"))
+                idv1.ChangeType = Request.GetNumber("slSearchChangeType");
+            if (!Request.IsNull("slSearchInventory"))
+                idv1.InventoryID = new Guid(Request.Get("slSearchInventory"));
+            if (!Request.IsNull("slUser"))
+                idv1.UserID = new Guid(Request.Get("slUser"));
+            if (!Request.IsNull("txtStartDate"))
+                idv1.StartDate = Request.Get("txtStartDate");            
+            if (!Request.IsNull("txtEndDate"))
+                idv1.EndDate = Request.Get("txtEndDate");
+            idv1.PageIndex = Request.IsNull("page") ? 1 : Request.GetNumber("page");
+            idv1.PageSize = Request.IsNull("show") ? 9999 : Request.GetNumber("show");
+
+            if (!Request.IsNull("OrderBy") && !Request.IsNull("Order"))
+                idv1.OrderBy = Request.Get("OrderBy") + " " + Request.Get("Order");
+            #endregion
+
 
             //Page
             List<DataRow> list = idv.SelectAll().AsEnumerable().ToList();
+            List<DataRow> list1 = idv1.SelectAll().AsEnumerable().ToList();
             ViewBag.InventoryLog = list;
+            ViewBag.InventoryLog1 = list1;
             ViewBag.TotalPages = list.Count > 0 ? (int)Math.Ceiling(Convert.ToDouble(list[0]["TotalRows"]) / (double)idv.PageSize) : 0;
 
             return View();

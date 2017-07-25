@@ -65,7 +65,8 @@ namespace iGoo.Areas.Webcms.Controllers
             string strUserId = (string)Session["UserID"];
             //select inventory            
             iv.UserID = new SqlGuid(strUserId);
-            List<DataRow> listIv = iv.SelectUserMenu().AsEnumerable().ToList();
+            //List<DataRow> listIv = iv.SelectUserMenu().AsEnumerable().ToList();
+            List<DataRow> listIv = iv.SelectUserMenu2().AsEnumerable().ToList();
             ViewBag.MenuInv = listIv;
             idv.InventoryID = Request.IsNull("slSearchType") ? idv.InventoryID = new Guid(listIv[0]["value"].ToString()) : idv.InventoryID = new Guid(Request.Get("slSearchType"));
             
@@ -122,7 +123,7 @@ namespace iGoo.Areas.Webcms.Controllers
             string strUserId = (string)Session["UserID"];
             //select inventory            
             iv.UserID = new SqlGuid(strUserId);
-            List<DataRow> listIv = iv.SelectUserMenu().AsEnumerable().ToList();
+            List<DataRow> listIv = iv.SelectUserMenu2().AsEnumerable().ToList();
             ViewBag.MenuInv = listIv;
             idv.InventoryID = Request.IsNull("slSearchType") ? idv.InventoryID = new Guid(listIv[0]["value"].ToString()) : idv.InventoryID = new Guid(Request.Get("slSearchType"));
 
@@ -252,7 +253,7 @@ namespace iGoo.Areas.Webcms.Controllers
             string strUserId = (string)Session["UserID"];
             //select inventory            
             iv.UserID = new SqlGuid(strUserId);
-            List<DataRow> listIv = iv.SelectUserMenu().AsEnumerable().ToList();
+            List<DataRow> listIv = iv.SelectUserMenu2().AsEnumerable().ToList();
             ViewBag.MenuInv = listIv;
             List<DataRow> listPreview = new List<DataRow>();
             ViewBag.File = listPreview;

@@ -17,11 +17,14 @@ namespace iGoo.Areas.Webcms.Models
         //public string PriceCN3 { get; set; }
         //public string PriceDealerCN3 { get; set; }
         public string MaSP { get; set; }
-        public string GiaLeHN { get; set; }
-        public string GiaBuonHN { get; set; }
-        public string GiaLeHCM { get; set; }
-        public string GiaBuonHCM { get; set; }
-        public string GiaLeCN3 { get; set; }
-        public string GiaBuonCN3 { get; set; }
+        public string TenSP { get; set; }
+        public string MucHang { get; set; }
+        public string ChungLoai { get; set; }
+        public string GiaLe { get; set; }
+        public string GiaBuon { get; set; }
+//        public string GiaLeHCM { get; set; }
+//        public string GiaBuonHCM { get; set; }
+//        public string GiaLeCN3 { get; set; }
+//        public string GiaBuonCN3 { get; set; }
     }
 }

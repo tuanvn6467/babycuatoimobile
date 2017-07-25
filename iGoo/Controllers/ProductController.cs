@@ -53,9 +53,8 @@ namespace iGoo.Controllers
             pvm.SEOName = title;
             List<DataRow> list = pvm.SelectBySEOName().AsEnumerable().ToList();
             ViewBag.Product = list;
-
-            ViewBag.ProductRelated = list[0]["Related"].ToString().Split('\n');
-
+            if (list.Count > 0)
+                ViewBag.ProductRelated = list[0]["Related"].ToString().Split('\n');
             pvm.ProductID = new Guid(list[0]["ProductID"].ToString());
             pvm.Top = 8;
             ViewBag.ProductOther = pvm.SelectOtherProducts().AsEnumerable().ToList();

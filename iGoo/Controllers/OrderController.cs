@@ -9,11 +9,15 @@ using iGoo.Helpers;
 using System.Data;
 using iGoo.Classes;
 using System.Text.RegularExpressions;
+//using CaptchaMvc.Attributes;
+//using CaptchaMvc.Interface; 
 
 namespace iGoo.Controllers
 {
     public class OrderController : DefaultController
     {
+        public const string MESSAGE_SUCCESS = "SUCCESS";
+        public const string MESSAGE_FAIL = "FAIL";
 
         public ActionResult Index()
         {
@@ -197,6 +201,27 @@ namespace iGoo.Controllers
             }
             return lstSC;
         }
+
+        //[HttpPost, CaptchaVerify("Captcha is not valid")]
+        //public ActionResult AjaxForm()
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        ModelState.Clear();
+        //        TempData["Message"] = "Message: captcha is valid.";
+        //        TempData["message_key"] = MESSAGE_SUCCESS;
+        //        if (Request.IsAjaxRequest())
+        //            return PartialView("CaptCha");
+        //    }
+
+
+        //    TempData["ErrorMessage"] = "Error: captcha is not valid.";
+        //    TempData["message_key"] = MESSAGE_FAIL;
+        //    if (Request.IsAjaxRequest())
+        //        return PartialView("CaptCha");
+
+        //    return View();
+        //}
     }
 
     public class ShoppingCart
@@ -218,4 +243,6 @@ namespace iGoo.Controllers
         public Decimal TotalPrice { get; set; }
  
     }
+
+
 }

@@ -161,6 +161,101 @@ namespace iGoo.Areas.Webcms.Controllers
             //return View("MyView"); 
 
         }
+
+        public ActionResult Chart()
+        {
+            LoadDefault();
+            if (per.IndexOf("S") < 0)
+                return View("NotPermission");
+
+            //Select group
+            CategoryViewModel ct = new CategoryViewModel();
+
+            InventoryViewModel iv1 = new InventoryViewModel();
+            List<DataRow> listIv = iv1.SelectOptimize().AsEnumerable().ToList();
+            ViewBag.ChiNhanh = listIv;
+
+            ct.MenuAll = ct.SelectOptimize();
+            ViewBag.MenuCate = ct.SelectMenu(new Guid("87A2AADF-D5F7-455D-AF80-71ECC2B683AC"));
+
+            AttributeViewModel at = new AttributeViewModel();
+            at.Code = "ATTRIBUTE_MANUFACTURE";
+            ViewBag.ManuFacture = at.SelectChild().AsEnumerable().ToList();
+            at.Code = "ATTRIBUTE_PRODUCT_STATUS";
+            ViewBag.Type = at.SelectChild().AsEnumerable().ToList();
+            at.Code = "ATTRIBUTE_PRODUCT";
+            ViewBag.Filter = at.SelectChild().AsEnumerable().ToList();
+
+            ViewBag.NVBH = sv.SelectUserOptimize().AsEnumerable().ToList();
+
+            ViewBag.CusClass = ov.SelectMenuCusClass().AsEnumerable().ToList();
+
+            ct.MenuAll = ct.SelectOptimize();
+            ViewBag.MenuCate = ct.SelectMenu(new Guid("87A2AADF-D5F7-455D-AF80-71ECC2B683AC"));
+
+            if (!Request.IsNull("txtKey"))
+                iv.Title = Request.Get("txtKey");
+
+            if (!Request.IsNull("slManuFacture"))
+                iv.ChungLoai = new Guid(Request.Get("slManuFacture"));
+            if (!Request.IsNull("txtHinhThucBan"))
+                iv.TypeBuy = Request.GetNumber("txtHinhThucBan");
+
+            if (!Request.IsNull("ChiNhanh"))
+                iv.ChiNhanh = new Guid(Request.Get("ChiNhanh"));
+
+            if (!Request.IsNull("cboCusClass"))
+                iv.CusClassID = new Guid(Request.Get("cboCusClass"));
+
+            if (!Request.IsNull("txtFromDate"))
+                iv.FromDate = Request.Get("txtFromDate");
+            //else
+            //    iv.FromDate = DateTime.Now.ToString("dd/MM/yyyy");
+            if (!Request.IsNull("txtToDate"))
+                iv.ToDate = Request.Get("txtToDate");
+
+            list = iv.ReportDoanhThu_ChiNhanh().AsEnumerable().ToList();
+            ViewBag.BaoCao = list;
+
+            return View();
+        }
+
+        public string GetInventoryMonthChartData()
+        {
+            DTChiNhanhViewModel iv = new DTChiNhanhViewModel();
+            var dt = iv.ReportDoanhThu_ChiNhanh_MonthChart();
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+            Dictionary<string, object> row;
+            foreach (DataRow dr in dt.Rows)
+            {
+                row = new Dictionary<string, object>();
+                foreach (DataColumn col in dt.Columns)
+                {
+                    row.Add(col.ColumnName, dr[col]);
+                }
+                rows.Add(row);
+            }
+            return serializer.Serialize(rows);
+        }
+        public string GetInventoryMonthChartData1()
+        {
+            DTChiNhanhViewModel iv = new DTChiNhanhViewModel();
+            var dt = iv.ReportDoanhThu_ChiNhanh_MonthChartData();
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+            Dictionary<string, object> row;
+            foreach (DataRow dr in dt.Rows)
+            {
+                row = new Dictionary<string, object>();
+                foreach (DataColumn col in dt.Columns)
+                {
+                    row.Add(col.ColumnName, dr[col]);
+                }
+                rows.Add(row);
+            }
+            return serializer.Serialize(rows);
+        }
     }
 }
 

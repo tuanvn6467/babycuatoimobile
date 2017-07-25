@@ -152,6 +152,8 @@ body{background:#f9f9f9; line-height:16px; font-size:13px; font-family:Arial, sa
 .footer .copyright a{color:white; font-weight:bold;}
 .footer .on-top{position:absolute; right:0; top:0;}
 
+.members-list{margin-right:10px;}
+
 .content-left{margin-right:310px;}
 
 .content-left.f{margin-right:0;}
@@ -170,7 +172,7 @@ body{background:#f9f9f9; line-height:16px; font-size:13px; font-family:Arial, sa
 
 .table-add input[type="text"], .table-add textarea{width:95%;}
 
-.table-add  th{font-weight:normal; text-align:left; width:80px;}
+.table-add  th{font-weight:normal; text-align:left; /*width:80px;*/width:17%;}
 
 .table-add  th{padding:10px;}
 

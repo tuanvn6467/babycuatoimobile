@@ -85,6 +85,18 @@
                                 <td><textarea name="txtInfo" rows="5">@(flag ? String.Empty : ViewBag.Edit[0]["Info"])</textarea></td>
                             </tr>
                             <tr>
+                                <th><label>Chi nhánh mặc định</label></th>
+                                <td>
+                                    <select name="slOrderInv" title="@(flag ? String.Empty : ViewBag.Edit[0]["InventoryID"])" >
+                                        <option value=""> --- Chi nhánh ---</option>
+                                        @foreach (var item in ViewBag.Inventory)
+                                        {
+                                            <option value="@item["value"]">@item["Name"]</option>
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
                                 <th><label>Nhóm</label></th>
                                 <td>
                                     <select name="slGroupID" title="@(flag ? String.Empty : ViewBag.Edit[0]["GroupID"])" >

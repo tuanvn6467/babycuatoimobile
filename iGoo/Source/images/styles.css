@@ -20,7 +20,7 @@ table
 {
 	border-collapse: collapse;
 	border-spacing: 0;
-    width: auto;
+   	width: auto;
 }
 hr
 {
@@ -1400,6 +1400,21 @@ pre, xmp, plaintext, listing
 }
 .icon-bar+.icon-bar {
   margin-top: 4px;
+}
+a.tel-hotline-hotrott{
+	cursor: pointer;
+  	text-decoration: none;
+	color: #106DB0;
+}
+a.tel-main{
+	cursor: pointer;
+	text-decoration: none;
+	color: blue;
+}
+a.tel-hotline-hotromh{
+	cursor: pointer;
+  	text-decoration: none;
+	color: #ff0000;
 }
 @media (min-width: 768px) {
     

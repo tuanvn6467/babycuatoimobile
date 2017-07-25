@@ -161,7 +161,7 @@
                         <table>
                             <thead>
                                 <th>#</th>                                
-                                <th>Nhân viên</th>                             
+                                <th>Chi nhánh</th>                             
                                 <th>SL ĐH buôn Online</th>     
                                 <th>SL ĐH buôn Showroom</th>
                                 <th>DT buôn Online</th>
@@ -169,14 +169,41 @@
                                 <th>SL ĐH lẻ Online</th>     
                                 <th>SL ĐH lẻ Showroom</th>
                                 <th>DT lẻ Online</th>
-                                <th>DT lẻ Showroom</th>                               
+                                <th>DT lẻ Showroom</th>  
+                                <th>Tổng DT</th>  
+                                                             
                             </thead>
                            
                              <tbody>                                
                                 @{int count = 0;}
+
+                                 @{Int64 SLBuonOl = 0;}
+                                 @{Int64 SLBuonSR = 0;}
+                                 @{Int64 DTBuonOl = 0;}
+                                 @{Int64 DTBuonSR = 0;}
+
+                                 @{Int64 SLLeOl = 0;}
+                                 @{Int64 SLLeSR = 0;}
+                                 @{Int64 DTLeOl = 0;}
+                                 @{Int64 DTLeSR = 0;}
+
+                                 @{Int64 TongCN = 0;}
+                                 @{Int64 Tong = 0;}
+
                                 @foreach (var item in ViewBag.BaoCao)
                                 {
                                     count += 1;
+
+                                    SLBuonOl += item["OLBuon"];
+                                    SLBuonSR += item["SRBuon"];
+                                    DTBuonOl += item["DTOLBuon"];
+                                    DTBuonSR += item["DTSRBuon"];
+
+                                    SLLeOl += item["OLLe"];
+                                    SLLeSR += item["SRLe"];
+                                    DTLeOl += item["DTOLLe"];
+                                    DTLeSR += item["DTSRLe"];                                    
+                                    
                                     string disable = "disabled=\"disabled\"";
                                     //string statusID = item["OrderID"].ToString();                                    
                                     <tr>
@@ -190,7 +217,8 @@
                                         <td>@item["SRLe"] <input type="hidden" name="hdfSRLe-@count" value="@item["SRLe"]" /></td>                                     
                                         <td>@(string.Format("{0:N0}", item["DTOLLe"])) <input type="hidden" name="hdfDTOLLe-@count" value="@item["DTOLLe"]" /></td>                                                                       
                                         <td>@(string.Format("{0:N0}", item["DTSRLe"])) <input type="hidden" name="hdfDTSRLe-@count" value="@item["DTSRLe"]" /></td>                                                                       
-                                                                                                                
+                                        
+                                        <td>@(string.Format("{0:N0}", item["DTOLBuon"] + item["DTSRBuon"] + item["DTOLLe"] + item["DTSRLe"])) <input type="hidden" name="hdfTongCN-@count" value="@TongCN" /></td>                                                                                                                                             
                                         
                                         @*<td>@(string.Format("{0:N0}", item["total"])) <input type="hidden" name="hdftotal-@count" value="@item["total"]" /></td>*@
                                                                                 
@@ -199,16 +227,17 @@
                             </tbody>
                            
                              <tfoot>
-                                <th>#</th>                                
-                                <th>Nhân viên</th>                             
-                                <th>SL ĐH buôn Online</th>     
-                                <th>SL ĐH buôn Showroom</th>
-                                <th>DT buôn Online</th>
-                                <th>DT buôn Showroom</th>  
-                                <th>SL ĐH lẻ Online</th>     
-                                <th>SL ĐH lẻ Showroom</th>
-                                <th>DT lẻ Online</th>
-                                <th>DT lẻ Showroom</th> 
+                                <th></th>                                
+                                <th>Tổng</th>                             
+                                <th>@(string.Format("{0:N0}", @SLBuonOl))</th>     
+                                <th>@(string.Format("{0:N0}", @SLBuonSR))</th>
+                                <th>@(string.Format("{0:N0}", @DTBuonOl))</th>
+                                <th>@(string.Format("{0:N0}", @DTBuonSR))</th>  
+                                <th>@(string.Format("{0:N0}", @SLLeOl))</th>     
+                                <th>@(string.Format("{0:N0}", @SLLeSR))</th>
+                                <th>@(string.Format("{0:N0}", @DTLeOl))</th>
+                                <th>@(string.Format("{0:N0}", @DTLeSR))</th> 
+                                <th>@(string.Format("{0:N0}", @DTBuonOl + @DTBuonSR + @DTLeOl + @DTLeSR))</th> 
                             </tfoot>
                         </table>
                     </div>
@@ -257,7 +286,6 @@
             
             </div>
             <!-- End box1 -->
-            </form>
 
             
         </div>

@@ -74,11 +74,16 @@ namespace iGoo.Classes
 				cmdToExecute.Parameters.Add(new SqlParameter("@sTransportFee", SqlDbType.NVarChar, 100, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _transportFee));
 				cmdToExecute.Parameters.Add(new SqlParameter("@guidPollID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _pollID));
 				cmdToExecute.Parameters.Add(new SqlParameter("@iOrder", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, _order));
+                cmdToExecute.Parameters.Add(new SqlParameter("@iWarrantyPeriod", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, _warrantyPeriod));
 
                 cmdToExecute.Parameters.Add(new SqlParameter("@dcSalePriceDealer", SqlDbType.Decimal, 9, ParameterDirection.Input, false, 18, 2, "", DataRowVersion.Proposed, _salePriceDealer));
                 cmdToExecute.Parameters.Add(new SqlParameter("@dcSalePriceHCM", SqlDbType.Decimal, 9, ParameterDirection.Input, false, 18, 2, "", DataRowVersion.Proposed, _salePriceHCM));
                 cmdToExecute.Parameters.Add(new SqlParameter("@dcSalePriceDealerHCM", SqlDbType.Decimal, 9, ParameterDirection.Input, false, 18, 2, "", DataRowVersion.Proposed, _salePriceDealerHCM));
                 cmdToExecute.Parameters.Add(new SqlParameter("@sBarcode", SqlDbType.NVarChar, 100, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _productBarcode));
+
+                cmdToExecute.Parameters.Add(new SqlParameter("@iHienThi", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, _hienthi));
+                cmdToExecute.Parameters.Add(new SqlParameter("@iHienThiKho", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, _hienthikho));
+				
 				if(_mainConnectionIsCreatedLocal)
 				{
 					// Open connection.
@@ -165,6 +170,7 @@ namespace iGoo.Classes
 				cmdToExecute.Parameters.Add(new SqlParameter("@sTransportFee", SqlDbType.NVarChar, 100, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _transportFee));
 				cmdToExecute.Parameters.Add(new SqlParameter("@guidPollID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _pollID));
 				cmdToExecute.Parameters.Add(new SqlParameter("@iOrder", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, _order));
+                cmdToExecute.Parameters.Add(new SqlParameter("@iWarrantyPeriod", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, _warrantyPeriod));
 
                 cmdToExecute.Parameters.Add(new SqlParameter("@dcSalePriceDealer", SqlDbType.Decimal, 9, ParameterDirection.Input, false, 18, 2, "", DataRowVersion.Proposed, _salePriceDealer));
                 cmdToExecute.Parameters.Add(new SqlParameter("@dcSalePriceHCM", SqlDbType.Decimal, 9, ParameterDirection.Input, false, 18, 2, "", DataRowVersion.Proposed, _salePriceHCM));
@@ -173,6 +179,9 @@ namespace iGoo.Classes
                 cmdToExecute.Parameters.Add(new SqlParameter("@dcSalePriceDealerCN3", SqlDbType.Decimal, 9, ParameterDirection.Input, false, 18, 2, "", DataRowVersion.Proposed, _salePriceDealerCN3));
                 cmdToExecute.Parameters.Add(new SqlParameter("@sBarcode", SqlDbType.NVarChar, 100, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _productBarcode));
 
+                cmdToExecute.Parameters.Add(new SqlParameter("@iHienThi", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, _hienthi));
+                cmdToExecute.Parameters.Add(new SqlParameter("@iHienThiKho", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, _hienthikho));
+				
 				if(_mainConnectionIsCreatedLocal)
 				{
 					// Open connection.
@@ -381,19 +390,13 @@ namespace iGoo.Classes
 
             try
             {
+                cmdToExecute.Parameters.Add(new SqlParameter("@guidInventoryID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _inventoryID));
+                cmdToExecute.Parameters.Add(new SqlParameter("@guidProductID", SqlDbType.UniqueIdentifier, 16, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _productID));
                 cmdToExecute.Parameters.Add(new SqlParameter("@sSKU", SqlDbType.VarChar, 100, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _sKU));
                 cmdToExecute.Parameters.Add(new SqlParameter("@dcSalePrice", SqlDbType.Decimal, 9, ParameterDirection.Input, false, 18, 2, "", DataRowVersion.Proposed, _salePrice));
                 cmdToExecute.Parameters.Add(new SqlParameter("@dcSalePriceDealer", SqlDbType.Decimal, 9, ParameterDirection.Input, false, 18, 2, "", DataRowVersion.Proposed, _salePriceDealer));
-                cmdToExecute.Parameters.Add(new SqlParameter("@dcSalePriceHCM", SqlDbType.Decimal, 9, ParameterDirection.Input, false, 18, 2, "", DataRowVersion.Proposed, _salePriceHCM));
-                cmdToExecute.Parameters.Add(new SqlParameter("@dcSalePriceDealerHCM", SqlDbType.Decimal, 9, ParameterDirection.Input, false, 18, 2, "", DataRowVersion.Proposed, _salePriceDealerHCM));
-                cmdToExecute.Parameters.Add(new SqlParameter("@dcSalePriceCN3", SqlDbType.Decimal, 9, ParameterDirection.Input, false, 18, 2, "", DataRowVersion.Proposed, _salePriceCN3));
-                cmdToExecute.Parameters.Add(new SqlParameter("@dcSalePriceDealerCN3", SqlDbType.Decimal, 9, ParameterDirection.Input, false, 18, 2, "", DataRowVersion.Proposed, _salePriceDealerCN3));
                 cmdToExecute.Parameters.Add(new SqlParameter("@iHN", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, _hn));
                 cmdToExecute.Parameters.Add(new SqlParameter("@iHN1", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, _hn1));
-                cmdToExecute.Parameters.Add(new SqlParameter("@iHCM", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, _hcm));
-                cmdToExecute.Parameters.Add(new SqlParameter("@iHCM1", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, _hcm1));
-                cmdToExecute.Parameters.Add(new SqlParameter("@iCN3", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, _cn3));
-                cmdToExecute.Parameters.Add(new SqlParameter("@iCN31", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, _cn31));
                 if (_mainConnectionIsCreatedLocal)
                 {
                     // Open connection.
@@ -865,6 +868,30 @@ namespace iGoo.Classes
 			}
 		}
 
+        private SqlInt32 _hienthi = SqlInt16.Null;
+        public SqlInt32 HienThi
+        {
+            get
+            {
+                return _hienthi;
+            }
+            set
+            {
+                _hienthi = value;
+            }
+        }
+        private SqlInt32 _hienthikho = SqlInt16.Null;
+        public SqlInt32 HienThiKho
+        {
+            get
+            {
+                return _hienthikho;
+            }
+            set
+            {
+                _hienthikho = value;
+            }
+        }
 
 		private SqlDecimal _importPrice = SqlDecimal.Null;
 		public SqlDecimal ImportPrice
@@ -1125,6 +1152,19 @@ namespace iGoo.Classes
 			}
 		}
 
+        private SqlInt32 _warrantyPeriod = SqlInt32.Null;
+        public SqlInt32 WarrantyPeriod
+        {
+            get
+            {
+                return _warrantyPeriod;
+            }
+            set
+            {
+                _warrantyPeriod = value;
+            }
+        }
+
         private SqlInt32 _hn = SqlInt32.Null;
         public SqlInt32 HN
         {
@@ -1149,30 +1189,6 @@ namespace iGoo.Classes
                 _hn1 = value;
             }
         }
-        private SqlInt32 _hcm = SqlInt32.Null;
-        public SqlInt32 HCM
-        {
-            get
-            {
-                return _hcm;
-            }
-            set
-            {
-                _hcm = value;
-            }
-        }
-        private SqlInt32 _hcm1 = SqlInt32.Null;
-        public SqlInt32 HCM1
-        {
-            get
-            {
-                return _hcm1;
-            }
-            set
-            {
-                _hcm1 = value;
-            }
-        }
         private SqlDecimal _salePriceCN3 = SqlDecimal.Null;
         public SqlDecimal SalePriceCN3
         {
@@ -1195,30 +1211,6 @@ namespace iGoo.Classes
             set
             {
                 _salePriceDealerCN3 = value;
-            }
-        }
-        private SqlInt32 _cn3 = SqlInt32.Null;
-        public SqlInt32 CN3
-        {
-            get
-            {
-                return _cn3;
-            }
-            set
-            {
-                _cn3 = value;
-            }
-        }
-        private SqlInt32 _cn31 = SqlInt32.Null;
-        public SqlInt32 CN31
-        {
-            get
-            {
-                return _cn31;
-            }
-            set
-            {
-                _cn31 = value;
             }
         }
 		#endregion

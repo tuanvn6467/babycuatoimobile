@@ -94,7 +94,11 @@
                     <select name="slSearchType" id="slSearchType" title="@Request.Get("slSearchType")">
                 @foreach (var item in ViewBag.MenuInv)
                 {
-                    <option value="@item["Value"]">@item["Name"]</option>
+                    if (@item["Value"].ToString() != "c69946be-f6f3-468b-b7da-dcd645db43d3")
+                    {
+                        <option value="@item["Value"]">@item["Name"]</option>
+                    }
+                    
                 }
             </select>
                     <select name="slSearchStatus" title="@Request.Get("slSearchStatus")" >
@@ -126,7 +130,11 @@
                             <select name="slKhoXuat" id="slKhoXuat" title="@Request.Get("slKhoXuat")">
                                 @foreach (var item in ViewBag.MenuInvKX)
                                 {
-                                    <option value="@item["Value"]">@item["Name"]</option>
+                                    if (@item["Value"].ToString() != "c69946be-f6f3-468b-b7da-dcd645db43d3")
+                    {
+                        <option value="@item["Value"]">@item["Name"]</option>
+                    }
+                                    
                                 }
                             </select>
 
@@ -134,7 +142,11 @@
                             <select name="slKhoNhap" id="slKhoNhap" title="@Request.Get("slKhoNhap")">
                                 @foreach (var item in ViewBag.MenuInvKN)
                                 {
-                                    <option value="@item["InventoryID"]">@item["InventoryName"]</option>
+                                    if (@item["InventoryID"].ToString() != "c69946be-f6f3-468b-b7da-dcd645db43d3")
+                    {
+                        <option value="@item["InventoryID"]">@item["InventoryName"]</option>
+                    }
+                                    
                                 }
                             </select>
                             <button type="button" id="btnActionUpdate">Xuất kho</button>                            

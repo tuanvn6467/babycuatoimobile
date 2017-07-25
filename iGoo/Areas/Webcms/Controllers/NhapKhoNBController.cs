@@ -62,7 +62,14 @@ namespace iGoo.Areas.Webcms.Controllers
             idv.TrangThai = Request.IsNull("slTrangThai") ? idv.TrangThai = 1 : idv.TrangThai = Request.GetNumber("slTrangThai");
 
             idv.InventoryID = Request.IsNull("slKhoXuat") ? idv.InventoryID = new Guid(listIvKX[0]["InventoryID"].ToString()) : idv.InventoryID = new Guid(Request.Get("slKhoXuat"));
-                        
+
+            if (!Request.IsNull("txtStartDate"))
+                idv.StartDate = Request.Get("txtStartDate");
+            //idv.StartDate =  DateTime.Parse(Request.Get("txtStartDate"),culture);
+            if (!Request.IsNull("txtEndDate"))
+                idv.EndDate = Request.Get("txtEndDate");
+            //idv.EndDate = DateTime.Parse(Request.Get("txtEndDate"), culture);   
+            
             idv.PageIndex = Request.IsNull("page") ? 1 : Request.GetNumber("page");
             idv.PageSize = Request.IsNull("show") ? 20 : Request.GetNumber("show");
 

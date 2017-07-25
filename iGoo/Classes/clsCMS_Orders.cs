@@ -46,7 +46,9 @@ namespace iGoo.Classes
 				cmdToExecute.Parameters.Add(new SqlParameter("@sAddress", SqlDbType.NVarChar, 200, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _address));
 				cmdToExecute.Parameters.Add(new SqlParameter("@sEmail", SqlDbType.NVarChar, 200, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _email));
 				cmdToExecute.Parameters.Add(new SqlParameter("@sPhone", SqlDbType.NVarChar, 200, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _phone));
-				cmdToExecute.Parameters.Add(new SqlParameter("@sRequest", SqlDbType.NVarChar, 1000, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _request));
+                cmdToExecute.Parameters.Add(new SqlParameter("@sPhone1", SqlDbType.NVarChar, 200, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _phone1));
+                cmdToExecute.Parameters.Add(new SqlParameter("@sPhone2", SqlDbType.NVarChar, 200, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _phone2));
+                cmdToExecute.Parameters.Add(new SqlParameter("@sRequest", SqlDbType.NVarChar, 1000, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _request));
                 cmdToExecute.Parameters.Add(new SqlParameter("@dcTotalPrice", SqlDbType.Decimal, 9, ParameterDirection.Input, false, 18, 2, "", DataRowVersion.Proposed, _totalPrice));
                 cmdToExecute.Parameters.Add(new SqlParameter("@sComment", SqlDbType.NVarChar, 1000, ParameterDirection.Input, false, 0, 0, "", DataRowVersion.Proposed, _comment));
 				cmdToExecute.Parameters.Add(new SqlParameter("@iTax", SqlDbType.Int, 4, ParameterDirection.Input, false, 10, 0, "", DataRowVersion.Proposed, _tax));
@@ -485,6 +487,18 @@ namespace iGoo.Classes
 			}
 		}
 
+        private SqlGuid _saleOrderID = SqlGuid.Null;
+        public SqlGuid SaleOrderID
+        {
+            get
+            {
+                return _saleOrderID;
+            }
+            set
+            {
+                _saleOrderID = value;
+            }
+        }
 
 		private SqlGuid _paymentID = SqlGuid.Null;
 		public SqlGuid PaymentID
@@ -583,6 +597,31 @@ namespace iGoo.Classes
 			}
 		}
 
+        private SqlString _phone1 = SqlString.Null;
+        public SqlString Phone1
+        {
+            get
+            {
+                return _phone1;
+            }
+            set
+            {
+                _phone1 = value;
+            }
+        }
+
+        private SqlString _phone2 = SqlString.Null;
+        public SqlString Phone2
+        {
+            get
+            {
+                return _phone2;
+            }
+            set
+            {
+                _phone2 = value;
+            }
+        }
 
 		private SqlString _request = SqlString.Null;
 		public SqlString Request
@@ -958,6 +997,19 @@ namespace iGoo.Classes
             set
             {
                 _order6 = value;
+            }
+        }
+
+        private SqlInt32 _isDatachanged = 0;
+        public SqlInt32 IsDatachanged
+        {
+            get
+            {
+                return _isDatachanged;
+            }
+            set
+            {
+                _isDatachanged = value;
             }
         }
 		#endregion
