@@ -24,138 +24,312 @@
         $(function () {
             $(".tooltip").tooltip({
                 bodyHandler: function () {
-                    return $(this).children(".tooltip_content").html()
+                    return $(this).children(".tooltip_content").html();
                 },
                 track: true,
                 showURL: false
             });
         });
     </script>
+    <!-- App.js -->
+    <script src="../../NewDesign/public/js/common.script.js"></script>
+    <script src="../../NewDesign/public/js/product-category.script.js"></script>
 }
-@section main
-{
-    <div class="content-h cl tuanvn">
-        <div class="title-c cl nv">
-            <a rel="nofollow" title="Trang chủ" href="/"><span>Trang chủ</span></a><span class="fl">&raquo;</span>
-            <h1><a itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="url" title="@ViewBag.Category[0]["MetaTitle"]" href="/p/@(ViewBag.Category[0]["SEOName"])"><span itemprop="title">@ViewBag.Category[0]["Name"]</span></a></h1>
-            <a target="_blank" title="@ViewBag.Category[0]["MetaTitle"] RSS" href="/p/@(ViewBag.Category[0]["SEOName"]).rss"><img alt="RSS" src="/Source/images/rss.png" /></a>
-        </div>
+@section main{
+    <section id="content">
+        <div class="container">
+            <div class="rcrumbs my-crumb" id="breadcrumbs">
+                <ul>
+                    <li><a href="/" title="Trang chủ" rel="nofollow"><i class="fa fa-home"> Trang chủ</i></a><span class="divider"><i class="fa fa-angle-right"></i></span></li>
+                    <li><a itemscope itemtype="http://data-vocabulary.org/Breadcrumb" itemprop="url" title="@ViewBag.Category[0]["MetaTitle"]" href="/p/@(ViewBag.Category[0]["SEOName"])">@ViewBag.Category[0]["Name"]</a><span class="divider"><i class="fa fa-angle-right"></i></span></li>
+                    <li><a target="_blank" title="@ViewBag.Category[0]["MetaTitle"] RSS" href="/p/@(ViewBag.Category[0]["SEOName"]).rss"><img alt="RSS" src="/Source/images/rss.png" /></a>
+                </ul>
+            </div>
+            <div class="product-category">
+                <div class="row">
+                    <div class="col-md-3 hidden-xs">
+                        <ul class="nav side-menu" id="side-menu">
+                            @foreach (var item in ViewBag.Menu)
+                            {
 
-        @if (ViewBag.Product.Count > 0)
-        {
-            int space = 5, a, b;
-            int p = Convert.ToInt32(ViewBag.TotalPages);
-            int c = Convert.ToInt32(ViewBag.CategoryPage);
-            if (c > space) { a = c - space; } else { a = 1; }
-            if (c + space > p) { b = p; } else { b = c + space; }
-            <div class="list-p cl">
-                <div class="list">
-                    <div class="page page-top cl">
-                        <span>Trang @ViewBag.CategoryPage / @ViewBag.TotalPages</span>
-                        @for (int i = a; i <= b; i++)
-                        {
-                            if (i == c)
-                            {
-                                <a class="page-c" title="@ViewBag.Category[0]["MetaTitle"] - Trang @(i.ToString())" href="/p/@(i == 1 ? ViewBag.Category[0]["SEOName"] : ViewBag.Category[0]["SEOName"] + "/" + i.ToString())">@i.ToString()</a>
+                                <li>
+                                    <a href="#">@item.Name<i class="fa fa-angle-right"></i></a>
+                                    <ul class="nav nav-second-level">
+                                        @foreach (var item1 in @item.Menu)
+                                        {
+                                            <li>
+                                                <a title="@item1.MetaTitle" href="/p/@item1.SEOName">@item1.Name</a>
+                                                @if (@item1.Menu.Count > 0)
+                                                {
+                                                    <ul>
+                                                        @foreach (var item2 in @item1.Menu)
+                                                        {
+                                                            <li><a title="@item2.MetaTitle" href="/p/@item2.SEOName">@item2.Name</a></li>
+                                                        }
+                                                    </ul>
+                                                }
+                                            </li>
+                                        }
+                                        
+                                    </ul>
+                                </li>
+                               
+
                             }
-                            else
-                            {
-                                <a @Html.Raw(i - c == 1 ? "rel=\"next\"" : string.Empty) @Html.Raw(c - i == 1 ? "rel=\"prev\"" : string.Empty) title="@ViewBag.Category[0]["MetaTitle"] - Trang @(i.ToString())" href="/p/@(i == 1 ? ViewBag.Category[0]["SEOName"] : ViewBag.Category[0]["SEOName"] + "/" + i.ToString())">@i.ToString()</a>
-                            }
-                        }
-                        @if (c > 1)
-                        {
-                            <link rel="prev" href="http://@Libs.sApp("Domain")/p/@(ViewBag.Category[0]["SEOName"] + "/" + (c - 1).ToString())" />
-                        }
-                        @if (c < p)
-                        {
-                            <link rel="next" href="http://@Libs.sApp("Domain")/p/@(ViewBag.Category[0]["SEOName"] + "/" + (c + 1).ToString())" />
-                        }
+                        </ul>
                     </div>
-                    @foreach (var item in ViewBag.Product)
-                    {
-                        <div class="item tooltip">
-                            <h2><a class="title" href="/p/@(item["SEOName"]).html" title="@item["MetaTitle"]">@item["Title"]</a></h2>
-                            <div class="p-img">
-                                <div class="event">
-                                    @if (!item["DiscountPercent"].ToString().Equals("0"))
-                                    {
-                                        <span class="pr">-@item["DiscountPercent"]%</span>
-                                    }
-                                    @if (item["Type"].IndexOf("GIFT") >= 0)
-                                    {
-                                        <span class="gift"></span>
-                                    }
-                                </div>
-                                <a href="/p/@(item["SEOName"]).html" title="@item["MetaTitle"]">
-									<img src="@(Url.Content("~/thumb/" + Libs.ThumbName(item["Image"].ToString(), "189x157")))" alt="@item["MetaTitle"]" />
-								</a>
-                            </div>
-                            @if (!String.IsNullOrEmpty(@item["Promotion"].ToString()))
+                    <div class="col-md-9">
+                        <h4 class="title-prod-category">@ViewBag.Category[0]["Name"]
+                        @{
+                            if (ViewBag.Product.Count > 0)
                             {
-                                <p><strong class="promotion">KM:</strong> @item["Promotion"]</p>
+                                <span>(@ViewBag.TotalRecords sản phẩm)</span>
                             }
-                            <p><span class="price">Giá bán: @Libs.sCurrency(Convert.ToDecimal(item["SalePrice"]))₫</span></p>
-                            <div class="tooltip_content">
-                                <p class="title">@item["Title"]</p>
-                                <p class="price">Giá bán: @Libs.sCurrency(Convert.ToDecimal(item["SalePrice"])) VNĐ</p>
-                                @if (!String.IsNullOrEmpty(@item["Promotion"].ToString()))
+                        }
+                            
+                        </h4>
+                        <!-- TAB NAVIGATION -->
+                        <ul class="nav nav-tabs mytabs" role="tablist">
+                            <li class="active"><a href="#tab1" role="tab" data-toggle="tab">Khuyến Mãi</a></li>
+                            <li><a href="#tab2" role="tab" data-toggle="tab">Bán Chạy</a></li>
+                            <li><a href="#tab3" role="tab" data-toggle="tab">Mới & Nổi Bật</a></li>
+                            <li class="all-show"><a href="#">Xem Tất Cả</a></li>
+                        </ul>
+                        <!-- TAB CONTENT -->
+                        <div class="tab-content">
+                            <div class="active tab-pane fade in" id="tab1">
+                                @if (ViewBag.Product.Count > 0)
                                 {
-                                    <p><strong class="promotion">Khuyến mại:</strong> @item["Promotion"]</p>
+                                    int space = 5, a, b;
+                                    int p = Convert.ToInt32(ViewBag.TotalPages);
+                                    int c = Convert.ToInt32(ViewBag.CategoryPage);
+                                    if (c > space) { a = c - space; } else { a = 1; }
+                                    if (c + space > p) { b = p; } else { b = c + space; }
+                                <div class="content-carousel">
+                                    <div class="row">
+                                        @foreach (var item in ViewBag.Product)
+                                            {
+                                            <div class="col-lg-3 col-md-4 col-sm-4">
+                                                <div class="prod-cat">
+                                                    <div class="prod-img">
+                                                        @if (!item["DiscountPercent"].ToString().Equals("0"))
+                                                            {
+                                                            <span class="discount">-@item["DiscountPercent"]%</span>
+                                                            }
+
+                                                        <div class="inner">
+                                                            <a href="/p/@(item["SEOName"]).html" title="@item["MetaTitle"]">
+                                                                <img src="@(Url.Content("~/thumb/" + Libs.ThumbName(item["Image"].ToString(), "189x157")))" alt="@item["MetaTitle"]" />
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="prod-info">
+                                                        <h1 class="prod-name">
+                                                            <a class="title" href="/p/@(item["SEOName"]).html" title="@item["MetaTitle"]">@item["Title"]</a>
+                                                        </h1>
+                                                        <h4 class="prod-price">@Libs.sCurrency(Convert.ToDecimal(item["SalePrice"])) VND</h4>
+                                                        <div class="text-center mt-20">
+                                                            <a href="#" class="btn btn-primary add-to-cart"><i class="fa fa-shopping-cart"></i> Add to cart</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            }
+
+
+                                    </div>
+                                    <div class="row foot-pagination">
+                                        <div class="col col-xs-4">
+                                            <span>Trang @ViewBag.CategoryPage / @ViewBag.TotalPages</span>
+                                        </div>
+                                        <div class="col col-xs-8">
+                                            @for (int i = a; i <= b; i++)
+                                                {
+                                                    if (i == c)
+                                                    {
+                                                <a class="page-c" title="@ViewBag.Category[0]["MetaTitle"] - Trang @(i.ToString())" href="/p/@(i == 1 ? ViewBag.Category[0]["SEOName"] : ViewBag.Category[0]["SEOName"] + "/" + i.ToString())">@i.ToString()</a>
+                                                    }
+                                                    else
+                                                    {
+                                                <a @Html.Raw(i - c == 1 ? "rel=\"next\"" : string.Empty) @Html.Raw(c - i == 1 ? "rel=\"prev\"" : string.Empty) title="@ViewBag.Category[0]["MetaTitle"] - Trang @(i.ToString())" href="/p/@(i == 1 ? ViewBag.Category[0]["SEOName"] : ViewBag.Category[0]["SEOName"] + "/" + i.ToString())">@i.ToString()</a>
+                                                    }
+                                                }
+                                            @if (c > 1)
+                                                {
+                                                <link rel="prev" href="http://@Libs.sApp("Domain")/p/@(ViewBag.Category[0]["SEOName"] + "/" + (c - 1).ToString())" />
+                                                }
+                                            @if (c < p)
+                                                {
+                                                <link rel="next" href="http://@Libs.sApp("Domain")/p/@(ViewBag.Category[0]["SEOName"] + "/" + (c + 1).ToString())" />
+                                                }
+                                        </div>
+                                    </div>
+                                </div>
                                 }
-                                <p><img src="@(Url.Content("~/thumb/" + Libs.ThumbName(item["Image"].ToString(), "350x350")))" alt="@item["MetaTitle"]" /></p>
-                                <p>@item["Brief"]</p>
+                                else
+                                {
+                                <p class="not-found">Nội dung đang được cập nhật!</p>
+                                }
+
+                            </div>
+                            <div class="tab-pane fade" id="tab2">
+                                <div class="active tab-pane fade in" id="tab1">
+                                    @if (ViewBag.Product.Count > 0)
+                                    {
+                                        int space = 5, a, b;
+                                        int p = Convert.ToInt32(ViewBag.TotalPages);
+                                        int c = Convert.ToInt32(ViewBag.CategoryPage);
+                                        if (c > space) { a = c - space; } else { a = 1; }
+                                        if (c + space > p) { b = p; } else { b = c + space; }
+                                        <div class="content-carousel">
+                                            <div class="row">
+                                                @foreach (var item in ViewBag.Product)
+                                                {
+                                                    <div class="col-lg-3 col-md-4 col-sm-4">
+                                                        <div class="prod-cat">
+                                                            <div class="prod-img">
+                                                                @if (!item["DiscountPercent"].ToString().Equals("0"))
+                                                                {
+                                                                    <span class="discount">-@item["DiscountPercent"]%</span>
+                                                                }
+
+                                                                <div class="inner">
+                                                                    <a href="/p/@(item["SEOName"]).html" title="@item["MetaTitle"]">
+                                                                        <img src="@(Url.Content("~/thumb/" + Libs.ThumbName(item["Image"].ToString(), "189x157")))" alt="@item["MetaTitle"]" />
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="prod-info">
+                                                                <h1 class="prod-name">
+                                                                    <a class="title" href="/p/@(item["SEOName"]).html" title="@item["MetaTitle"]">@item["Title"]</a>
+                                                                </h1>
+                                                                <h4 class="prod-price">@Libs.sCurrency(Convert.ToDecimal(item["SalePrice"])) VND</h4>
+                                                                <div class="text-center mt-20">
+                                                                    <a href="#" class="btn btn-primary add-to-cart"><i class="fa fa-shopping-cart"></i> Add to cart</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+
+
+                                            </div>
+                                            <div class="row foot-pagination">
+                                                <div class="col col-xs-4">
+                                                    <span>Trang @ViewBag.CategoryPage / @ViewBag.TotalPages</span>
+                                                </div>
+                                                <div class="col col-xs-8">
+                                                    @for (int i = a; i <= b; i++)
+                                                    {
+                                                        if (i == c)
+                                                        {
+                                                            <a class="page-c" title="@ViewBag.Category[0]["MetaTitle"] - Trang @(i.ToString())" href="/p/@(i == 1 ? ViewBag.Category[0]["SEOName"] : ViewBag.Category[0]["SEOName"] + "/" + i.ToString())">@i.ToString()</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a @Html.Raw(i - c == 1 ? "rel=\"next\"" : string.Empty) @Html.Raw(c - i == 1 ? "rel=\"prev\"" : string.Empty) title="@ViewBag.Category[0]["MetaTitle"] - Trang @(i.ToString())" href="/p/@(i == 1 ? ViewBag.Category[0]["SEOName"] : ViewBag.Category[0]["SEOName"] + "/" + i.ToString())">@i.ToString()</a>
+                                                        }
+                                                    }
+                                                    @if (c > 1)
+                                                    {
+                                                        <link rel="prev" href="http://@Libs.sApp("Domain")/p/@(ViewBag.Category[0]["SEOName"] + "/" + (c - 1).ToString())" />
+                                                    }
+                                                    @if (c < p)
+                                                    {
+                                                        <link rel="next" href="http://@Libs.sApp("Domain")/p/@(ViewBag.Category[0]["SEOName"] + "/" + (c + 1).ToString())" />
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <p class="not-found">Nội dung đang được cập nhật!</p>
+                                    }
+
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="tab3">
+                                <div class="active tab-pane fade in" id="tab1">
+                                    @if (ViewBag.Product.Count > 0)
+                                    {
+                                        int space = 5, a, b;
+                                        int p = Convert.ToInt32(ViewBag.TotalPages);
+                                        int c = Convert.ToInt32(ViewBag.CategoryPage);
+                                        if (c > space) { a = c - space; } else { a = 1; }
+                                        if (c + space > p) { b = p; } else { b = c + space; }
+                                        <div class="content-carousel">
+                                            <div class="row">
+                                                @foreach (var item in ViewBag.Product)
+                                                {
+                                                    <div class="col-lg-3 col-md-4 col-sm-4">
+                                                        <div class="prod-cat">
+                                                            <div class="prod-img">
+                                                                @if (!item["DiscountPercent"].ToString().Equals("0"))
+                                                                {
+                                                                    <span class="discount">-@item["DiscountPercent"]%</span>
+                                                                }
+
+                                                                <div class="inner">
+                                                                    <a href="/p/@(item["SEOName"]).html" title="@item["MetaTitle"]">
+                                                                        <img src="@(Url.Content("~/thumb/" + Libs.ThumbName(item["Image"].ToString(), "189x157")))" alt="@item["MetaTitle"]" />
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="prod-info">
+                                                                <h1 class="prod-name">
+                                                                    <a class="title" href="/p/@(item["SEOName"]).html" title="@item["MetaTitle"]">@item["Title"]</a>
+                                                                </h1>
+                                                                <h4 class="prod-price">@Libs.sCurrency(Convert.ToDecimal(item["SalePrice"])) VND</h4>
+                                                                <div class="text-center mt-20">
+                                                                    <a href="#" class="btn btn-primary add-to-cart"><i class="fa fa-shopping-cart"></i> Add to cart</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+
+
+                                            </div>
+                                            <div class="row foot-pagination">
+                                                <div class="col col-xs-4">
+                                                    <span>Trang @ViewBag.CategoryPage / @ViewBag.TotalPages</span>
+                                                </div>
+                                                <div class="col col-xs-8">
+                                                    @for (int i = a; i <= b; i++)
+                                                    {
+                                                        if (i == c)
+                                                        {
+                                                            <a class="page-c" title="@ViewBag.Category[0]["MetaTitle"] - Trang @(i.ToString())" href="/p/@(i == 1 ? ViewBag.Category[0]["SEOName"] : ViewBag.Category[0]["SEOName"] + "/" + i.ToString())">@i.ToString()</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a @Html.Raw(i - c == 1 ? "rel=\"next\"" : string.Empty) @Html.Raw(c - i == 1 ? "rel=\"prev\"" : string.Empty) title="@ViewBag.Category[0]["MetaTitle"] - Trang @(i.ToString())" href="/p/@(i == 1 ? ViewBag.Category[0]["SEOName"] : ViewBag.Category[0]["SEOName"] + "/" + i.ToString())">@i.ToString()</a>
+                                                        }
+                                                    }
+                                                    @if (c > 1)
+                                                    {
+                                                        <link rel="prev" href="http://@Libs.sApp("Domain")/p/@(ViewBag.Category[0]["SEOName"] + "/" + (c - 1).ToString())" />
+                                                    }
+                                                    @if (c < p)
+                                                    {
+                                                        <link rel="next" href="http://@Libs.sApp("Domain")/p/@(ViewBag.Category[0]["SEOName"] + "/" + (c + 1).ToString())" />
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <p class="not-found">Nội dung đang được cập nhật!</p>
+                                    }
+
+                                </div>
                             </div>
                         </div>
-                    }
+                    </div>
                 </div>
             </div>
-            <div class="page cl">
-                <span>Trang @ViewBag.CategoryPage / @ViewBag.TotalPages</span>
-                @for (int i = a; i <= b; i++)
-                {
-                    if (i == c)
-                    {
-                        <a class="page-c" title="@ViewBag.Category[0]["MetaTitle"] - Trang @(i.ToString())" href="/p/@(i == 1 ? ViewBag.Category[0]["SEOName"] : ViewBag.Category[0]["SEOName"] + "/" + i.ToString())">@i.ToString()</a>
-                    }
-                    else
-                    {
-                        <a @Html.Raw(i - c == 1 ? "rel=\"next\"" : string.Empty) @Html.Raw(c - i == 1 ? "rel=\"prev\"" : string.Empty) title="@ViewBag.Category[0]["MetaTitle"] - Trang @(i.ToString())" href="/p/@(i == 1 ? ViewBag.Category[0]["SEOName"] : ViewBag.Category[0]["SEOName"] + "/" + i.ToString())">@i.ToString()</a>
-                    }
-                }
-                @if (c > 1)
-                {
-                    <link rel="prev" href="http://@Libs.sApp("Domain")/p/@(ViewBag.Category[0]["SEOName"] + "/" + (c - 1).ToString())" />
-                }
-                @if (c < p)
-                {
-                    <link rel="next" href="http://@Libs.sApp("Domain")/p/@(ViewBag.Category[0]["SEOName"] + "/" + (c + 1).ToString())" />
-                }
-            </div>
-        }
-        else
-        {
-            <p class="not-found">Nội dung đang được cập nhật!</p>
-        }
-
-        @if (!String.IsNullOrEmpty(ViewBag.Category[0]["Description"].ToString()))
-        {
-            <div>
-                <h3 class="title-c">Giới thiệu</h3>
-                @Html.Raw(ViewBag.Category[0]["Description"])
-            </div>
-        }
-
-        @if (!String.IsNullOrEmpty(ViewBag.Category[0]["SEOTags"].ToString()))
-        {
-            <div class="tagcloud atag">
-                <h3 class="title-c">Từ khoá - Tags</h3>
-                @foreach (var item in ViewBag.Category[0]["SEOTags"].ToString().Split(','))
-                {
-                    <a rel="tag" title="@item.Trim()" href="/p/tags/@item.Trim().Replace(' ', '-')">@item.Trim()</a>
-                }
-            </div>
-        }
-
-    </div>
+        </div>
+    </section>
 }

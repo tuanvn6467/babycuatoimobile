@@ -1,483 +1,674 @@
-﻿ @using iGoo.Helpers
-<!DOCTYPE HTML>
+﻿@using iGoo.Helpers
+
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" itemscope itemtype="http://schema.org/Article">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-<meta http-equiv="content-language" content="vi" />
-@RenderSection("meta", false)
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta http-equiv="content-language" content="vi" />
+    @RenderSection("meta", false)
 
-    <link rel="stylesheet" type="text/css" href="/Source/images/styles.css" />
-<script type="text/javascript">
-	/*
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-2347404-24']);
-    _gaq.push(['_trackPageview']);
 
-    (function () {
-        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-	*/
 
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="../../NewDesign/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap -->
+    <link href="../../NewDesign/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Plugin -->
+    <link href="../../NewDesign/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="../../NewDesign/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+    <link href="../../NewDesign/bower_components/jquery-rcrumbs/dist/jquery.rcrumbs.css" rel="stylesheet">
+    <link href="../../NewDesign/public/plugins/layerslider/css/layerslider.css" rel="stylesheet">
+    <link href="../../NewDesign/public/plugins/owl.carousel/assets/owl.carousel.css" rel="stylesheet">
+    <link href="../../NewDesign/public/plugins/owl.carousel/assets/owl.theme.custom.css" rel="stylesheet">
+    <link href="../../NewDesign/public/plugins/mmenu/dist/css/jquery.mmenu.css" rel="stylesheet">
+    <!-- Custom -->
+    <link href="../../NewDesign/public/css/custom/custom-style.css" rel="stylesheet">
+    <link href="../../NewDesign/public/css/custom/custom-other.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-  ga('create', 'UA-43822935-1', 'auto');
-  //ga('send', 'pageview');
+        ga('create', 'UA-43822935-1', 'auto');
+        //ga('send', 'pageview');
 
-  ga('create', 'UA-67604619-1', 'auto');
-  ga('send', 'pageview');
-</script>
-
-<!-- Google Code for Remarketing Tag -->
-<!--------------------------------------------------
-Remarketing tags may not be associated with personally identifiable information or placed on pages related to sensitive categories. See more information and instructions on how to setup the tag on: http://google.com/ads/remarketingsetup
---------------------------------------------------->
-<script type="text/javascript">
-/* <![CDATA[ */
-var google_conversion_id = 998242234;
-var google_custom_params = window.google_tag_params;
-var google_remarketing_only = true;
+        ga('create', 'UA-67604619-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <!-- Remarketing tags may not be associated with personally identifiable information or placed on pages related to sensitive categories. See more information and instructions on how to setup the tag on: http://google.com/ads/remarketingsetup
+    --------------------------------------------------->
+    <script type="text/javascript">
+        /* <![CDATA[ */
+        var google_conversion_id = 998242234;
+        var google_custom_params = window.google_tag_params;
+        var google_remarketing_only = true;
 /* ]]> */
-</script>
-<!--<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">-->
-</script>
-<noscript>
-<div style="display:inline;">
-<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/998242234/?value=0&amp;guid=ON&amp;script=0"/>
-</div>
-</noscript>
-<meta property="fb:app_id" content="472512112825407"/>
-<meta property="fb:admins" content="100000326214767"/>
-<meta name="google-site-verification" content="jvgndq_R_s_ycnrQ4_ZagB5UJO-IEOCEe5aoIdhwie0" />
-<meta name="google-site-verification" content="X5zYD00E4Z_VoA4iFacPhD231djtC8yNJ0xgGOp4pYY" />
-<meta name="google-site-verification" content="JZRwNAHmztlVFVRV5V7JUfQt-3rcdc88gvmLwXgTnuI" />
-<meta name="google-site-verification" content="X5zYD00E4Z_VoA4iFacPhD231djtC8yNJ0xgGOp4pYY" />
-<meta name="google-site-verification" content="iLJEdqskSr4gXNLPYO1UxTPlOyHlKLZxL6xcnSOJPzQ" />
-
-<!-- update meta 08/18/2015 -->
-<meta name="robots" content="index, follow">
-<meta name="REVISIT-AFTER" content="1 DAYS">
-<meta name="RATING" content="GENERAL">
-<meta name="geo.region" content="VN">
-<meta name="geo.placename" content="Hà Nội" />
-<meta name="geo.position" content="20.984797, 105.786808">
-<meta name="ICBM" content="20.984797, 105.786808">
-<meta name="geo.placename" content="TP. Hồ Chí Minh" />
-<meta name="geo.position" content="10.788855, 106.654061">
-<meta name="ICBM" content="10.788855, 106.654061">
-<meta name="geo.placename" content="Hải Phòng" />
-<meta name="geo.position" content="20.850108, 106.670967">
-<meta name="ICBM" content="20.850108, 106.670967">
-<meta property="og:site_name" content="babycuatoi.vn - Đồ chơi trẻ em, Thế giới đồ chơi an toàn cho bé yêu" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://babycuatoi.vn" />
-<meta property="og:title" content="Đồ chơi trẻ em - Thế giới đồ chơi an toàn cho bé yêu" />
-
-<!-- end update -->
+    </script>
+    <!--<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">-->
+    </script>
+    <noscript>
+        <div style="display:inline;">
+            <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/998242234/?value=0&amp;guid=ON&amp;script=0" />
+        </div>
+    </noscript>
+    <meta property="fb:app_id" content="472512112825407" />
+    <meta property="fb:admins" content="100000326214767" />
+    <meta name="google-site-verification" content="jvgndq_R_s_ycnrQ4_ZagB5UJO-IEOCEe5aoIdhwie0" />
+    <meta name="google-site-verification" content="X5zYD00E4Z_VoA4iFacPhD231djtC8yNJ0xgGOp4pYY" />
+    <meta name="google-site-verification" content="JZRwNAHmztlVFVRV5V7JUfQt-3rcdc88gvmLwXgTnuI" />
+    <meta name="google-site-verification" content="X5zYD00E4Z_VoA4iFacPhD231djtC8yNJ0xgGOp4pYY" />
+    <meta name="google-site-verification" content="iLJEdqskSr4gXNLPYO1UxTPlOyHlKLZxL6xcnSOJPzQ" />
+    <!-- update meta 08/18/2015 -->
+    <meta name="robots" content="index, follow">
+    <meta name="REVISIT-AFTER" content="1 DAYS">
+    <meta name="RATING" content="GENERAL">
+    <meta name="geo.region" content="VN">
+    <meta name="geo.placename" content="Hà Nội" />
+    <meta name="geo.position" content="20.984797, 105.786808">
+    <meta name="ICBM" content="20.984797, 105.786808">
+    <meta name="geo.placename" content="TP. Hồ Chí Minh" />
+    <meta name="geo.position" content="10.788855, 106.654061">
+    <meta name="ICBM" content="10.788855, 106.654061">
+    <meta name="geo.placename" content="Hải Phòng" />
+    <meta name="geo.position" content="20.850108, 106.670967">
+    <meta name="ICBM" content="20.850108, 106.670967">
+    <meta property="og:site_name" content="babycuatoi.vn - Đồ chơi trẻ em, Thế giới đồ chơi an toàn cho bé yêu" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="http://babycuatoi.vn" />
+    <meta property="og:title" content="Đồ chơi trẻ em - Thế giới đồ chơi an toàn cho bé yêu" />
+    <!-- end update -->
 </head>
 <body>
-
-
-<!-- Google Code for T&#7927; l&#7879; chuy&#7875;n &#273;&#7893;i Conversion Page -->
-<script type="text/javascript">
-/* <![CDATA[ */
-var google_conversion_id = 998242234;
-var google_conversion_language = "en";
-var google_conversion_format = "3";
-var google_conversion_color = "ffffff";
-var google_conversion_label = "q1-yCM-S6V8Quu__2wM";
-var google_remarketing_only = false;
-/* ]]> */
-</script>
-<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
-</script>
-<noscript>
-<div style="display:inline;">
-<img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/998242234/?label=q1-yCM-S6V8Quu__2wM&amp;guid=ON&amp;script=0"/>
-</div>
-</noscript>
-
-
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.4&appId=472512112825407";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-<!-- Facebook Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
-
-fbq('init', '333286950395008');
-fbq('track', "PageView");</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=333286950395008&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Facebook Pixel Code -->
-<div class="wrapper">
-	<div class="toolbar cl">
-    	<div class="c">
-            <div class="l">
-                <span style="vertical-align:middle;">@ViewBag.Website[0]["Title"]</span>
-                @if (ViewBag.IsHomePage!= null && (bool)ViewBag.IsHomePage){
-				<div class="g-plusone" data-size="medium" data-href="http://babycuatoi.vn"></div>
-				}
-					
-            </div>
-            <div class="r">
-                <ul>
-                    <li class="s"><a href="#" title="">Hỗ trợ trực tuyến</a>
-                    	<div class="r-s">
-                            @Html.Raw(ViewBag.StaticSupport[0]["Description"])
-                        </div>
-                    </li>
-                    @if (Session["MemberID"] == null)
-                    {
-                    <li><a rel="nofollow" title="Đăng ký" href="/info/login">Đăng ký</a></li>
-                    <li><a rel="nofollow" title="Đăng nhập" href="/info/login">Đăng nhập</a></li>
-                    }
-                    else
-                    {
-                    <li><a @Html.Raw(!"0".Equals(ViewBag.NotificationCount.ToString())?"class=\"nofifi\"" : "") rel="nofollow" href="/info/notification">@ViewBag.NotificationCount</a></li>
-                    <li><a rel="nofollow" href="/info">@Session["FullName"]</a></li>
-                    <li><a rel="nofollow" href="/order/mycart">Đơn hàng</a></li>
-                    <li><a rel="nofollow" href="/info/logout">Thoát</a></li>
-                    }
-                    <li class="icon-cart"><a rel="nofollow" href="/order" title="">Giỏ hàng <span id="count_shopping_cart"></span></a></li>
-                </ul>
-            </div>
+    <!-- Google Code for T&#7927; l&#7879; chuy&#7875;n &#273;&#7893;i Conversion Page -->
+    <script type="text/javascript">
+        /* <![CDATA[ */
+        var google_conversion_id = 998242234;
+        var google_conversion_language = "en";
+        var google_conversion_format = "3";
+        var google_conversion_color = "ffffff";
+        var google_conversion_label = "q1-yCM-S6V8Quu__2wM";
+        var google_remarketing_only = false;
+    /* ]]> */
+    </script>
+    <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+    </script>
+    <noscript>
+        <div style="display:inline;">
+            <img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/998242234/?label=q1-yCM-S6V8Quu__2wM&amp;guid=ON&amp;script=0" />
         </div>
-  	</div>
-    <!-- end toolbar -->
-	<div class="right-banner">
-        <!--<img src="/Source/images/babycuatoi_rightbanner.jpg" class="image-right-banner" width="100px" style="display:none"/>-->
-    </div>
-	<div class="left-banner">
-        <img src="/Source/images/babycuatoi_leftbanner.jpg" class="image-left-banner" width="100px" style="display:none"/>
-    </div>
-    <div class="nav cl">
-    	<div class="c">
-            <div class="logo">
-                <a rel="nofollow" href="/" title="Về trang chủ"><img src="/Source/images/logo.png" alt="Logo Baby của tôi" /></a>
-            </div>
-            <div class="fl">
-                @foreach (var item in ViewBag.AdvTop)
-                {
-                    if (Path.GetExtension(item["File"]).ToLower().Equals(".swf"))
-                    {
-                    <embed src="/Uploads/@item["File"]" width="@item["Width"]" height="@item["Height"]" type="application/x-shockwave-flash" wmode="transparent"></embed>
-                    }
-                    else
-                    {
-                    <a title="@item["Title"]" @Html.Raw(item["Target"].ToString().Equals("1") ? "target=\"_blank\"" : String.Empty) href="@item["UrlLink"]"><img alt="@item["Title"]" src="/Uploads/@item["File"]" height="70" /></a>
-                    }
-                }
-            </div>
-            <div class="fr" style="padding-top: 10px;">
-                <img src="/Source/images/hotline.png" alt="Baby của tôi!"/>
-            </div>
-        </div>
-  </div>
-	<div class="search fr search-mobile">
-        <form action="/p/sanpham">
-            <div class="input-group">
-                <input name="key" type="text" class="text" onclick="javascript:this.value = '';" value="Tìm kiếm tên, mã sản phẩm..." />
-                <span class="input-group-btn">
-                    <button type="submit" class="btn_search"></button>
-                </span>
-            </div>
+    </noscript>
 
-        </form>
-    </div>
-    <!-- end nav -->
-<div class="main cl">
-    <!-- MENU FOR MOBILE -->
-    <div class="menu-mobile">
-        
-        <div class="left" id="slide-menu">
-            @foreach (var item in ViewBag.Menu)
-            {
-                <div class="cate">
-                    <h3>@item.Name</h3>
-                    <ul>
-                        @foreach (var item1 in @item.Menu)
-                        {
-                            <li>
-                                <a title="@item1.MetaTitle" href="/p/@item1.SEOName">@item1.Name</a>
-                                @if (@item1.Menu.Count > 0)
-                                {
-                                    <ul>
-                                        @foreach (var item2 in @item1.Menu)
-                                        {
-                                            <li><a title="@item2.MetaTitle" href="/p/@item2.SEOName">@item2.Name</a></li>
-                                        }
-                                    </ul>
-                                }
-                            </li>
-                        }
-                    </ul>
-                </div>
-            }
+    <div id="fb-root"></div>
+    <script>
+(function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.4&appId=472512112825407";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+    <!-- Facebook Pixel Code -->
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            }; if (!f._fbq) f._fbq = n;
+            n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
+        }(window,
+            document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
 
-            <div class="adv">
-                @foreach (var item in ViewBag.AdvLeft)
-                {
-                    if (Path.GetExtension(item["File"]).ToLower().Equals(".swf"))
-                    {
-                        <embed src="/Uploads/@item["File"]" width="@item["Width"]" height="@item["Height"]" type="application/x-shockwave-flash" wmode="transparent"></embed>
-                    }
-                    else
-                    {
-                        <p>
-                            <a title="@item["Title"]" @Html.Raw(item["Target"].ToString().Equals("1") ? "target=\"_blank\"" : String.Empty) href="@item["UrlLink"]"><img alt="@item["Title"]" src="/Uploads/@item["File"]" width="150" /></a>
-                        </p>
-                    }
-                }
-            </div>
-        </div>
-    </div>
-    
+        fbq('init', '333286950395008');
+        fbq('track', "PageView");</script>
+    <noscript>
+        <img height="1" width="1" style="display:none"
+             src="https://www.facebook.com/tr?id=333286950395008&ev=PageView&noscript=1" />
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+
+    <div id="page">
+        <!-- Start Desktop Menu Scroll -->
+        <nav id="menu-scroll" class="hidden">
+            <div class="container inner">
+                <div class="row row-small row-flex">
+                    <div class="col-xs-2 com-flex com-flex-middle">
+                        <div class="width-1-1">
+                            <div class="dropdown">
+                                <a href="#" class="dropdown-toggle btn-menu" data-toggle="dropdown">
+                                    <i class="fa fa-list"></i> <span>DANH MỤC</span>
+                                </a>
+                                <ul class="dropdown-menu main-menu">
+
+                                
 
 
-    <!-- MENU FOR DESKTOP -------->
-    <div class="left menu-desktop" id="slide-menu">
-        @foreach (var item in ViewBag.Menu)
-        {
-            <div class="cate">
-                <h3>@item.Name</h3>
-                <ul>
-                    @foreach (var item1 in @item.Menu)
-                    {
-                        <li>
-                            <a title="@item1.MetaTitle" href="/p/@item1.SEOName">@item1.Name</a>
-                            @if (@item1.Menu.Count > 0)
-                            {
-                                <ul>
-                                    @foreach (var item2 in @item1.Menu)
+                                    @foreach (var item in ViewBag.Menu)
                                     {
-                                        <li><a title="@item2.MetaTitle" href="/p/@item2.SEOName">@item2.Name</a></li>
+                                        var itemName = item.Name.ToString();
+                                        <li>
+                                            @if (itemName == "Đồ chơi thông minh")
+                                            {
+                                                <a href="#" class="menu-parent"><span class="icon-cat tm"></span>@item.Name</a>
+                                            }
+                                            else if (itemName == "Đồ chơi vận động")
+                                            {
+                                                <a href="#" class="menu-parent"><span class="icon-cat vd"></span>@item.Name</a>
+                                            }
+                                            else if (itemName == "Đồ chơi xe trẻ em")
+                                            {
+                                                <a href="#" class="menu-parent"><span class="icon-cat te"></span>@item.Name</a>
+                                            }
+                                            else if (itemName == "Thiết bị vui chơi, thiết bị mầm non")
+                                            {
+                                                <a href="#" class="menu-parent"><span class="icon-cat vc"></span>@item.Name</a>
+                                            }
+                                            else if (itemName == "Bể bơi, phao bơi")
+                                            {
+                                                <a href="#" class="menu-parent"><span class="icon-cat bp"></span>@item.Name</a>
+                                            }
+                                            else if (itemName == "Đồ dùng bơm hơi")
+                                            {
+                                                <a href="#" class="menu-parent"><span class="icon-cat bh"></span>@item.Name</a>
+                                            }
+                                            else
+                                            {
+                                                <a href="#" class="menu-parent"><span class="icon-cat"></span>@item.Name</a>
+                                            }
+                                       
+                                             
+                                            @*<a href="#" class="menu-parent"><span class="icon-cat tm"></span>@item.Name</a>*@
+                                       
+                                            <div class="sub-menu">
+                                                <ul class="nav nav-stacked nav-sub">
+                                                    @foreach (var item1 in @item.Menu)
+                                                    {
+                                                        <li><a title="@item1.MetaTitle" href="/p/@item1.SEOName">@item1.Name</a></li>
+                                                    @*<li>
+                                                        <a title="@item1.MetaTitle" href="/p/@item1.SEOName">@item1.Name</a>
+                                                        @if (@item1.Menu.Count > 0)
+                                                        {
+                                                            <ul>
+                                                                @foreach (var item2 in @item1.Menu)
+                                                                {
+                                                                    <li><a title="@item2.MetaTitle" href="/p/@item2.SEOName">@item2.Name</a></li>
+                                                                }
+                                                            </ul>
+                                                        }
+                                                    </li>*@
+                                                    }
+                                                </ul>
+
+
+                                            </div>
+                                        </li>
                                     }
                                 </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-5 com-flex com-flex-middle">
+                        <form class="form-horizontal width-1-1" action="/p/sanpham">
+                            <div class="input-group">
+                                <div class="input-group-btn search-panel">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        <span id="search_concept">Tất Cả</span> <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="#product">Sản phẩm</a></li>
+                                        <li><a href="#category">Danh mục</a></li>
+                                    </ul>
+                                </div>
+                                <input type="hidden" name="search_param" value="all" id="search_param">
+                                <input type="text" class="form-control" name="key" placeholder="Bạn muốn tìm gì cho bé?" onclick="javascript:this.value = '';">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary btn_search" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-xs-2 com-flex com-flex-middle">
+                        <div class="call-center">
+                            <h4>call center</h4>
+                            <span>1900 6089</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 com-flex com-flex-middle com-flex-right">
+                        <ul class="nav nav-pills navbar-right cart-manager-profile com-flex com-flex-middle">
+                            <li class="has-cart">
+                                <a href="/order" title="Giỏ hàng">
+                                    <img src="../../NewDesign/public/img/Shopping-Cart-Loaded-96.png" alt="">
+                                    <span class="quantity-cart-noti" id="count_shopping_cart"></span>
+                                </a>
+                            </li>
+                            @if (Session["MemberID"] == null)
+                            {
+                                <li><a href="/info/login" title="Đăng nhập">Đăng Nhập</a></li>
+                                <li><a href="/info/login" title="Đăng ký">Đăng Ký</a></li>
                             }
-                        </li>
-                    }
-                </ul>
+                            else
+                            {
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="/info">
+                                        <img src="../../NewDesign/public/img/no-avatar.png" alt="">
+                                        @Session["FullName"] <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="/info"><i class="fa fa-user"></i> Profile</a></li>
+                                        <li><a href="/info/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
+                                    </ul>
+                                </li>
+                            }
+                           
+                        </ul>
+                    </div>
+                </div>
             </div>
-        }
+        </nav>
+        <!-- End Desktop Menu Scroll -->
+        <header id="header">
+            <div class="top hidden-xs">
+                <div class="container">
+                    <div class="inner-top">
+                        <img src="../../NewDesign/public/img/maker.png" alt="">
+                        <select name="" id="" class="selectpicker select-countries" data-size="5" data-style="btn-primary" data-width="150px">
+                            <option value="">Chọn khu vực</option>
+                            <option value="">Hà Nội</option>
+                            <option value="">Đà Nẵng</option>
+                            <option value="">TP HCM</option>
+                            <option value="">Hà Nội</option>
+                            <option value="">Đà Nẵng</option>
+                        </select>
+                        <!--<img class="img-responsive" src="public/img/logo-title.png" alt="">-->
+                    </div>
+                </div>
+            </div>
+            <div class="middle">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12 visible-sm text-center mb-20">
+                            <img src="../../NewDesign/public/img/logo.png" title="Về trang chủ" alt="Logo Baby của tôi">
+                        </div>
+                        <div class="col-xs-3 visible-xs">
+                            <img class="img-responsive" src="../../NewDesign/public/img/logo.png" title="Về trang chủ" alt="Logo Baby của tôi">
+                        </div>
+                        <div class="col-md-7 col-md-offset-2 col-sm-8 col-xs-5">
+                            <div class="phone-branch">
+                                <ul class="nav nav-pills">
+                                    <li><i class="fa fa-phone-square"></i> <span>Hà Nội:</span>04.39900366</li>
+                                    <li> - <span>Hải Phòng:</span>0916.546.266</li>
+                                    <li> - <span>Đà nẵng:</span>0968.942.346</li>
+                                    <li> - <span>TPHCM:</span>0962.810.066</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-4 col-xs-4">
+                            <div class="clearfix">
+                                <img class="img-responsive pull-left hidden-xs" src="../../NewDesign/public/img/phone-help.png" alt="">
+                                <div class="phone-help pull-right">1900 6098</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom">
+                <div class="container">
+                    <div class="row hidden-xs">
+                        <div class="col-md-2">
+                            <div class="logo-relative hidden-sm">
+                                <a href="/">
+                                    <img src="../../NewDesign/public/img/logo.png" title="Về trang chủ" alt="Logo Baby của tôi">
+                                </a>
+                            </div>
+                            <div class="fl">
+                                @foreach (var item in ViewBag.AdvTop)
+                                {
+                                    if (Path.GetExtension(item["File"]).ToLower().Equals(".swf"))
+                                    {
+                                        <embed src="/Uploads/@item["File"]" width="@item["Width"]" height="@item["Height"]" type="application/x-shockwave-flash" wmode="transparent"></embed>
+                                    }
+                                    else
+                                    {
+                                        <a title="@item["Title"]" @Html.Raw(item["Target"].ToString().Equals("1") ? "target=\"_blank\"" : String.Empty) href="@item["UrlLink"]"><img alt="@item["Title"]" src="/Uploads/@item["File"]" height="70" /></a>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <div class="col-lg-7 col-md-6 col-sm-7">
+                            <div class="form-search-home com-flex com-flex-middle">
+                                <form class="form-horizontal width-1-1" action="/p/sanpham">
+                                    <div class="input-group">
+                                        <div class="input-group-btn search-panel">
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                                <span id="search_concept">Tất Cả</span> <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="#product">Sản phẩm</a></li>
+                                                <li><a href="#category">Danh mục</a></li>
+                                            </ul>
+                                        </div>
+                                        <input type="hidden" name="search_param" value="all" id="search_param">
+                                        <input type="text" class="form-control" name="key" placeholder="Bạn muốn tìm gì cho bé?" onclick="javascript:this.value = '';">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary btn_search" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                        </span>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-5">
+                            <ul class="nav nav-pills navbar-right cart-manager-profile com-flex com-flex-middle">
+                                <li class="has-cart">
+                                    <a href="/order" title="Giỏ hàng">
+                                        <img src="../../NewDesign/public/img/Shopping-Cart-Loaded-96.png" alt="">
+                                        <span class="quantity-cart-noti" id="count_shopping_cart"></span>
+                                    </a>
+                                </li>
+                                @if (Session["MemberID"] == null)
+                                {
+                                    <li><a href="/info/login" title="Đăng nhập">Đăng Nhập</a></li>
+                                    <li><a href="/info/login" title="Đăng ký">Đăng Ký</a></li>
+                                }
+                                else
+                                {
+                                    <li class="dropdown">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" href="/info">
+                                            <img src="../../NewDesign/public/img/no-avatar.png" alt="">
+                                            @Session["FullName"] <span class="caret"></span>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="/info"><i class="fa fa-user"></i> Profile</a></li>
+                                            <li><a href="/info/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
+                                        </ul>
+                                    </li>
+                                }
 
-        <div class="adv">
-            @foreach (var item in ViewBag.AdvLeft)
-            {
-                if (Path.GetExtension(item["File"]).ToLower().Equals(".swf"))
-                {
-                    <embed src="/Uploads/@item["File"]" width="@item["Width"]" height="@item["Height"]" type="application/x-shockwave-flash" wmode="transparent"></embed>
-                }
-                else
-                {
-                    <p>
-                        <a title="@item["Title"]" @Html.Raw(item["Target"].ToString().Equals("1") ? "target=\"_blank\"" : String.Empty) href="@item["UrlLink"]"><img alt="@item["Title"]" src="/Uploads/@item["File"]" width="150" /></a>
-                    </p>
-                }
-            }
-        </div>
-    </div>
-    <!-- end left-->
-    <div class="content cl">
-        <div class="nav2 cl  menu-desktop">
-            <div class="menu">
-                <ul>
-                    <li><a rel="nofollow" href="/" title="Về trang chủ">Trang chủ</a></li>
-                    <li><a href="/p/sanpham" title="Sản phẩm">Sản phẩm</a></li>
-                    @foreach (var item in ViewBag.MenuNews)
-                    {
-                        <li>
-                            <a title="@item.MetaTitle" href="/@item.SEOName">@item.Name</a><span class="arrow"></span>
-                            <ul>
-                                @foreach (var item1 in @item.Menu)
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <nav id="navbar">
+            <div class="container">
+                <nav class="navbar navbar-default mynav">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle hidden-xs" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <!-- Trigger Mmenu-->
+                        <a class="navbar-brand visible-xs" href="#mobile-menu">
+                            <i class="fa fa-list"></i>
+                        </a>
+                        <!-- Trigger Menu Aim-->
+                        <div class="navbar-brand dropdown hidden-xs">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-list"></i> <span>DANH MỤC</span>
+                            </a>
+                            <ul class="dropdown-menu main-menu">
+
+                                
+
+
+                                @foreach (var item in ViewBag.Menu)
                                 {
-                                    <li><a title="@item1.MetaTitle" href="/@item1.SEOName">@item1.Name</a></li>
+                                    var itemName = item.Name.ToString();
+                                    <li>
+                                       @if (itemName == "Đồ chơi thông minh")
+                                       {
+                                        <a href="#" class="menu-parent"><span class="icon-cat tm"></span>@item.Name</a>
+                                       }
+                                       else if (itemName == "Đồ chơi vận động")
+                                       {
+                                        <a href="#" class="menu-parent"><span class="icon-cat vd"></span>@item.Name</a>
+                                       }
+                                       else if (itemName == "Đồ chơi xe trẻ em")
+                                       {
+                                           <a href="#" class="menu-parent"><span class="icon-cat te"></span>@item.Name</a>
+                                       }
+                                       else if (itemName == "Thiết bị vui chơi, thiết bị mầm non")
+                                       {
+                                           <a href="#" class="menu-parent"><span class="icon-cat vc"></span>@item.Name</a>
+                                       }
+                                       else if (itemName == "Bể bơi, phao bơi")
+                                       {
+                                        <a href="#" class="menu-parent"><span class="icon-cat bp"></span>@item.Name</a>
+                                       }
+                                       else if (itemName == "Đồ dùng bơm hơi")
+                                       {
+                                           <a href="#" class="menu-parent"><span class="icon-cat bh"></span>@item.Name</a>
+                                       }
+                                       else
+                                       {
+                                           <a href="#" class="menu-parent"><span class="icon-cat"></span>@item.Name</a>
+                                       }
+                                       
+                                             
+                                        @*<a href="#" class="menu-parent"><span class="icon-cat tm"></span>@item.Name</a>*@
+                                       
+                                        <div class="sub-menu">
+                                            <ul class="nav nav-stacked nav-sub">
+                                                @foreach (var item1 in @item.Menu)
+                                                    {
+                                                    <li><a title="@item1.MetaTitle" href="/p/@item1.SEOName">@item1.Name</a></li>
+                                                    @*<li>
+                                                        <a title="@item1.MetaTitle" href="/p/@item1.SEOName">@item1.Name</a>
+                                                        @if (@item1.Menu.Count > 0)
+                                                        {
+                                                            <ul>
+                                                                @foreach (var item2 in @item1.Menu)
+                                                                {
+                                                                    <li><a title="@item2.MetaTitle" href="/p/@item2.SEOName">@item2.Name</a></li>
+                                                                }
+                                                            </ul>
+                                                        }
+                                                    </li>*@
+                                                }
+                                            </ul>
+
+
+                                        </div>
+                                    </li>
                                 }
                             </ul>
-                        </li>
-                    }
-                    <li><a href="/hoidap" title="">Hỏi đáp</a></li>
-                    <li><a href="/contact" title="Liên hệ">Liên hệ</a></li>
-                </ul>
-            </div>
-            <div class="search fr search-desktop">
-                <form action="/p/sanpham">
-                    <div class="input-group">
-                        <input name="key" type="text" class="text" onclick="javascript:this.value = '';" value="Tìm kiếm tên, mã sản phẩm..." />
-                        <span class="input-group-btn">
-                            <button type="submit" class="btn_search"></button>
-                        </span>
+
+                        </div>
+                        <form class="navbar-left search-mobile visible-xs">
+                            <div class="input-group">
+                                <div class="input-group-btn search-panel">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        <span id="search_concept">Tất Cả</span> <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="/">Sản phẩm</a></li>
+                                        <li><a href="/">Danh mục</a></li>
+                                    </ul>
+                                </div>
+                                <input type="hidden" name="search_param" value="all" id="search_param">
+                                <input type="text" class="form-control" name="x" placeholder="Bạn muốn tìm gì cho bé?">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                </span>
+                            </div>
+                        </form>
+                        <ul class="nav nav-pills mobile-cart visible-xs">
+                            <li class="forcart">
+                                <a href="#">
+                                    <img src="../../NewDesign/public/img/Shopping-Cart-Loaded-96-white.png" alt="">
+                                    <span class="quantity-cart-noti">1</span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                    
-                </form>
+                    <div class="collapse navbar-collapse navbar-ex1-collapse">
+                        <ul class="nav navbar-nav second-nav">
+                            <li class="active"><a href="/" title="Về trang chủ">Trang chủ</a></li>
+                            <li><a href="/p/sanpham" title="Sản phẩm">Sản phẩm</a></li>
+                            @*@foreach (var item in ViewBag.MenuNews)
+                                                {
+                                    <li>
+                                        <a title="@item.MetaTitle" href="/@item.SEOName">@item.Name</a><span class="arrow"></span>
+                                        <ul>
+                                            @foreach (var item1 in @item.Menu)
+                                                {
+                                                <li><a title="@item1.MetaTitle" href="/@item1.SEOName">@item1.Name</a></li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }*@
+                            <li><a href="/hoidap" title="Hỏi đáp">Hỏi đáp</a></li>
+                            <li><a href="/contact" title="Liên hệ">Liên hệ</a></li>
+                        </ul>
+                    </div>
+                </nav>
             </div>
-        </div>
-        <!-- end nav2 -->
+        </nav>
         @RenderSection("main", false)
-    </div>
-    @if (ViewBag.ProductHistory != null && ViewBag.ProductHistory.Count > 0)
-    {
-        <div class="product_h clearboth">
-            <h3 class="title-c">Sản phẩm đã lưu</h3>
-            <ul id="product_history">
-                @foreach (var item in ViewBag.ProductHistory)
-                {
-                <li>
-                    <div class="item_h">
-                        <p><a href="/p/@(item["SEOName"]).html" title="@item["MetaTitle"]"><img src="@(Url.Content("~/thumb/" + Libs.ThumbName(item["Image"].ToString(), "120x120")))" alt="@item["MetaTitle"]" /></a></p>
-                        <p class="price">Giá bán: @Libs.sCurrency(Convert.ToDecimal(item["SalePrice"])) VNĐ</p>
-                        <p><a class="title" href="/p/@(item["SEOName"]).html" title="@item["MetaTitle"]">@item["Title"]</a></p>
-                    </div>
-                </li>
-                }
-            </ul>
-        </div>
-        }
-    </div>
-    <!-- end main-->
-    <div class="menu-mobile">
-        <div class="nav2 cl">
-            <div>
-                <a href="#" class="brand">Menu</a>
-                <button id="menu-responsive">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            
-            <div class="menu">
-                <ul>
-                    <li><a rel="nofollow" href="/" title="Về trang chủ">Trang chủ</a></li>
-                    <li><a href="/p/sanpham" title="Sản phẩm">Sản phẩm</a></li>
-                    @foreach (var item in ViewBag.MenuNews)
-                    {
-                        <li>
-                            <a title="@item.MetaTitle" href="/@item.SEOName">@item.Name</a><span class="arrow"></span>
-                            <ul>
-                                @foreach (var item1 in @item.Menu)
-                                {
-                                    <li><a title="@item1.MetaTitle" href="/@item1.SEOName">@item1.Name</a></li>
-                                }
+        <footer id="footer">
+            <div class="top-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <ul class="nav nav-stacked mb-30">
+                                <li>Bản quyền ©2012 Babycuatoi.vn – Chăm sóc bé yêu!</li>
+                                <li>Liên kết: Intex Việt Nam</li>
                             </ul>
-                        </li>
-                    }
-                    <li><a href="/hoidap" title="">Hỏi đáp</a></li>
-                    <li><a href="/contact" title="Liên hệ">Liên hệ</a></li>
-                </ul>
+                        </div>
+                        <div class="col-sm-8">
+                            <ul class="nav nav-stacked mb-30">
+                                <li>CÔNG TY CP SẢN XUẤT THƯƠNG MẠI VÀ DỊCH VỤ BBT VIỆT NAM, ĐKKD 0105815592</li>
+                                <li>Showroom HN: Số 75, LK6A Làng Việt Kiêu Châu Âu, Nguyễn Văn Lộc, Hà Nội, ĐT: 04.39900366</li>
+                                <li>Chi nhánh Tp.HCM1: Số 538/2A Lý Thường Kiệt - P7 - Q. Tân Bình - Tp. HCM, ĐT: 0948.196.996 - 0962.810.066</li>
+                                <li>Chi nhánh Tp.HCM2: Số 725 Xô Viết Nghệ Tĩnh - P.26- Q. Bình Thạnh - Tp. HCM, ĐT: 0918.115.066 - 0936.258.966</li>
+                                <li>Chi nhánh Đà Nẵng: Số 448 Điện Biên Phủ, Thanh Khê, Đà Nẵng, ĐT 0968.942.346 - 0931.772.346</li>
+                                <li>Chi nhánh HP: 70 Trần Nguyên Hãn, Q.Lê Chân - Hải Phòng - ĐT: 0916.546.266</li>
+                                <li>Website TMĐT Bán Hàng - Đăng ký với Bộ Công Thương</li>
+                            </ul>
+                            <p>Sitemap: Sitemap News Sitemap Product Sitemap Answer</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-  <div class="footer cl">
-    	<div class="c">
-            <div class="fl">
-                <p>Bản quyền ©2012 Babycuatoi.vn – Chăm sóc bé yêu!</p>
-				<!--
-                <p><a href="http://dangcapweb.com" target="_blank" title="Thiết kế Web"><strong>Thiết kế Web</strong></a> bởi Dangcapweb.com</p>
-                <p>Liên kết: <a href="http://www.richmedia.com.vn/" target="_blank" title="Rich Media">Rich Media</a> | <a href="http://onlinefashion.vn/" target="_blank" title="Thời trang cho người béo">Thời trang cho người béo</a></p>-->
-				<p>Liên kết: <a href="http://intexvietnam.vn/" target="_blank" title="Intex Việt Nam">Intex Việt Nam</a></p>
+            <div class="middle-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <ul class="nav nav-stacked">
+                                <li>Đồ Chơi Trẻ Em - Thế Giới Đồ Chơi An Toàn Cho Bé Yêu</li>
+                                <li>5 Lý do tại sao nên mua Đồ Chơi Trẻ Em, Đồ Chơi Cho Bé Tại Babycuatoi.vn</li>
+                                <li>- Babycuatoi.vn thường xuyên có những chương trình khuyến mãi Đồ Chơi Trẻ Em để tri ân khách hàng.</li>
+                                <li>- Tất cả các sản phẩm đều đạt tiêu chuẩn chất lượng đồ chơi trẻ em xuất khẩu Mỹ và Châu Âu, tuyệt đối an toàn cho bé khi sử dụng.</li>
+                                <li>- Các sản phẩm đều đạt tiêu chuẩn chất lượng do Tổng cục tiêu chẩn đo lường chất lượng Việt Nam cấp.</li>
+                                <li>- Hơn 3 năm hoạt động, Babycuatoi.vn luôn được khách hàng tin tưởng và lựa chọn mua đồ chơi trẻ em cho bé.</li>
+                                <li>- Babycuatoi.vn có sứ mệnh mang các sản phẩm đồ chơi trẻ em an toàn cho bé yêu vì sự phát triển trưởng thành của các con.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="fr">
-                @Html.Raw(ViewBag.Website[0]["AddressFooter"])
-                <p>Sitemap: <a rel="sitemap" target="_blank" title="Sitemap HTML bài viết" href="/sitemap/news">Sitemap News</a> <a rel="sitemap" target="_blank" title="Sitemap HTML sản phẩm" href="/sitemap/product">Sitemap Product</a> <a rel="sitemap" target="_blank" title="Sitemap HTML Hỏi & Đáp" href="/sitemap/answer">Sitemap Answer</a></p>
+            <div class="bottom-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12 text-right">
+                            <a href="#" class="phone"><i class="fa fa-phone"></i> 1900 6098</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-  </div>
-    <div class="payment">
-    	<img src="/Source/images/pay.png" alt="Payment" />
+        </footer>
+        <nav id="mobile-menu">
+            <ul>
+                <li>
+                    <span>Khuyến mãi mới</span>
+                    <ul>
+                        <li><a href="#"><b>Hàng giảm giá</b></a></li>
+                        <li><a href="#"><b>Hàng hot</b></a></li>
+                        <li><a href="#"><b>Nhiều người mua</b></a></li>
+                        <li><a href="#"><b>Danh mục 1</b></a></li>
+                        <li><a href="#">Danh mục 1.1</a></li>
+                        <li><a href="#">Danh mục 1.2</a></li>
+                        <li><a href="#">Danh mục 1.3</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <span>Đồ chơi thông minh</span>
+                    <ul class="nav nav-stacked nav-sub">
+                        <li><a href="#"><b>Danh mục 1</b></a></li>
+                        <li><a href="#">Danh mục 1.1</a></li>
+                        <li><a href="#">Danh mục 1.2</a></li>
+                        <li><a href="#">Danh mục 1.3</a></li>
+                        <li><a href="#"><b>Danh mục 2</b></a></li>
+                        <li><a href="#">Danh mục 2.1</a></li>
+                        <li><a href="#">Danh mục 2.2</a></li>
+                        <li><a href="#">Danh mục 2.3</a></li>
+                        <li><a href="#"><b>Danh mục 3</b></a></li>
+                        <li><a href="#">Danh mục 3.1</a></li>
+                        <li><a href="#">Danh mục 3.2</a></li>
+                        <li><a href="#">Danh mục 3.3</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><span class="icon-cat vd"></span> Đồ chơi vận động</a>
+                </li>
+                <li>
+                    <a href="#"><span class="icon-cat te"></span> Đồ chơi xe trẻ em</a>
+                </li>
+                <li>
+                    <a href="#"><span class="icon-cat vc"></span> Thiết bị vui chơi</a>
+                </li>
+                <li>
+                    <a href="#"><span class="icon-cat bp"></span> Bể bơi - Phao bơi</a>
+                </li>
+                <li>
+                    <a href="#"><span class="icon-cat bh"></span> Đồ dùng bơm hơi</a>
+                </li>
+                <li><a href="#">Trang chủ</a></li>
+                <li><a href="#">Sản phẩm</a></li>
+                <li><a href="#">Giới thiệu</a></li>
+                <li><a href="#">Hướng dẫn</a></li>
+                <li><a href="#">Hỏi đáp</a></li>
+                <li><a href="#">Liên hệ</a></li>
+            </ul>
+        </nav>
+        <a href="#" id="trigger-totop">
+            <i class="fa fa-chevron-up"></i>
+        </a>
     </div>
-    <div class="seo-footer">
-    	<div class="c">
-            @Html.Raw(ViewBag.Website[0]["SEOFooter"])
-            @*<span class="onlineusers">@HttpContext.Current.Application["OnlineUsers"]</span>*@
-        </div>
-    </div>
-</div>
-<!-- Google Code for Remarketing Tag -->
-<!--------------------------------------------------
-Remarketing tags may not be associated with personally identifiable information or placed on pages related to sensitive categories. See more information and instructions on how to setup the tag on: http://google.com/ads/remarketingsetup
---------------------------------------------------->
-<script type="text/javascript">
-/* <![CDATA[ */
-var google_conversion_id = 998242234;
-var google_custom_params = window.google_tag_params;
-var google_remarketing_only = true;
-/* ]]> */
-</script>
-<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
-</script>
-<noscript>
-<div style="display:inline;">
-<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/998242234/?value=0&amp;guid=ON&amp;script=0"/>
-</div>
-</noscript>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="../../NewDesign/public/plugins/jquery/jquery.min.js"></script>
+    <!-- Angular -->
+    <script src="../../NewDesign/bower_components/angular/angular.min.js"></script>
+    <script src="../../NewDesign/bower_components/angular-route/angular-route.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../../NewDesign/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../../NewDesign/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+<script src="../../NewDesign/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+<script src="../../NewDesign/bower_components/jquery-rcrumbs/dist/jquery.rcrumbs.min.js"></script>
+    <script src="../../NewDesign/public/plugins/menuaim/dist/jquery.menu-aim.js"></script>
+    <script src="../../NewDesign/public/plugins/mmenu/dist/js/jquery.mmenu.min.js"></script>
+    <script src="../../NewDesign/public/plugins/layerslider/js/greensock.js"></script>
+    <script src="../../NewDesign/public/plugins/layerslider/js/layerslider.transitions.js"></script>
+    <script src="../../NewDesign/public/plugins/layerslider/js/layerslider.kreaturamedia.jquery.js"></script>
+    <script src="../../NewDesign/public/plugins/owl.carousel/owl.carousel.min.js"></script>
+    @RenderSection("head", false)
+
 
 </body>
-<script type="text/javascript" src="/Script/jquery.js"></script>
-<script type="text/javascript" src="/Script/libs_iGoo.js"></script>
-<script type="text/javascript" src="/Script/bxslider/jquery.bxslider.min.js"></script>
-<link rel="stylesheet" type="text/css" href="/Script/bxslider/jquery.bxslider.css" />
-<script type="text/javascript">
-    $().ready(function () {
-        $('.toolbar').click(function () {
-            $('html, body').animate({ scrollTop: '0px' }, 500);
-        });
-        countShoppingCart("shopping_cart");
-
-        $('#product_history').bxSlider({
-            auto: true,
-            displaySlideQty: 5,
-            moveSlideQty: 5,
-            pager: true
-        });
-    });
-</script>
-@RenderSection("head", false)
-<script type="text/javascript" src="https://apis.google.com/js/plusone.js">
-    { lang: 'vi' };
-</script>
-@*<script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>*@
-<script type="text/javascript">
-	$(document).ready(function () {
-		actionBanner();
-		$(window).resize(function () {
-			actionBanner();
-		});
-		function actionBanner() {
-                var width = $(document).width();
-                var widthRightBanner = (width - 1000) / 2;
-                $('.right-banner').css('left', (1000 + widthRightBanner) + 'px');
-                $('.image-right-banner').css('width', widthRightBanner + 'px');
-                $('.image-right-banner').show();
-                $('.left-banner').css('right', (1000 + widthRightBanner) + 'px');
-                $('.image-left-banner').css('width', widthRightBanner + 'px');
-                $('.image-left-banner').show();
-            }
-	});
-</script>
-<!--Start of Zopim Live Chat Script-->
-<script type="text/javascript">
-window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
-d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
-_.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute("charset","utf-8");
-$.src="//v2.zopim.com/?3dTAMQgIxYaH0PVEZ8FO5vED0PfqltYA";z.t=+new Date;$.
-type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
-</script>
-<!--End of Zopim Live Chat Script-->
 </html>
