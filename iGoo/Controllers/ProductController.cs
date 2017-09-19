@@ -34,6 +34,7 @@ namespace iGoo.Controllers
             //Page
             List<DataRow> list = pvm.SelectByCategory().AsEnumerable().ToList();
             ViewBag.Product = list;
+            ViewBag.TotalRecords = Convert.ToDouble(list[0]["TotalRows"]);
             ViewBag.TotalPages = list.Count > 0 ? (int)Math.Ceiling(Convert.ToDouble(list[0]["TotalRows"]) / (double)pvm.PageSize) : 0;           
             ViewBag.CategoryPage = page;
 
